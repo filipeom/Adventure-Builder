@@ -8,7 +8,7 @@ To see the coverage reports, go to <module name>/target/site/jacoco/index.html.
 
 |   Number   |          Name           |            Email        |   GitHub Username  | Group |
 | ---------- | ----------------------- | ----------------------- | -------------------| ----- |
-|            |                         |                         |                    |   1   |
+| 79690     |Tomás Zaki                |tomaszaki@tecnico.ulisboa.pt|Zakovich |   1   |
 |            |                         |                         |                    |   1   |
 |            |                         |                         |                    |   1   |
 |            |                         |                         |                    |   2   |
