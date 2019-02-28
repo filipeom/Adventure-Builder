@@ -9,7 +9,7 @@ To see the coverage reports, go to <module name>/target/site/jacoco/index.html.
 |   Number   |          Name           |            Email        |   GitHub Username  | Group |
 | ---------- | ----------------------- | ----------------------- | -------------------| ----- |
 | 79690     |Tomás Zaki                |tomaszaki@tecnico.ulisboa.pt|Zakovich |   1   |
-|            |                         |                         |                    |   1   |
+| 86434     | Hussein Giva            | hussein.giva@tecnico.ulisboa.pt | HusseinGiva                    |   1   |
 |            |                         |                         |                    |   1   |
 |            |                         |                         |                    |   2   |
 |            |                         |                         |                    |   2   |
