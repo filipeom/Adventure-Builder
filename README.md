@@ -9,10 +9,10 @@ To see the coverage reports, go to <module name>/target/site/jacoco/index.html.
 |   Number   |          Name           |            Email        |   GitHub Username  | Group |
 | ---------- | ----------------------- | ----------------------- | -------------------| ----- |
 | 79690     |Tomás Zaki                |tomaszaki@tecnico.ulisboa.pt|Zakovich |   1   |
-| 86434     | Hussein Giva            | hussein.giva@tecnico.ulisboa.pt | HusseinGiva                    |   1   |
-|            |                         |                         |                    |   1   |
-|            |                         |                         |                    |   2   |
-|86456            |Jorge Martins                         |jorge.cardoso.martins@tecnico.ulisboa.pt                         |Jorgecmartins                    |   2   |
+| 86434     |Hussein Giva              |hussein.giva@tecnico.ulisboa.pt       | HusseinGiva |   1   |
+|           |                          |                         |                    |   1   |
+|86411      |Filipe Marques            |filipe.s.marques@tecnico.ulisboa.pt    | filipeom           |   2   |
+|86456      |Jorge Martins                         |jorge.cardoso.martins@tecnico.ulisboa.pt                         |Jorgecmartins                    |   2   |
 |86492       |Paulo Dias               |paulo.a.c.dias@tecnico.ulisboa.pt|PauloACDias |   2   |
 
 - **Group 1:**
