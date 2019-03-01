@@ -12,7 +12,7 @@ To see the coverage reports, go to <module name>/target/site/jacoco/index.html.
 | 86434     | Hussein Giva            | hussein.giva@tecnico.ulisboa.pt | HusseinGiva                    |   1   |
 |            |                         |                         |                    |   1   |
 |            |                         |                         |                    |   2   |
-|            |                         |                         |                    |   2   |
+|86456            |Jorge Martins                         |jorge.cardoso.martins@tecnico.ulisboa.pt                         |Jorgecmartins                    |   2   |
 |86492       |Paulo Dias               |paulo.a.c.dias@tecnico.ulisboa.pt|PauloACDias |   2   |
 
 - **Group 1:**
