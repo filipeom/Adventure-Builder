@@ -13,7 +13,7 @@ To see the coverage reports, go to <module name>/target/site/jacoco/index.html.
 |            |                         |                         |                    |   1   |
 |            |                         |                         |                    |   2   |
 |            |                         |                         |                    |   2   |
-|            |                         |                         |                    |   2   |
+|86492       |Paulo Dias               |paulo.a.c.dias@tecnico.ulisboa.pt|PauloACDias |   2   |
 
 - **Group 1:**
 - **Group 2:**
