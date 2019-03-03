@@ -19,44 +19,44 @@
    }
 
    def 'success buyer'() {
-     given:
+     when:
      def taxPayer = this.irs.getTaxPayerByNIF(BUYER_NIF)
 
-     expect:
+     then:
      taxPayer != null
      taxPayer.getNif() == BUYER_NIF
    }
 
    def 'success seller'() {
-     given:
+     when:
      def taxPayer = this.irs.getTaxPayerByNIF(SELLER_NIF)
 
-     expect:
+     then:
      taxPayer != null
      taxPayer.getNif() == SELLER_NIF
    }
 
    def 'null NIF'() {
-     given:
+     when:
      def taxPayer = this.irs.getTaxPayerByNIF(null)
 
-     expect:
+     then:
      taxPayer == null
    }
 
    def 'empty NIF'() {
-     given:
+     when:
      def taxPayer = this.irs.getTaxPayerByNIF("")
 
-     expect:
+     then:
      taxPayer == null
    }
 
    def 'does not exist'() {
-     given:
+     when:
      def taxPayer = this.irs.getTaxPayerByNIF("122456789")
 
-     expect:
+     then:
      taxPayer == null
    }
  }
