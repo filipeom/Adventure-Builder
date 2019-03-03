@@ -16,33 +16,33 @@
    }
 
    def 'success'() {
-     given:
+     when:
      def itemType = this.irs.getItemTypeByName(FOOD)
 
-     expect:
+     then:
      itemType.getName() != null
      itemType.getName() == FOOD
    }
 
    def 'null name'() {
-     given:
+     when:
      def itemType = this.irs.getItemTypeByName(null)
 
-     expect:
+     then:
      itemType == null
    }
    def 'empty name'() {
-     given:
+     when:
      def itemType = this.irs.getItemTypeByName("")
 
-     expect:
+     then:
      itemType == null
    }
    def 'name does not exist'() {
-     given:
+     when:
      def itemType = this.irs.getItemTypeByName("CAR")
 
-     expect:
+     then:
      itemType == null
    }
  }
