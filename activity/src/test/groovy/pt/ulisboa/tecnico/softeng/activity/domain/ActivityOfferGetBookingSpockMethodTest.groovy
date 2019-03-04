@@ -2,7 +2,7 @@ package pt.ulisboa.tecnico.softeng.activity.domain
 
 import org.joda.time.LocalDate
 
-class ActivityOfferGetBookingMethodTest extends SpockRollbackTestAbstractClass {
+class ActivityOfferGetBookingSpockMethodTest extends SpockRollbackTestAbstractClass {
     def IBAN = "IBAN"
     def NIF = "123456789"
 
