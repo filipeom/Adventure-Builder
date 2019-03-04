@@ -73,5 +73,19 @@ class ActivityProviderConstructorSpockMethodTest extends SpockRollbackTestAbstra
         and:
         FenixFramework.getDomainRoot().getActivityProviderSet().size() == 1
     }
+
+    def 'noteUniqueNIF'() {
+        given:
+        new ActivityProvider(PROVIDER_CODE, PROVIDER_NAME, NIF, IBAN)
+
+        when:
+        new ActivityProvider("123456", "jdgdsk", NIF, IBAN)
+
+        then:
+        thrown(ActivityException)
+
+        and:
+        FenixFramework.getDomainRoot().getActivityProviderSet().size() == 1
+    }
     
 } 
