@@ -19,7 +19,7 @@ To see the coverage reports, go to <module name>/target/site/jacoco/index.html.
 * **Hussein Giva, 86434, HusseinGiva - Migrated Tests:**  
   + **Activity Module:**  
           - ActivityInterfaceGetActivityReservationDataMethodTest  - Issue #11  
-        - **Bank Module:**  
+  + **Bank Module:**  
           - AccountContructorMethodTest - Issue #12  
           - AccountDepositMethodTest - Issue #13  
           - AccountWithdrawMethodTest - Issue #14  
