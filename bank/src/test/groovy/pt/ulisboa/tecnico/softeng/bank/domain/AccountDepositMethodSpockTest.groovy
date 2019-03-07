@@ -1,7 +1,6 @@
 package pt.ulisboa.tecnico.softeng.bank.domain;
 
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException
-import spock.lang.Unroll;
 
 class AccountDepositMethodSpockTest extends SpockRollbackTestAbstractClass {
 	def bank

@@ -44,5 +44,4 @@ class AccountContructorMethodSpockTest extends SpockRollbackTestAbstractClass {
 		this.bank  | null
 		this.bank  | allien
 	}
-
 }
