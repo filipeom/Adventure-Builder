@@ -15,11 +15,11 @@ To see the coverage reports, go to <module name>/target/site/jacoco/index.html.
 |86456      |Jorge Martins                         |jorge.cardoso.martins@tecnico.ulisboa.pt                         |Jorgecmartins                    |   2   |
 |86492       |Paulo Dias               |paulo.a.c.dias@tecnico.ulisboa.pt|PauloACDias |   2   |
 
-First Deliver:
-Hussein Giva, 86434, HusseinGiva - Migrated Tests:
-        Activity Module:
+### First Deliver:
+- **Hussein Giva, 86434, HusseinGiva - Migrated Tests:**
+        - **Activity Module:**
             - ActivityInterfaceGetActivityReservationDataMethodTest  - Issue #11
-        Bank Module:
+        - **Bank Module:**
             - AccountContructorMethodTest - Issue #12
             - AccountDepositMethodTest - Issue #13
             - AccountWithdrawMethodTest - Issue #14
