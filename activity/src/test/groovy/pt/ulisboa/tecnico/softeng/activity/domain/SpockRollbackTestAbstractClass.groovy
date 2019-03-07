@@ -28,5 +28,4 @@ abstract class SpockRollbackTestAbstractClass extends Specification {
 	}
 
 	abstract def populate4Test()
-
 }
