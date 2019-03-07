@@ -16,8 +16,8 @@ To see the coverage reports, go to <module name>/target/site/jacoco/index.html.
 |86492       |Paulo Dias               |paulo.a.c.dias@tecnico.ulisboa.pt|PauloACDias |   2   |
 
 ### First Deliver:
-- **Hussein Giva, 86434, HusseinGiva - Migrated Tests:**  
-        - **Activity Module:**  
+* **Hussein Giva, 86434, HusseinGiva - Migrated Tests:**  
+  + - **Activity Module:**  
           - ActivityInterfaceGetActivityReservationDataMethodTest  - Issue #11  
         - **Bank Module:**  
           - AccountContructorMethodTest - Issue #12  
