@@ -18,7 +18,7 @@ To see the coverage reports, go to <module name>/target/site/jacoco/index.html.
 ### First Deliver:
 - **Hussein Giva, 86434, HusseinGiva - Migrated Tests:**  
         - **Activity Module:**  
-            + - ActivityInterfaceGetActivityReservationDataMethodTest  - Issue #11  
+            > - ActivityInterfaceGetActivityReservationDataMethodTest  - Issue #11  
         - **Bank Module:**  
             + - AccountContructorMethodTest - Issue #12  
             + - AccountDepositMethodTest - Issue #13  
