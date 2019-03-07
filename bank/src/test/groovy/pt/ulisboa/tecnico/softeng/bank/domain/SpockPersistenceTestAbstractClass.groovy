@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.softeng.tax.domain
+package pt.ulisboa.tecnico.softeng.bank.domain
 
 import javax.transaction.NotSupportedException
 import javax.transaction.SystemException

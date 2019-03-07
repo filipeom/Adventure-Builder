@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.softeng.tax.domain;
+package pt.ulisboa.tecnico.softeng.bank.domain;
 
 import pt.ist.fenixframework.FenixFramework
 import pt.ist.fenixframework.core.WriteOnReadError
