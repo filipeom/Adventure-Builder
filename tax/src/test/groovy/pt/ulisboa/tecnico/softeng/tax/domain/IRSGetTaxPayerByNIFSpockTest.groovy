@@ -4,6 +4,7 @@
  import pt.ulisboa.tecnico.softeng.tax.domain.IRS
  import pt.ulisboa.tecnico.softeng.tax.domain.Seller
  import pt.ulisboa.tecnico.softeng.tax.domain.TaxPayer
+ import spock.lang.Unroll
 
  class IRSGetTaxPayerByNIFSpockTest extends SpockRollbackTestAbstractClass {
    def SELLER_NIF = "123456789"
@@ -36,27 +37,19 @@
      taxPayer.getNif() == SELLER_NIF
    }
 
-   def 'null NIF'() {
+   @Unroll('getTaxPayerByNif: #label')
+   def 'exceptions'() {
      when:
-     def taxPayer = this.irs.getTaxPayerByNIF(null)
+     def taxPayer = this.irs.getTaxPayerByNIF(nif)
 
      then:
      taxPayer == null
-   }
+     
+     where:
+     label          | nif
+     'null NIF'     | null
+     'empty NIF'    | ""
+     'doesnt exist' | "122456789"
 
-   def 'empty NIF'() {
-     when:
-     def taxPayer = this.irs.getTaxPayerByNIF("")
-
-     then:
-     taxPayer == null
-   }
-
-   def 'does not exist'() {
-     when:
-     def taxPayer = this.irs.getTaxPayerByNIF("122456789")
-
-     then:
-     taxPayer == null
    }
  }
