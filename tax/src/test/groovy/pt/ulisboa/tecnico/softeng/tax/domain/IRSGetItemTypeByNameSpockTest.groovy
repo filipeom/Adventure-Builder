@@ -2,6 +2,7 @@
 
  import pt.ulisboa.tecnico.softeng.tax.domain.IRS
  import pt.ulisboa.tecnico.softeng.tax.domain.ItemType
+ import spock.lang.Unroll
 
  class IRSGetItemByTypeNameSpockTest extends SpockRollbackTestAbstractClass {
    def FOOD = "FOOD"
@@ -24,25 +25,19 @@
      itemType.getName() == FOOD
    }
 
-   def 'null name'() {
+   @Unroll('getItemTypeByName: #label')
+   def 'exceptions'() {
      when:
-     def itemType = this.irs.getItemTypeByName(null)
+     def itemType = this.irs.getItemTypeByName(arg)
 
      then:
      itemType == null
-   }
-   def 'empty name'() {
-     when:
-     def itemType = this.irs.getItemTypeByName("")
 
-     then:
-     itemType == null
-   }
-   def 'name does not exist'() {
-     when:
-     def itemType = this.irs.getItemTypeByName("CAR")
+     where:
+     label         | arg
+     'null name'   | null
+     'empty name'  | ""
+     'doesnt exist'| "CAR"
 
-     then:
-     itemType == null
    }
  }
