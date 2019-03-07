@@ -84,5 +84,4 @@ class ActivityInterfaceGetActivityReservationDataMethodSpockTest extends SpockRo
 		then:
 		thrown(ActivityException)
 	}
-
 }
