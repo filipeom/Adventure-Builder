@@ -1,11 +1,5 @@
 package pt.ulisboa.tecnico.softeng.bank.domain
 
-import spock.lang.Shared
-
-import java.util.ArrayList
-import java.util.List
-import pt.ist.fenixframework.Atomic
-import pt.ist.fenixframework.Atomic.TxMode
 import pt.ist.fenixframework.FenixFramework
 
 class BankPersistenceSpockTest extends SpockPersistenceTestAbstractClass {
@@ -16,13 +10,13 @@ class BankPersistenceSpockTest extends SpockPersistenceTestAbstractClass {
 
 	@Override
 	def whenCreateInDatabase() {
-		def bank = new Bank(BANK_NAME, BANK_CODE);
+		def bank = new Bank(BANK_NAME, BANK_CODE)
 
-		def client = new Client(bank, CLIENT_NAME);
+		def client = new Client(bank, CLIENT_NAME)
 
-		def account = new Account(bank, client);
+		def account = new Account(bank, client)
 
-		account.deposit(100);
+		account.deposit(100)
 	}
 
 	@Override
