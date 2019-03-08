@@ -1,24 +1,26 @@
-package pt.ulisboa.tecnico.softeng.bank.domain;
+package pt.ulisboa.tecnico.softeng.bank.domain
 
-import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
+import pt.ulisboa.tecnico.softeng.bank.exception.BankException
+import spock.lang.Unroll
 
 class AccountWithdrawMethodSpockTest extends SpockRollbackTestAbstractClass {
-	def bank;
-	def account;
+
+	def bank
+	def account
 
 	@Override
 	def populate4Test() {
-		this.bank = new Bank("Money", "BK01");
-		def client = new Client(this.bank, "António");
-		this.account = new Account(this.bank, client);
-		this.account.deposit(100);
+		this.bank = new Bank("Money", "BK01")
+		def client = new Client(this.bank, "António")
+		this.account = new Account(this.bank, client)
+		this.account.deposit(100)
 	}
 
 	def "success"() {
-		given:
+		when:
 		def reference = this.account.withdraw(40).getReference();
 
-		expect:
+		then:
 		this.account.getBalance() == 60
 		def operation = this.bank.getOperation(reference)
 		operation != null
@@ -27,20 +29,20 @@ class AccountWithdrawMethodSpockTest extends SpockRollbackTestAbstractClass {
 		operation.getValue() == 40
 	}
 
-	def "negativeAmount"() {
-		when:
-		this.account.withdraw(-20)
+	@Unroll("Withdraw: #quantia")
+	def "exceptions"() {
+		when: "making a withdraw with invalid amounts"
+		this.account.withdraw(quantia)
 
-		then:
+		then: "throw an exception"
 		thrown(BankException)
-	}
 
-	def "zeroAmount"() {
-		when:
-		this.account.withdraw(0)
-
-		then:
-		thrown(BankException)
+		where:
+		quantia | _
+		-20     | _
+		0       | _
+		101     | _
+		150     | _
 	}
 
 	def "oneAmount"() {
@@ -59,19 +61,4 @@ class AccountWithdrawMethodSpockTest extends SpockRollbackTestAbstractClass {
 		this.account.getBalance() == 0
 	}
 
-	def "equalToBalancePlusOne"() {
-		when:
-		this.account.withdraw(101)
-
-		then:
-		thrown(BankException)
-	}
-
-	def "moreThanBalance"() {
-		when:
-		this.account.withdraw(150)
-
-		then:
-		thrown(BankException)
-	}
 }
