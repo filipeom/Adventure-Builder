@@ -22,11 +22,20 @@ To see the coverage reports, go to <module name>/target/site/jacoco/index.html.
 #### Migrated Tests: 
 * **Jorge Martins, 86456, Jorgecmartins:**
   + **Activity Module:**
-    
-* **Hussein Giva, 86434, HusseinGiva:**  
-  + **Activity Module:**  
+    - ActivityConstructorMethodTest          -Issue #1
+    - ActivityMatchAgeMethodTest             -Issue #2
+    - ActivityOfferConstructorMethodTest     -Issue #3
+    - ActivityOfferGetBookingMethodTest      -Issue #4
+    - ActivityOfferMatchDateMethodTest       -Issue #5
+    - ActivityPersistenceTest                -Issue #6
+    - ActivityProviderConstructorMethodTest  -Issue #7
+    - ActivityProviderFindOfferMethodTest    -Issue #8
+    - BookingConstructorMethodTest           -Issue #9
+
+* **Hussein Giva, 86434, HusseinGiva:**
+  + **Activity Module:**
     - ActivityInterfaceGetActivityReservationDataMethodTest  - Issue #11
-  + **Bank Module:**  
+  + **Bank Module:**
     - AccountContructorMethodTest  - Issue #12
     - AccountDepositMethodTest     - Issue #13
     - AccountWithdrawMethodTest    - Issue #14
@@ -37,7 +46,6 @@ To see the coverage reports, go to <module name>/target/site/jacoco/index.html.
     - OperationRevertMethodTest    - Issue #20
 * **Paulo Dias, 86492, PauloACDias:**
   + **Hotel:**
-  
   + **Broker:**
  
 * **Filipe Marques, 86411, [filipeom](https://github.com/filipeom):**
@@ -52,10 +60,10 @@ To see the coverage reports, go to <module name>/target/site/jacoco/index.html.
     - InvoiceConstructorTest       - Issue #43
     - IRSGetItemTypeByNameTest     - Issue #44
     - IRSGetTaxPayerByNIFTest      - Issue #45
-  
+
 * **Tomás Zaki, 79690, Zakovich:**
   + **Tax:**
-  
+
 ### Infrastructure
 
 This project includes the persistent layer, as offered by the FénixFramework.
