@@ -1,15 +1,17 @@
-package pt.ulisboa.tecnico.softeng.bank.domain;
+package pt.ulisboa.tecnico.softeng.bank.domain
 
-import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
+import pt.ulisboa.tecnico.softeng.bank.exception.BankException
+import spock.lang.Unroll
 
 class BankGetAccountMethodSpockTest extends SpockRollbackTestAbstractClass {
+
 	def bank
 	def client
 
 	@Override
 	def populate4Test() {
-		this.bank = new Bank("Money", "BK01");
-		this.client = new Client(this.bank, "António");
+		this.bank = new Bank("Money", "BK01")
+		this.client = new Client(this.bank, "António")
 	}
 
 	def "success"() {
@@ -23,28 +25,19 @@ class BankGetAccountMethodSpockTest extends SpockRollbackTestAbstractClass {
 		account == result
 	}
 
-	def "nullIBAN"() {
-		when:
-		this.bank.getAccount(null)
+	@Unroll("Bank: #account")
+	def "exceptions"() {
+		when: "retrieving an Account with invalid name"
+		this.bank.getAccount(account)
 
-		then:
+		then: "throws an exception"
 		thrown(BankException)
-	}
 
-	def "emptyIBAN"() {
-		when:
-		this.bank.getAccount("")
-
-		then:
-		thrown(BankException)
-	}
-
-	def "blankIBAN"() {
-		when:
-		this.bank.getAccount("    ")
-
-		then:
-		thrown(BankException)
+		where:
+		account    | _
+		null       | _
+		""         | _
+		"    "     | _
 	}
 
 	def "emptySetOfAccounts"() {
