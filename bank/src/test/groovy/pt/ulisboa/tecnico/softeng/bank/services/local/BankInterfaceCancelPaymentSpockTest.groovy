@@ -5,8 +5,10 @@ import pt.ulisboa.tecnico.softeng.bank.domain.Bank
 import pt.ulisboa.tecnico.softeng.bank.domain.Client
 import pt.ulisboa.tecnico.softeng.bank.domain.SpockRollbackTestAbstractClass
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException
+import spock.lang.Unroll
 
 class BankInterfaceCancelPaymentSpockTest extends SpockRollbackTestAbstractClass {
+
 	def bank
 	def account
 	def reference
@@ -27,27 +29,19 @@ class BankInterfaceCancelPaymentSpockTest extends SpockRollbackTestAbstractClass
 		this.bank.getOperation(newReference) != null
 	}
 
-	def "nullReference"() {
-		when:
-		BankInterface.cancelPayment(null)
+	@Unroll("Cancel Payment: #confirmation")
+	def "exceptions"() {
+		when: "cancelling a Payment with invalid reference"
+		BankInterface.cancelPayment(confirmation)
 
 		then:
 		thrown(BankException)
+
+		where:
+		confirmation | _
+		null         | _
+		""           | _
+		"XPTO"       | _
 	}
 
-	def "emptyReference"() {
-		when:
-		BankInterface.cancelPayment("")
-
-		then:
-		thrown(BankException)
-	}
-
-	def "notExistsReference"() {
-		when:
-		BankInterface.cancelPayment("XPTO")
-
-		then:
-		thrown(BankException)
-	}
 }
