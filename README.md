@@ -19,7 +19,7 @@ To see the coverage reports, go to <module name>/target/site/jacoco/index.html.
 - **Group 2:**
 
 ### Sprint 1:
-#### Migrated Tests: 
+#### Migrated Tests:
 * **Jorge Martins, 86456, Jorgecmartins:**
   + **Activity Module:**
     - ActivityConstructorMethodTest          -Issue #1
@@ -34,20 +34,23 @@ To see the coverage reports, go to <module name>/target/site/jacoco/index.html.
 
 * **Hussein Giva, 86434, HusseinGiva:**
   + **Activity Module:**
-    - ActivityInterfaceGetActivityReservationDataMethodTest  - Issue #11
+    - ActivityInterfaceGetActivityReservationDataMethodTest- Issue #11  
   + **Bank Module:**
-    - AccountContructorMethodTest  - Issue #12
-    - AccountDepositMethodTest     - Issue #13
-    - AccountWithdrawMethodTest    - Issue #14
-    - BankConstructorTest          - Issue #15
-    - BankGetAccountMethodTest     - Issue #16
-    - BankPersistenceTest          - Issue #17
-    - ClientConstructorMethodTest  - Issue #18
-    - OperationRevertMethodTest    - Issue #20
+    - AccountContructorMethodTest - Issue #12  
+    - AccountDepositMethodTest - Issue #13  
+    - AccountWithdrawMethodTest - Issue #14  
+    - BankConstructorTest - Issue #15  
+    - BankGetAccountMethodTest - Issue #16  
+    - BankPersistenceTest - Issue #17  
+    - ClientConstructorMethodTest - Issue #18  
+    - OperationRevertMethodTest - Issue #20  
+    - BankInterfaceCancelPaymentTest - Issue #22  
+    - BankInterfaceGetOperationDataMethodTest - Issue #23  
+    
 * **Paulo Dias, 86492, PauloACDias:**
   + **Hotel:**
   + **Broker:**
- 
+
 * **Filipe Marques, 86411, [filipeom](https://github.com/filipeom):**
   + **Hotel:**
     - RoomConstrutorMethodT        - Issue #37
