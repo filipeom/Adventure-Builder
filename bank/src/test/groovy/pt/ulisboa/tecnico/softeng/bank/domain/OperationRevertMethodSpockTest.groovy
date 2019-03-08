@@ -1,6 +1,7 @@
-package pt.ulisboa.tecnico.softeng.bank.domain;
+package pt.ulisboa.tecnico.softeng.bank.domain
 
 class OperationRevertMethodSpockTest extends SpockRollbackTestAbstractClass {
+
 	def bank
 	def account
 
@@ -27,9 +28,9 @@ class OperationRevertMethodSpockTest extends SpockRollbackTestAbstractClass {
 
 	def "revertWithdraw"() {
 		given:
-		this.account.deposit(1000);
-		def reference = this.account.withdraw(100).getReference();
-		def operation = this.bank.getOperation(reference);
+		this.account.deposit(1000)
+		def reference = this.account.withdraw(100).getReference()
+		def operation = this.bank.getOperation(reference)
 
 		when:
 		def newReference = operation.revert()
@@ -39,4 +40,5 @@ class OperationRevertMethodSpockTest extends SpockRollbackTestAbstractClass {
 		this.bank.getOperation(newReference) != null
 		this.bank.getOperation(reference) != null
 	}
+
 }
