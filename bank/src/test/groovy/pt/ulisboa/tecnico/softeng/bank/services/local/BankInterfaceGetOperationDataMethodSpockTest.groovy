@@ -6,9 +6,10 @@ import pt.ulisboa.tecnico.softeng.bank.domain.Client
 import pt.ulisboa.tecnico.softeng.bank.domain.Operation.Type
 import pt.ulisboa.tecnico.softeng.bank.domain.SpockRollbackTestAbstractClass
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException
-import pt.ulisboa.tecnico.softeng.bank.services.local.dataobjects.BankOperationData
+import spock.lang.Unroll
 
 class BankInterfaceGetOperationDataMethodSpockTest extends SpockRollbackTestAbstractClass {
+
 	def AMOUNT = 100
 	def bank
 	def account
@@ -23,10 +24,10 @@ class BankInterfaceGetOperationDataMethodSpockTest extends SpockRollbackTestAbst
 	}
 
 	def "success"() {
-		given:
-		def data = BankInterface.getOperationData(this.reference);
+		when:
+		def data = BankInterface.getOperationData(this.reference)
 
-		expect:
+		then:
 		data.getReference() == this.reference
 		data.getIban() == this.account.getIBAN()
 		data.getType() == Type.DEPOSIT.name()
@@ -34,27 +35,19 @@ class BankInterfaceGetOperationDataMethodSpockTest extends SpockRollbackTestAbst
 		data.getTime() != null
 	}
 
-	def "nullReference"() {
-		when:
-		BankInterface.getOperationData(null)
+	@Unroll("Get Operation Data: #ref")
+	def "exceptions"() {
+		when: "getting an Operation's data with invalid reference"
+		BankInterface.getOperationData(ref)
 
 		then:
 		thrown(BankException)
+
+		where:
+		ref 		 | _
+		null         | _
+		""           | _
+		"XPTO"       | _
 	}
-
-	def "emptyReference"() {
-		when:
-		BankInterface.getOperationData("")
-
-		then:
-		thrown(BankException)
-	}
-
-	def "referenceNotExists"() {
-		when:
-		BankInterface.getOperationData("XPTO")
-
-		then:
-		thrown(BankException)
-	}
+	
 }
