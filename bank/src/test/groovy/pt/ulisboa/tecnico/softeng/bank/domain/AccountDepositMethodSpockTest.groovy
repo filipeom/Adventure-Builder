@@ -1,12 +1,11 @@
-package pt.ulisboa.tecnico.softeng.bank.domain;
+package pt.ulisboa.tecnico.softeng.bank.domain
 
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException
-import spock.lang.Shared
 import spock.lang.Unroll
 
 class AccountDepositMethodSpockTest extends SpockRollbackTestAbstractClass {
 
-	@Shared def account
+	def account
 	def bank
 
 	@Override
