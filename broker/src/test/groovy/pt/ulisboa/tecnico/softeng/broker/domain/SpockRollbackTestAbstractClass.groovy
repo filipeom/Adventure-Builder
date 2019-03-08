@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.softeng.activity.domain;
+package pt.ulisboa.tecnico.softeng.broker.domain;
 
 import pt.ist.fenixframework.FenixFramework
 import pt.ist.fenixframework.core.WriteOnReadError
@@ -28,4 +28,5 @@ abstract class SpockRollbackTestAbstractClass extends Specification {
 	}
 
 	abstract def populate4Test()
+
 }
