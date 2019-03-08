@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.softeng.bank.domain;
+package pt.ulisboa.tecnico.softeng.bank.domain
 
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException
 import spock.lang.Shared
@@ -15,21 +15,21 @@ class ClientContructorMethodSpockTest extends SpockRollbackTestAbstractClass {
 	}
 
 	def "success"() {
-		given:
+		when:
 		def client = new Client(this.bank, CLIENT_NAME)
 
-		expect:
+		then:
 		client.getName() == CLIENT_NAME
 		client.getID().length() >= 1
 		this.bank.getClientSet().contains(client)
 	}
 
-	@Unroll("#Client: #banco, #nome")
+	@Unroll("Client: #banco, #nome")
 	def "exceptions"() {
-		when:
-		new Client(banco, nome);
+		when: "creating a Client with invalid arguments"
+		new Client(banco, nome)
 
-		then:
+		then: "throws an exception"
 		thrown(BankException)
 
 		where:
@@ -39,4 +39,5 @@ class ClientContructorMethodSpockTest extends SpockRollbackTestAbstractClass {
 		this.bank  | "    "
 		this.bank  | ""
 	}
+
 }
