@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.softeng.bank.domain;
+package pt.ulisboa.tecnico.softeng.bank.domain
 
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException
 import spock.lang.Unroll
@@ -6,9 +6,9 @@ import spock.lang.Shared
 
 class AccountContructorMethodSpockTest extends SpockRollbackTestAbstractClass {
 
-	@Shared def bank
-	@Shared def client
 	@Shared def allien
+	def bank
+	def client
 
 	@Override
 	def populate4Test() {
