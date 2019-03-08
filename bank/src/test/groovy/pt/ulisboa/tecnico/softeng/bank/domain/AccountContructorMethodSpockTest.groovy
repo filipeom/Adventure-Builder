@@ -14,7 +14,6 @@ class AccountContructorMethodSpockTest extends SpockRollbackTestAbstractClass {
 	def populate4Test() {
 		this.bank = new Bank("Money", "BK01")
 		this.client = new Client(this.bank, "António")
-		allien = new Client(new Bank("MoneyPlus", "BK02"), "António")
 	}
 
 	def "success"() {
@@ -32,8 +31,9 @@ class AccountContructorMethodSpockTest extends SpockRollbackTestAbstractClass {
 
 	@Unroll("Account: #banco, #cliente")
 	def "exceptions"() {
-		when: 'creating an Account with invalid arguments'
+		when: "creating an Account with invalid arguments"
 		new Account(banco, cliente)
+		allien = new Client(new Bank("MoneyPlus", "BK02"), "António")
 
 		then: "throws an exception"
 		thrown(BankException)
@@ -44,4 +44,5 @@ class AccountContructorMethodSpockTest extends SpockRollbackTestAbstractClass {
 		this.bank  | null
 		this.bank  | allien
 	}
+
 }
