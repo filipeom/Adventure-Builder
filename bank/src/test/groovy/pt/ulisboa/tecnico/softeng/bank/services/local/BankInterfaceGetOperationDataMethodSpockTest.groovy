@@ -49,5 +49,5 @@ class BankInterfaceGetOperationDataMethodSpockTest extends SpockRollbackTestAbst
 		""           | _
 		"XPTO"       | _
 	}
-	
+
 }

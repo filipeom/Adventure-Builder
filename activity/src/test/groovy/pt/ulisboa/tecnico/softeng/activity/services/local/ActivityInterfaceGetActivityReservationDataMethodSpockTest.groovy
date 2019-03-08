@@ -1,16 +1,17 @@
-package pt.ulisboa.tecnico.softeng.activity.services.local;
+package pt.ulisboa.tecnico.softeng.activity.services.local
 
-import org.joda.time.LocalDate;
+import org.joda.time.LocalDate
 
-import pt.ulisboa.tecnico.softeng.activity.domain.Activity;
-import pt.ulisboa.tecnico.softeng.activity.domain.ActivityOffer;
-import pt.ulisboa.tecnico.softeng.activity.domain.ActivityProvider;
-import pt.ulisboa.tecnico.softeng.activity.domain.Booking;
-import pt.ulisboa.tecnico.softeng.activity.domain.SpockRollbackTestAbstractClass;
-import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
-import pt.ulisboa.tecnico.softeng.activity.services.remote.dataobjects.RestActivityBookingData;
+import pt.ulisboa.tecnico.softeng.activity.domain.Activity
+import pt.ulisboa.tecnico.softeng.activity.domain.ActivityOffer
+import pt.ulisboa.tecnico.softeng.activity.domain.ActivityProvider
+import pt.ulisboa.tecnico.softeng.activity.domain.Booking
+import pt.ulisboa.tecnico.softeng.activity.domain.SpockRollbackTestAbstractClass
+import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException
+import spock.lang.Unroll
 
 class ActivityInterfaceGetActivityReservationDataMethodSpockTest extends SpockRollbackTestAbstractClass {
+
 	def NAME = "ExtremeAdventure"
 	def CODE = "XtremX"
 	def begin = new LocalDate(2016, 12, 19)
@@ -23,7 +24,6 @@ class ActivityInterfaceGetActivityReservationDataMethodSpockTest extends SpockRo
 	def populate4Test() {
 		this.provider = new ActivityProvider(CODE, NAME, "NIF", "IBAN")
 		def activity = new Activity(this.provider, "Bush Walking", 18, 80, 3)
-
 		this.offer = new ActivityOffer(activity, this.begin, this.end, 30)
 	}
 
@@ -45,13 +45,13 @@ class ActivityInterfaceGetActivityReservationDataMethodSpockTest extends SpockRo
 	}
 
 	def "successCancelled"() {
-		given:
+		when:
 		this.booking = new Booking(this.provider, this.offer, "123456789", "IBAN")
 		this.provider.getProcessor().submitBooking(this.booking)
 		this.booking.cancel()
 		def data = ActivityInterface.getActivityReservationData(this.booking.getCancel())
 
-		expect:
+		then:
 		data.getReference() == this.booking.getReference()
 		data.getCancellation() == this.booking.getCancel()
 		data.getName() == NAME
@@ -61,27 +61,19 @@ class ActivityInterfaceGetActivityReservationDataMethodSpockTest extends SpockRo
 		data.getCancellationDate() != null
 	}
 
-	def "nullReference"() {
-		when:
-		ActivityInterface.getActivityReservationData(null)
+	@Unroll("Get Activity Reservation Data: #ref")
+	def "exceptions"(){
+		when: "retrieving Activity reservation data with invalid arguments"
+		ActivityInterface.getActivityReservationData(ref)
 
-		then:
+		then: "throws an exception"
 		thrown(ActivityException)
+
+		where:
+		ref    | _
+		null   | _
+		""     | _
+		"XPTO" | _
 	}
 
-	def "emptyReference"() {
-		when:
-		ActivityInterface.getActivityReservationData("")
-
-		then:
-		thrown(ActivityException)
-	}
-
-	def "notExistsReference"() {
-		when:
-		ActivityInterface.getActivityReservationData("XPTO")
-
-		then:
-		thrown(ActivityException)
-	}
 }
