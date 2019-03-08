@@ -1,11 +1,12 @@
-package pt.ulisboa.tecnico.softeng.bank.domain;
+package pt.ulisboa.tecnico.softeng.bank.domain
 
-import pt.ist.fenixframework.FenixFramework;
+import pt.ist.fenixframework.FenixFramework
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException
 import spock.lang.Shared
-import spock.lang.Unroll;
+import spock.lang.Unroll
 
-public class BankConstructorSpockTest extends SpockRollbackTestAbstractClass {
+class BankConstructorSpockTest extends SpockRollbackTestAbstractClass {
+
 	@Shared def BANK_CODE = "BK01"
 	@Shared def BANK_NAME = "Money"
 
@@ -25,12 +26,12 @@ public class BankConstructorSpockTest extends SpockRollbackTestAbstractClass {
 		bank.getClientSet().size() == 0
 	}
 
-	@Unroll("#Bank: #name, #code")
+	@Unroll("Bank: #name, #code")
 	def "exceptions"() {
-		when:
+		when: "creating a new Bank with invalid arguments"
 		new Bank(name, code)
 
-		then:
+		then: "throws an exception"
 		thrown(BankException)
 
 		where:
@@ -41,7 +42,6 @@ public class BankConstructorSpockTest extends SpockRollbackTestAbstractClass {
 		BANK_NAME  | "    "
 		BANK_NAME  | "BK0"
 		BANK_NAME  | "BK011"
-
 	}
 
 	def "notUniqueCode"() {
@@ -56,6 +56,5 @@ public class BankConstructorSpockTest extends SpockRollbackTestAbstractClass {
 
 		and:
 		FenixFramework.getDomainRoot().getBankSet().size() == 1
-
 	}
 }
