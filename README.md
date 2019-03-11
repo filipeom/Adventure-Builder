@@ -52,9 +52,13 @@ To see the coverage reports, go to <module name>/target/site/jacoco/index.html.
   + **Broker:**
 
 * **Filipe Marques, 86411, [filipeom](https://github.com/filipeom):**
+  + **Bank:**
+    - BankInterfaceProcessPaymentMethodTest - Issue #24
+  + **Broker:**
+    - BrokerPersistenceTest        - Issue #27
   + **Hotel:**
-    - RoomConstrutorMethodT        - Issue #37
-    - RoomGetBookingMethodTe       - Issue #38
+    - RoomConstrutorMethodTest     - Issue #37
+    - RoomGetBookingMethodTest     - Issue #38
     - RoomReserveMethodTest        - Issue #39
     - HotelInterfaceReserveRoomMethodTest - Issue #40
   + **Tax:**
