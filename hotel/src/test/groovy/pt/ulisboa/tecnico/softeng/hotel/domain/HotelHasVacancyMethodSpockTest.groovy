@@ -5,6 +5,8 @@ import org.joda.time.LocalDate;
 import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type;
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
 
+import spock.lang.Unroll
+
 class HotelHasVacancyMethodSpockTest extends SpockRollbackTestAbstractClass {
   def arrival = LocalDate.parse('2016-12-19')
   def departure = LocalDate.parse('2016-12-21')
@@ -22,50 +24,42 @@ class HotelHasVacancyMethodSpockTest extends SpockRollbackTestAbstractClass {
 
   def 'has Vacancy'(){
     given:
-    def room = this.hotel.hasVacancy(Type.DOUBLE, this.arrival, this.departure)
+      def room = this.hotel.hasVacancy(Type.DOUBLE, this.arrival, this.departure)
 
     expect:
-    room != null
+      room != null
+      room.getNumber() == "01"
   }
 
   def 'no Vacancy'(){
     given:
-    this.room.reserve(Type.DOUBLE, this.arrival, this.departure, this.NIF_BUYER, this.IBAN_BUYER)
+      this.room.reserve(Type.DOUBLE, this.arrival, this.departure, this.NIF_BUYER, this.IBAN_BUYER)
 
     expect:
-    this.hotel.hasVacancy(Type.DOUBLE, this.arrival, this.departure) == null
+      this.hotel.hasVacancy(Type.DOUBLE, this.arrival, this.departure) == null
   }
 
   def 'no Vacancy Empty Room Set'(){
     given:
-    def otherHotel = new Hotel("XPTO124", "Paris Germain", "NIF2", "IBAN", 25.0, 35.0)
+      def otherHotel = new Hotel("XPTO124", "Paris Germain", "NIF2", "IBAN", 25.0, 35.0)
 
     expect:
-    otherHotel.hasVacancy(Type.DOUBLE, this.arrival, this.departure) == null
+      otherHotel.hasVacancy(Type.DOUBLE, this.arrival, this.departure) == null
   }
 
-  def 'null Type'(){
+  @Unroll
+  def 'exceptions'(){
     when:
-    this.hotel.hasVacancy(null, this.arrival, this.departure)
+      this.hotel.hasVacancy(type, arrival, departure)
 
     then:
-    thrown(HotelException)
-  }
+      thrown(HotelException)
 
-  def 'null Arrival'(){
-    when:
-    this.hotel.hasVacancy(Type.DOUBLE, null, this.departure)
-
-    then:
-    thrown(HotelException)
-  }
-
-  def 'null Departure'(){
-    when:
-    this.hotel.hasVacancy(Type.DOUBLE, this.arrival, null)
-
-    then:
-    thrown(HotelException)
+    where:
+      type        | arrival      | departure
+      null        | this.arrival | this.departure
+      Type.DOUBLE | null         | this.departure
+      Type.DOUBLE | this.arrival | null
   }
 
 }
