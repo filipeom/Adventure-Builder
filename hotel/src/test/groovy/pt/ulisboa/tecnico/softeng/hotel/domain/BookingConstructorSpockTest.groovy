@@ -1,11 +1,14 @@
-package pt.ulisboa.tecnico.softeng.hotel.domain;
+package pt.ulisboa.tecnico.softeng.hotel.domain
 
-import org.joda.time.LocalDate;
-import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
+import org.joda.time.LocalDate
+import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException
+
+import spock.lang.Unroll
+import spock.lang.Shared
 
 class BookingConstructorSpockTest extends SpockRollbackTestAbstractClass {
-  def ARRIVAL = new LocalDate(2016, 12, 19)
-  def DEPARTURE = new LocalDate(2016, 12, 21)
+  @Shared def ARRIVAL = new LocalDate(2016, 12, 19)
+  @Shared def DEPARTURE = new LocalDate(2016, 12, 21)
   def ROOM_PRICE = 20.0
   def NIF_BUYER = "123456789"
   def IBAN_BUYER = "IBAN_BUYER"
@@ -19,53 +22,38 @@ class BookingConstructorSpockTest extends SpockRollbackTestAbstractClass {
 
   def 'success'(){
     given:
-    def booking = new Booking(this.room, ARRIVAL, DEPARTURE, NIF_BUYER, IBAN_BUYER)
+      def booking = new Booking(this.room, ARRIVAL, DEPARTURE, NIF_BUYER, IBAN_BUYER)
 
     expect:
-    booking.getReference().startsWith(this.room.getHotel().getCode()) == true
-    booking.getReference().length() > Hotel.CODE_SIZE
-    booking.getArrival() == ARRIVAL
-    booking.getDeparture() == DEPARTURE
-    booking.getPrice() == ROOM_PRICE * 2
-  }
+      booking.getReference().startsWith(this.room.getHotel().getCode()) == true
+      booking.getReference().length() > Hotel.CODE_SIZE
+      booking.getArrival() == ARRIVAL
+      booking.getDeparture() == DEPARTURE
+      booking.getPrice() == ROOM_PRICE * 2
+    }
 
-  def 'null Room'(){
+  @Unroll
+  def 'exceptions'(){
     when:
-    new Booking(null, ARRIVAL, DEPARTURE, NIF_BUYER, IBAN_BUYER)
+      new Booking(room, arrival, departure, NIF_BUYER, IBAN_BUYER)
 
     then:
-    thrown(HotelException)
-  }
+      thrown(HotelException)
 
-  def 'null Arrival'(){
-    when:
-    new Booking(this.room, null, DEPARTURE, NIF_BUYER, IBAN_BUYER)
-
-    then:
-    thrown(HotelException)
-  }
-
-  def 'null Departure'(){
-    when:
-    new Booking(this.room, ARRIVAL, null, NIF_BUYER, IBAN_BUYER)
-
-    then:
-    thrown(HotelException)
-  }
-
-  def 'departure Before Arrival'(){
-    when:
-    new Booking(this.room, ARRIVAL, ARRIVAL.minusDays(1), NIF_BUYER, IBAN_BUYER)
-
-    then:
-    thrown(HotelException)
+    where:
+      room      | arrival | departure
+      null      | ARRIVAL | DEPARTURE
+      this.room | null    | DEPARTURE
+      this.room | ARRIVAL | null
+      this.room | ARRIVAL | ARRIVAL.minusDays(1)
   }
 
   def 'arrival Equal Departure'(){
-    when:
-    ARRIVAL == DEPARTURE
+    given:
+      def booking = new Booking(this.room, ARRIVAL, ARRIVAL, NIF_BUYER, IBAN_BUYER)
 
-    then:
-    new Booking(this.room, ARRIVAL, ARRIVAL, NIF_BUYER, IBAN_BUYER)
+    expect:
+      booking.getArrival() == booking.getDeparture()
   }
+  
 }
