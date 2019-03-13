@@ -51,20 +51,18 @@ class BookingConstructorSpockMethodTest extends SpockRollbackTestAbstractClass {
         null      | offer  | NIF  | null
     }
 
-    def 'emptyIBAN'() {
-        when:
-        new Booking(provider, null, NIF, "     ")
+    @Unroll('Booking: #_offer, #_nif, #_iban')
+    def 'bookingExceptions'() {
+    	when:
+	new Booking(provider, _offer, _nif, _iban)
+	
+	then:
+	thrown(ActivityException)
 
-        then:
-        thrown(ActivityException)
-    }
-
-    def 'nullNIF'() {
-        when:
-        new Booking(provider, offer, "     ", IBAN)
-
-        then:
-        thrown(ActivityException)
+	where:
+	_offer | _nif    | _iban
+	null   | NIF     | "     "
+	offer  | "     " | IBAN
     }
 
     def 'bookingEqualCapacity'() {
