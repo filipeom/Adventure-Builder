@@ -49,7 +49,18 @@ To see the coverage reports, go to <module name>/target/site/jacoco/index.html.
     
 * **Paulo Dias, 86492, PauloACDias:**
   + **Hotel:**
+	- BookingConflictMethodTest   - Issue #29
+    - BookingConstructorTest      - Issue #30
+    - HotelConstructorTest        - Issue #31
+    - HotelGetPriceMethodTest     - Issue #32
+    - HotelHasVacancyMethodTest   - Issue #33
+    - HotelPersistenceTest        - Issue #34
+    - HotelSetPriceMethodTest     - Issue #35
+    - RollbackTestAbstractClass   - Issue #36
+	
   + **Broker:**
+	- BrokerConstructorMethodTest - Issue #26
+	- ClientConstructorMethodTest - Issue #28
 
 * **Filipe Marques, 86411, [filipeom](https://github.com/filipeom):**
   + **Bank:**
