@@ -31,8 +31,10 @@ class ActivityOfferGetBookingSpockMethodTest extends SpockRollbackTestAbstractCl
     def 'sucessCancelled'() {
         given:
         def booking = new Booking(provider, offer, NIF, IBAN)
+
         when:
         booking.cancel()
+
         then:
         offer.getBooking(booking.getCancel()) == booking
     }
@@ -40,6 +42,7 @@ class ActivityOfferGetBookingSpockMethodTest extends SpockRollbackTestAbstractCl
     def 'doesNotExist'() {
         when:
         new Booking(provider, offer, NIF, IBAN)
+        
         then:
         offer.getBooking("XPTO") == null
     }
