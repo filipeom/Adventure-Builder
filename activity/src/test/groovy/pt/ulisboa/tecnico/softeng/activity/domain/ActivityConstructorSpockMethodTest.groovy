@@ -20,21 +20,31 @@ class ActivityConstructorSpockMethodTest extends SpockRollbackTestAbstractClass 
         provider = new ActivityProvider("XtremX", "ExtremeAdventure", NIF, IBAN)
     }
 
-    def 'success'() {
-        when:
-        def activity = new Activity(provider, PROVIDER_NAME, MIN_AGE, MAX_AGE, CAPACITY)    
 
-        then:
+    @Unroll('success: #min_age, #max_age, #capacity')
+    def 'sucess'() {
+    	when:
+        def activity = new Activity(provider, PROVIDER_NAME, min_age, max_age, capacity)    
+
+	then:
         activity.getCode().startsWith(provider.getCode()) == true
         activity.getCode().length() > ActivityProvider.CODE_SIZE == true
         activity.getName() == "Bush Walking"
-        activity.getMinAge() == MIN_AGE
-        activity.getMaxAge() == MAX_AGE
-        activity.getCapacity() == CAPACITY
+        activity.getMinAge() == min_age
+        activity.getMaxAge() == max_age
+        activity.getCapacity() == capacity
         activity.getActivityOfferSet().size() == 0
         provider.getActivitySet().size() == 1
+
+	where:
+	min_age | max_age | capacity
+	MIN_AGE | MAX_AGE | CAPACITY
+	18      | MAX_AGE | CAPACITY
+	MIN_AGE | 99      | CAPACITY
+	MIN_AGE | MIN_AGE | CAPACITY
+	MIN_AGE | MAX_AGE | 1
     }
-    
+
     @Unroll('Activity: #prov, #name, #min_age, #max_age, #capac')
     def 'exceptions'() {
         when:
@@ -55,63 +65,4 @@ class ActivityConstructorSpockMethodTest extends SpockRollbackTestAbstractClass 
         provider    | PROVIDER_NAME | MIN_AGE      | MAX_AGE | 0
     }
 
-    def 'successMinAgeEqual18'() {
-        when:
-        def activity = new Activity(provider, PROVIDER_NAME, 18, MAX_AGE, CAPACITY)
-
-        then:
-        activity.getCode().startsWith(provider.getCode()) == true
-        activity.getCode().length() > ActivityProvider.CODE_SIZE == true
-        activity.getName() == "Bush Walking"
-        activity.getMinAge() == 18
-        activity.getMaxAge() == MAX_AGE
-        activity.getCapacity() == CAPACITY
-        activity.getActivityOfferSet().size() == 0
-        provider.getActivitySet().size() == 1
-    }
-
-    def 'successMaxAge99'() {
-        when:
-        def activity = new Activity(provider, PROVIDER_NAME, MIN_AGE, 99, CAPACITY)
-
-        then:
-        activity.getCode().startsWith(provider.getCode()) == true
-        activity.getCode().length() > ActivityProvider.CODE_SIZE == true
-        activity.getName() == "Bush Walking"
-        activity.getMinAge() == MIN_AGE
-        activity.getMaxAge() == 99
-        activity.getCapacity() == CAPACITY
-        activity.getActivityOfferSet().size() == 0
-        provider.getActivitySet().size() == 1
-    }
-
-    def 'successMinAgeEqualMaxAge'() {
-        when:
-        def activity = new Activity(provider, PROVIDER_NAME, MIN_AGE, MIN_AGE, CAPACITY)
-
-        then:
-        activity.getCode().startsWith(provider.getCode()) == true
-        activity.getCode().length() > ActivityProvider.CODE_SIZE == true
-        activity.getName() == "Bush Walking"
-        activity.getMinAge() == MIN_AGE
-        activity.getMaxAge() == MIN_AGE
-        activity.getCapacity() == CAPACITY
-        activity.getActivityOfferSet().size() == 0
-        provider.getActivitySet().size() == 1
-    }
-
-    def 'successCapacityOne'() {
-        when:
-        def activity = new Activity(provider, PROVIDER_NAME, MIN_AGE, MAX_AGE, 1)
-
-        then:
-        activity.getCode().startsWith(provider.getCode()) == true
-        activity.getCode().length() > ActivityProvider.CODE_SIZE == true
-        activity.getName() == "Bush Walking"
-        activity.getMinAge() == MIN_AGE
-        activity.getMaxAge() == MAX_AGE
-        activity.getCapacity() == 1
-        activity.getActivityOfferSet().size() == 0
-        provider.getActivitySet().size() == 1
-    }
 }
