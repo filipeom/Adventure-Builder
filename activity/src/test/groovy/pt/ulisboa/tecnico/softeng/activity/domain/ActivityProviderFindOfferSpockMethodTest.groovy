@@ -3,15 +3,17 @@ package pt.ulisboa.tecnico.softeng.activity.domain
 import org.joda.time.LocalDate
 
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException
+import spock.lang.Unroll
+import spock.lang.Shared
 
 
 class ActivityProviderFindOfferSpockMethodTest extends SpockRollbackTestAbstractClass {
-    def MIN_AGE = 25
-    def MAX_AGE = 80
     def CAPACITY = 25
-    def AGE = 40
-    def begin = new LocalDate(2016, 12, 19)
-    def end = new LocalDate(2016, 12, 21)
+    @Shared def MAX_AGE = 80
+    @Shared def MIN_AGE = 25
+    @Shared def AGE = 40
+    @Shared def begin = new LocalDate(2016, 12, 19)
+    @Shared def end = new LocalDate(2016, 12, 21)
 
     def provider
     def activity
@@ -25,63 +27,48 @@ class ActivityProviderFindOfferSpockMethodTest extends SpockRollbackTestAbstract
         offer = new ActivityOffer(activity, begin, end, 30)
     }
 
-    def 'success'() {
-        when:
-        def offers = provider.findOffer(begin, end, AGE)
+    @Unroll('findOffer: #_age')
+    def 'checkOfferSize'() {
+	when:
+	def offers = provider.findOffer(begin, end, _age)
 
-        then:
-        offers.size() == 1
-        offers.contains(offer) == true
+	then:
+	offers.size() == 1
+	offers.contains(offer) == true
+
+	where:
+	_age    | _
+	AGE     | _
+	MIN_AGE | _
+	MAX_AGE | _
     }
 
-    def 'nullBeginDate'() {
-       when:
-       provider.findOffer(null, end, AGE)
+    @Unroll('findOfferExceptions: #_begin, #_end')
+    def 'findOfferExceptions'() {
+	when:
+	provider.findOffer(_begin, _end, AGE)
 
-       then:
-       thrown(ActivityException)
+	then:
+	thrown(ActivityException)
+
+	where:
+	_begin | _end
+	null   | end
+	begin  | null
     }
 
-    def 'nullEndDate'() {
-        when:
-        provider.findOffer(begin, null, AGE)
+    @Unroll('offersEmpty: #_age')
+    def 'offersEmpty'() {
+    	when:
+	def offers = provider.findOffer(begin, end, _age)
 
-        then:
-        thrown(ActivityException)
-    }
+	then:
+	offers.isEmpty() == true
 
-    def 'successAgeEqualMin'() {
-        when:
-        def offers = provider.findOffer(begin, end, MIN_AGE)
-
-        then:
-        offers.size() == 1
-        offers.contains(offer) == true
-    }
-
-    def 'AgeMinusOneThanMinimal'() {
-        when:
-        def offers = provider.findOffer(begin, end, MIN_AGE - 1)
-
-        then:
-        offers.isEmpty() == true
-    }
-
-    def 'successAgeEqualMax'() {
-        when:
-        def offers = provider.findOffer(begin, end, MAX_AGE)
-
-        then:
-        offers.size() == 1
-        offers.contains(offer) == true
-    }
-
-    def 'AgePlusOneThanMinimal'() {
-        when:
-        def offers = provider.findOffer(begin, end, MAX_AGE + 1)
-
-        then:
-        offers.isEmpty() == true
+	where:
+	_age | _
+	MIN_AGE - 1 | _
+	MAX_AGE + 1 | _
     }
 
     def 'emptyActivitySet'() {
@@ -104,22 +91,19 @@ class ActivityProviderFindOfferSpockMethodTest extends SpockRollbackTestAbstract
     }
 
 
-    def 'twoMatchActivityOffers'() {
-        when:
-        new ActivityOffer(activity, begin, end, 30)
-        def offers = provider.findOffer(begin, end, AGE)
+    @Unroll('matchActivityOffers2: #_end, #_result')
+    def 'matchActivityOffers1'() {
+    	when:
+	new ActivityOffer(activity, begin, _end, 30)
+	def offers = provider.findOffer(begin, end, AGE)
 
-        then:
-        offers.size() == 2
-    }
+	then:
+	offers.size == _result
 
-    def 'oneMatchActivityOfferAndOneNotMatch'() {
-        when:
-        new ActivityOffer(activity, begin, end.plusDays(1), 30)
-        def offers = provider.findOffer(begin, end, AGE)
-
-        then:
-        offers.size() == 1
+	where:
+	_end 		| _result
+	end 		| 2
+	end.plusDays(1) | 1
     }
 
     def 'oneMatchActivityOfferAndOtherNoCapacity'() {
@@ -132,7 +116,4 @@ class ActivityProviderFindOfferSpockMethodTest extends SpockRollbackTestAbstract
         then:
         offers.size() == 1
     }
-    
-    
-    
 }
