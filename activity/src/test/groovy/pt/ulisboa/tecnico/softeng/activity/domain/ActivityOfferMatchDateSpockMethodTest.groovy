@@ -3,11 +3,13 @@ package pt.ulisboa.tecnico.softeng.activity.domain
 import org.joda.time.LocalDate
 
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException
+import spock.lang.Unroll
+import spock.lang.Shared
 
 
 class ActivityOfferMatchDateSpockMethodTest extends SpockRollbackTestAbstractClass {
-    def begin = new LocalDate(2016, 12, 19)
-    def end = new LocalDate(2016, 12, 23)
+    @Shared def begin = new LocalDate(2016, 12, 19)
+    @Shared def end = new LocalDate(2016, 12, 23)
 
     def offer
     
@@ -24,39 +26,30 @@ class ActivityOfferMatchDateSpockMethodTest extends SpockRollbackTestAbstractCla
         offer.matchDate(begin, end) == true    
     }
 
-    def 'nullBeginDate'() {
-        when:
-        offer.matchDate(null, end)
+    @Unroll('matchDate: #_begin, #_end')
+    def 'exception'() {
+    	when:
+	offer.matchDate(_begin, _end)
 
-        then:
-        thrown(ActivityException)
+	then:
+	thrown(ActivityException)
+
+	where:
+	_begin | _end
+	null   | end
+	begin  | null
     }
     
-    def 'nullEndDate'() {
-        when:
-        offer.matchDate(begin, null)
-        
-        then:
-        thrown(ActivityException)
-    }
-    
-    def 'beginPlusOne'() {
-        expect:
-        offer.matchDate(begin.plusDays(1), end) == false    
-    }
+    @Unroll('AssertMatchDate: #_begin, #_end')
+    def 'assertConditions'() {
+    	expect:
+	offer.matchDate(_begin, _end) == false
 
-    def 'beginMinusOne'() {
-        expect:
-        offer.matchDate(begin.minusDays(1), end) == false
-    }
-
-    def 'endPlusOne'() {
-        expect:
-        offer.matchDate(begin, end.plusDays(1)) == false    
-    }
-
-    def 'endMinusOne'() {
-        expect:
-        offer.matchDate(begin, end.minusDays(1)) == false
+	where:
+	_begin             | _end
+	begin.plusDays(1)  | end
+	begin.minusDays(1) | end
+	begin              | end.plusDays(1)
+	begin              | end.minusDays(1)
     }
 }
