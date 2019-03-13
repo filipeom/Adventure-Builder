@@ -31,6 +31,8 @@ To see the coverage reports, go to <module name>/target/site/jacoco/index.html.
     - ActivityProviderConstructorMethodTest  -Issue #7
     - ActivityProviderFindOfferMethodTest    -Issue #8
     - BookingConstructorMethodTest           -Issue #9
+  + **Broker Module:**
+     - AdventureConstructorMethodTest        -Issue #25
 
 * **Hussein Giva, 86434, HusseinGiva:**
   + **Activity Module:**
