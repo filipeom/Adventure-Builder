@@ -1,11 +1,13 @@
-package pt.ulisboa.tecnico.softeng.hotel.domain;
+package pt.ulisboa.tecnico.softeng.hotel.domain
 
-import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
+import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException
+
+import spock.lang.Unroll
 
 class HotelSetPriceMethodSpockTest extends SpockRollbackTestAbstractClass {
 
   def hotel;
-  def price = 25.0;
+  def price = 25.0
 
   @Override
 	def populate4Test() {
@@ -14,34 +16,32 @@ class HotelSetPriceMethodSpockTest extends SpockRollbackTestAbstractClass {
 
   def 'success Single'(){
     given:
-    this.hotel.setPrice(Room.Type.SINGLE, this.price)
+      this.hotel.setPrice(Room.Type.SINGLE, this.price)
 
     expect:
-    this.price == this.hotel.getPrice(Room.Type.SINGLE)
+      this.price == this.hotel.getPrice(Room.Type.SINGLE)
   }
 
   def 'success Double'(){
     given:
-    this.hotel.setPrice(Room.Type.DOUBLE, this.price)
+      this.hotel.setPrice(Room.Type.DOUBLE, this.price)
 
     expect:
-    this.price == this.hotel.getPrice(Room.Type.DOUBLE)
+      this.price == this.hotel.getPrice(Room.Type.DOUBLE)
   }
 
-  def 'negative Price Single'(){
+  @Unroll
+  def 'negative Price'(){
     when:
-    this.hotel.setPrice(Room.Type.SINGLE, -1.0)
+      this.hotel.setPrice(type, price)
 
     then:
-    thrown(HotelException)
-  }
+      thrown(HotelException)
 
-  def 'negative Price Double'(){
-    when:
-    this.hotel.setPrice(Room.Type.DOUBLE, -1.0)
-
-    then:
-    thrown(HotelException)
+    where:
+      type             | price
+      Room.Type.SINGLE | -1.0
+      Room.Type.DOUBLE | -1.0
   }
 
 }
