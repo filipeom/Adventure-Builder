@@ -46,46 +46,25 @@ class ActivityProviderConstructorSpockMethodTest extends SpockRollbackTestAbstra
         PROVIDER_CODE | PROVIDER_NAME | "   " | IBAN
     }
     
-    def 'noteUniqueCode'() {
-        given:
+    @Unroll('ActivityProvider: #prov_code, #prov_name, #nif, #iban')
+    def 'ActivityExceptions'() {
+    	given:
         new ActivityProvider(PROVIDER_CODE, PROVIDER_NAME, NIF, IBAN)
 
-        when:
-        new ActivityProvider(PROVIDER_CODE, "Hello", NIF + "2", IBAN)
+	when:
+	new ActivityProvider(prov_code, prov_name, nif, iban)
 
-        then:
-        thrown(ActivityException)
+	then:
+	thrown(ActivityException)
 
-        and:
+	and:
         FenixFramework.getDomainRoot().getActivityProviderSet().size() == 1
-    }
 
-    def 'noteUniqueName'() {
-        given:
-        new ActivityProvider(PROVIDER_CODE, PROVIDER_NAME, NIF, IBAN)
-
-        when:
-        new ActivityProvider("12456", PROVIDER_NAME, NIF + "2", IBAN)
-
-        then:
-        thrown(ActivityException)
-
-        and:
-        FenixFramework.getDomainRoot().getActivityProviderSet().size() == 1
-    }
-
-    def 'noteUniqueNIF'() {
-        given:
-        new ActivityProvider(PROVIDER_CODE, PROVIDER_NAME, NIF, IBAN)
-
-        when:
-        new ActivityProvider("123456", "jdgdsk", NIF, IBAN)
-
-        then:
-        thrown(ActivityException)
-
-        and:
-        FenixFramework.getDomainRoot().getActivityProviderSet().size() == 1
+	where:
+	prov_code     | prov_name     | nif       | iban
+	PROVIDER_CODE | "Hello"       | NIF + "2" | IBAN 
+	"123456"      | PROVIDER_NAME | NIF + "2" | IBAN
+	"123456"      | "jdgdsk"      | NIF       | IBAN
     }
     
 } 
