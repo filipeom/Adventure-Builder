@@ -45,7 +45,8 @@ class ClientConstructorMethodSpockTest extends SpockRollbackTestAbstractClass {
 
     where:
 	    broker      | iban        | nif        | drivingLicense  | age
-	    null        | CLIENT_IBAN | CLIENT_NIF | DRIVING_LICENSE | AGE    this.broker | null        | CLIENT_NIF | DRIVING_LICENSE | AGE
+	    null        | CLIENT_IBAN | CLIENT_NIF | DRIVING_LICENSE | AGE    
+	    this.broker | null        | CLIENT_NIF | DRIVING_LICENSE | AGE
 	    this.broker | ""          | CLIENT_NIF | DRIVING_LICENSE | AGE
 	    this.broker | CLIENT_IBAN | null       | DRIVING_LICENSE | AGE
 	    this.broker | CLIENT_IBAN | ""         | DRIVING_LICENSE | AGE
