@@ -27,6 +27,7 @@ class ActivityOfferMatchDateSpockMethodTest extends SpockRollbackTestAbstractCla
     def 'nullBeginDate'() {
         when:
         offer.matchDate(null, end)
+
         then:
         thrown(ActivityException)
     }
@@ -34,6 +35,7 @@ class ActivityOfferMatchDateSpockMethodTest extends SpockRollbackTestAbstractCla
     def 'nullEndDate'() {
         when:
         offer.matchDate(begin, null)
+        
         then:
         thrown(ActivityException)
     }
