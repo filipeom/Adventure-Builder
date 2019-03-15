@@ -21,24 +21,28 @@ class RoomReserveMethodSpockTest extends SpockRollbackTestAbstractClass {
   @Override
   def populate4Test() {
     def hotel = new Hotel("XPTO123", "Lisboa", HOTEL_NIF, "IBAN", 20.0, 30.0)
-    this.room = new Room(hotel, "01", Type.SINGLE)
+    room = new Room(hotel, "01", Type.SINGLE)
   }
 
   def "success"() {
     when:
-    def booking = this.room.reserve(Type.SINGLE, ARRIVAL, DEPARTURE, BUYER_NIF, IBAN_BUYER)
+    def booking = room.reserve(Type.SINGLE, ARRIVAL, DEPARTURE, BUYER_NIF, IBAN_BUYER)
 
     then:
-    this.room.getBookingSet().size() == 1
-    booking.getReference().length() > 0
-    booking.getArrival() == ARRIVAL
-    booking.getDeparture() == DEPARTURE
+    with(room) {
+      getBookingSet().size() == 1
+    }
+    with(booking) {
+      getReference().length() > 0
+      getArrival() == ARRIVAL
+      getDeparture() == DEPARTURE
+    }
   }
 
   @Unroll("Reserve: #type, #arr, #dep")
   def "exceptions"() {
     when: 
-    this.room.reserve(type, arr, dep, BUYER_NIF, IBAN_BUYER)
+    room.reserve(type, arr, dep, BUYER_NIF, IBAN_BUYER)
 
     then: 
     thrown(HotelException)
@@ -53,15 +57,15 @@ class RoomReserveMethodSpockTest extends SpockRollbackTestAbstractClass {
 
   def "all conflict"() {
     given: 
-    this.room.reserve(Type.SINGLE, ARRIVAL, DEPARTURE, BUYER_NIF, IBAN_BUYER)
+    room.reserve(Type.SINGLE, ARRIVAL, DEPARTURE, BUYER_NIF, IBAN_BUYER)
 
     when: 
-    this.room.reserve(Type.SINGLE, ARRIVAL, DEPARTURE, BUYER_NIF, IBAN_BUYER)
+    room.reserve(Type.SINGLE, ARRIVAL, DEPARTURE, BUYER_NIF, IBAN_BUYER)
 
     then: 
     thrown(HotelException)
 
     and: 
-    this.room.getBookingSet().size() == 1
+    room.getBookingSet().size() == 1
   }
 }
