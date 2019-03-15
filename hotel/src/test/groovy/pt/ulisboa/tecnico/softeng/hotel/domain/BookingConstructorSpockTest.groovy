@@ -21,10 +21,10 @@ class BookingConstructorSpockTest extends SpockRollbackTestAbstractClass {
 	}
 
   def 'success'(){
-    given:
+    when:
       def booking = new Booking(this.room, ARRIVAL, DEPARTURE, NIF_BUYER, IBAN_BUYER)
 
-    expect:
+    then:
       booking.getReference().startsWith(this.room.getHotel().getCode()) == true
       booking.getReference().length() > Hotel.CODE_SIZE
       booking.getArrival() == ARRIVAL
@@ -49,11 +49,11 @@ class BookingConstructorSpockTest extends SpockRollbackTestAbstractClass {
   }
 
   def 'arrival Equal Departure'(){
-    given:
+    when:
       def booking = new Booking(this.room, ARRIVAL, ARRIVAL, NIF_BUYER, IBAN_BUYER)
 
-    expect:
+    then:
       booking.getArrival() == booking.getDeparture()
   }
-  
+
 }
