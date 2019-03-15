@@ -21,10 +21,10 @@ class HotelConstructorSpockTest extends SpockRollbackTestAbstractClass {
 	def populate4Test() {}
 
   def 'success'() {
-    given:
+    when:
       def hotel =  new Hotel(HOTEL_CODE, HOTEL_NAME, NIF, IBAN, PRICE_SINGLE, PRICE_DOUBLE)
 
-    expect:
+    then:
       hotel.getName() == HOTEL_NAME
       hotel.getCode().length() == Hotel.CODE_SIZE
       hotel.getRoomSet().size() == 0

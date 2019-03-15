@@ -1,6 +1,5 @@
 package pt.ulisboa.tecnico.softeng.activity.domain
 
-
 class ActivityMatchAgeSpockMethodTest extends SpockRollbackTestAbstractClass {
     def MIN_AGE = 25
     def MAX_AGE = 80

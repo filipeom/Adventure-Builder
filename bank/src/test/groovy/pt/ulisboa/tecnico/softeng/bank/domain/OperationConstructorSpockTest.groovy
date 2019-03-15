@@ -19,7 +19,7 @@ class OperationConstructorSpockTest extends SpockRollbackTestAbstractClass{
 
   def "success"(){
     when:
-    def operation = new Operation(Type.DEPOSIT, this.account, 1000)
+    def operation = new Operation(Type.DEPOSIT, account, 1000)
 
     then:
     operation.getReference().startsWith(bank.getCode()) == true
