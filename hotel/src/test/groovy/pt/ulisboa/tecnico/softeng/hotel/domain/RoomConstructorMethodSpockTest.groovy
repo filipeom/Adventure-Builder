@@ -2,56 +2,61 @@ package pt.ulisboa.tecnico.softeng.hotel.domain
 
 import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type
 import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException
+import spock.lang.Shared
 import spock.lang.Unroll
 
 class RoomConstructorMethodSpockTest extends SpockRollbackTestAbstractClass {
-  def hotel;
+  @Shared def hotel;
 
   @Override
   def populate4Test() {
-    this.hotel = new Hotel("XPTO123", "Lisboa", "NIF", "IBAN", 20.0, 30.0)
+    hotel = new Hotel("XPTO123", "Lisboa", "NIF", "IBAN", 20.0, 30.0)
   }
 
   def "success"() {
     when:
-    def room = new Room(this.hotel, "01", Type.DOUBLE)
+    def room = new Room(hotel, "01", Type.DOUBLE)
 
     then:
-    room.getHotel()  == this.hotel
-    room.getNumber() == "01"
-    room.getType()   == Type.DOUBLE
-    this.hotel.getRoomSet().size() == 1
+    with(room) {
+      getHotel()  == hotel
+      getNumber() == "01"
+      getType()   == Type.DOUBLE
+    }
+    with(hotel) {
+      getRoomSet().size() == 1
+    }
   }
 
-  @Unroll("Room: #hotel, #room, #type")
+  @Unroll("Room: #hot, #room, #type")
   def "exceptions"() {
     when: 
-    new Room(hotel, room, type)
+    new Room(hot, room, type)
 
     then: 
     thrown(HotelException)
 
     where:
-    hotel      | room | type
-    null       | "01" | Type.DOUBLE
-    this.hotel | null | Type.DOUBLE
-    this.hotel | ""   | Type.DOUBLE
-    this.hotel |"    "| Type.DOUBLE
-    this.hotel |"JOSE"| Type.DOUBLE
-    this.hotel | "01" | null
+    hot   | room | type
+    null  | "01" | Type.DOUBLE
+    hotel | null | Type.DOUBLE
+    hotel | ""   | Type.DOUBLE
+    hotel |"    "| Type.DOUBLE
+    hotel |"JOSE"| Type.DOUBLE
+    hotel | "01" | null
   }
 
   def "non unique room number"() {
     given: 
-    new Room(this.hotel, "01", Type.SINGLE)
+    new Room(hotel, "01", Type.SINGLE)
 
     when: 
-    new Room(this.hotel, "01", Type.DOUBLE)
+    new Room(hotel, "01", Type.DOUBLE)
 
     then: 
     thrown(HotelException)
 
     and:
-    this.hotel.getRoomSet().size() == 1
+    hotel.getRoomSet().size() == 1
   }
 }
