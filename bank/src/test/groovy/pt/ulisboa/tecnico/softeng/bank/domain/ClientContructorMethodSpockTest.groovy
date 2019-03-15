@@ -7,37 +7,39 @@ import spock.lang.Unroll
 class ClientContructorMethodSpockTest extends SpockRollbackTestAbstractClass {
 
 	@Shared def CLIENT_NAME = "António"
-	def bank
+	@Shared def bank
 
 	@Override
 	def populate4Test() {
-		this.bank = new Bank("Money", "BK01")
+		bank = new Bank("Money", "BK01")
 	}
 
 	def "success"() {
 		when:
-		def client = new Client(this.bank, CLIENT_NAME)
+		def client = new Client(bank, CLIENT_NAME)
 
 		then:
-		client.getName() == CLIENT_NAME
-		client.getID().length() >= 1
-		this.bank.getClientSet().contains(client)
+		with (client) {
+			getName() == CLIENT_NAME
+			getID().length() >= 1
+			bank.getClientSet().contains(client)
+		}
 	}
 
-	@Unroll("Client: #banco, #nome")
+	@Unroll("Client: #bank_new, #client")
 	def "exceptions"() {
-		when: "creating a Client with invalid arguments"
-		new Client(banco, nome)
+		when:
+		new Client(bank_new, client)
 
-		then: "throws an exception"
+		then:
 		thrown(BankException)
 
 		where:
-		banco      | nome
-		null       | CLIENT_NAME
-		this.bank  | null
-		this.bank  | "    "
-		this.bank  | ""
+		bank_new | client
+		null     | CLIENT_NAME
+		bank     | null
+		bank     | "    "
+		bank     | ""
 	}
 
 }
