@@ -1,8 +1,11 @@
 package pt.ulisboa.tecnico.softeng.activity.domain
 
+import spock.lang.Shared
+import spock.lang.Unroll
+
 class ActivityMatchAgeSpockMethodTest extends SpockRollbackTestAbstractClass {
-    def MIN_AGE = 25
-    def MAX_AGE = 80
+    @Shared def MIN_AGE = 25
+    @Shared def MAX_AGE = 80
     def CAPACITY = 30
     def activity
     
@@ -12,29 +15,17 @@ class ActivityMatchAgeSpockMethodTest extends SpockRollbackTestAbstractClass {
         activity = new Activity(provider, "Bush Walking", MIN_AGE, MAX_AGE, CAPACITY)
     }
 
-    def 'success'() {
-        expect:
-        activity.matchAge((MAX_AGE - MIN_AGE).intdiv(2)) == true
-    }
+    @Unroll('matchAge; #age || #res')
+    def 'matchAge'() {
+    	expect:
+	activity.matchAge(age) == res
 
-    def 'successEqualMinAge'() {
-        expect:
-        activity.matchAge(MIN_AGE) == true
+	where:
+	age 			      || res
+	(MAX_AGE - MIN_AGE).intdiv(2) || true
+	MIN_AGE                       || true
+	MIN_AGE - 1                   || false
+	MAX_AGE                       || true
+	MAX_AGE + 1                   || false
     }
-
-    def 'lessThanMinAge'() {
-        expect:
-        activity.matchAge(MIN_AGE - 1) == false
-    }
-
-    def 'successEqualMaxAge'() {
-        expect:
-        activity.matchAge(MAX_AGE) == true
-    }
-
-    def 'greaterThanMaxAge'() {
-        expect:
-        activity.matchAge(MAX_AGE + 1) == false
-    }
-
 }
