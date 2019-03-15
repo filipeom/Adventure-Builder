@@ -62,4 +62,5 @@ class BankConstructorSpockTest extends SpockRollbackTestAbstractClass {
 		and:
 		FenixFramework.getDomainRoot().getBankSet().size() == 1
 	}
+
 }
