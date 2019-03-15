@@ -27,13 +27,15 @@ class ActivityConstructorSpockMethodTest extends SpockRollbackTestAbstractClass 
         def activity = new Activity(provider, PROVIDER_NAME, min_age, max_age, capacity)    
 
 	then:
-        activity.getCode().startsWith(provider.getCode()) == true
-        activity.getCode().length() > ActivityProvider.CODE_SIZE == true
-        activity.getName() == "Bush Walking"
-        activity.getMinAge() == min_age
-        activity.getMaxAge() == max_age
-        activity.getCapacity() == capacity
-        activity.getActivityOfferSet().size() == 0
+	with(activity) {
+       	 getCode().startsWith(provider.getCode()) == true
+       	 getCode().length() > ActivityProvider.CODE_SIZE == true
+         getName() == "Bush Walking"
+         getMinAge() == min_age
+         getMaxAge() == max_age
+         getCapacity() == capacity
+         getActivityOfferSet().size() == 0
+	}
         provider.getActivitySet().size() == 1
 
 	where:
