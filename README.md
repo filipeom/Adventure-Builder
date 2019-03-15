@@ -83,7 +83,17 @@ To see the coverage reports, go to <module name>/target/site/jacoco/index.html.
 
 * **Tomás Zaki, 79690, Zakovich:**
   + **Tax:**
-
+    - Migrate IRSCancelInvoiceMethodTest -Issue #54
+    - Migrate TaxPersistenceTest -Issue #53
+    - Migrate TaxPayerGetTaxesPerYearMethodsTest - Issue #52
+    - Migrate TaxPayerGetInvoiceByReferenceTest - Issue #51
+    - Migrate TaxInterfaceSubmitInvoiceTest - Issue #50
+    - Migrate SellerToPayTest - Issue #49
+    - Migrate SellerConstructorTest -Issue #48
+    - Migrate RollbackTestAbstractClass  - Issue #47
+    - Migrate ItemTypeConstructorTest - Issue #46
+  + **Bank:**
+    - Migrate OperationConstructorMethodTest - Issue #18
 ### Infrastructure
 
 This project includes the persistent layer, as offered by the FénixFramework.
