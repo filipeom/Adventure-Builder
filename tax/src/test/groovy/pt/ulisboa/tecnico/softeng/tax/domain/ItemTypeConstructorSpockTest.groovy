@@ -12,14 +12,14 @@ class ItemTypeConstructorSpockTest extends SpockRollbackTestAbstractClass {
 
   @Override
   def populate4Test() {
-    this.irs = IRS.getIRSInstance()
+    irs = IRS.getIRSInstance()
   }
 
   def 'success'() {
-    when:
-    def itemType = new ItemType(this.irs, CAR, TAX)
+    given:
+    def itemType = new ItemType(irs, CAR, TAX)
 
-    then:
+    expect:
     itemType.getName() == CAR
     itemType.getTax() == TAX
     IRS.getIRSInstance().getItemTypeByName(CAR) != null
@@ -28,10 +28,10 @@ class ItemTypeConstructorSpockTest extends SpockRollbackTestAbstractClass {
 
   def 'uniqueName'(){
     given:
-    def itemType = new ItemType(this.irs, CAR, TAX)
+    def itemType = new ItemType(irs, CAR, TAX)
 
     when:
-    def itemType2 = new ItemType(this.irs, CAR, TAX)
+    def itemType2 = new ItemType(irs, CAR, TAX)
 
     then:
     thrown(TaxException)
@@ -42,7 +42,7 @@ class ItemTypeConstructorSpockTest extends SpockRollbackTestAbstractClass {
 
   def "zeroTax"(){
     when:
-    def itemType = new ItemType(this.irs, CAR, 0)
+    def itemType = new ItemType(irs, CAR, 0)
 
     then:
     itemType.getTax() == 0
@@ -51,7 +51,7 @@ class ItemTypeConstructorSpockTest extends SpockRollbackTestAbstractClass {
   @Unroll("ItemType: #name, #tax")
   def 'exceptions'(){
     when:
-    new ItemType(this.irs, name, tax)
+    new ItemType(irs, name, tax)
 
     then:
     thrown(TaxException)
