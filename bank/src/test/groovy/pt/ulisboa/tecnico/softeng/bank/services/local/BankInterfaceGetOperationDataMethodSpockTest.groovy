@@ -17,27 +17,29 @@ class BankInterfaceGetOperationDataMethodSpockTest extends SpockRollbackTestAbst
 
 	@Override
 	def populate4Test() {
-		this.bank = new Bank("Money", "BK01")
-		def client = new Client(this.bank, "António")
-		this.account = new Account(this.bank, client)
-		this.reference = this.account.deposit(AMOUNT).getReference()
+		bank = new Bank("Money", "BK01")
+		def client = new Client(bank, "António")
+		account = new Account(bank, client)
+		reference = account.deposit(AMOUNT).getReference()
 	}
 
 	def "success"() {
 		when:
-		def data = BankInterface.getOperationData(this.reference)
+		def data = BankInterface.getOperationData(reference)
 
 		then:
-		data.getReference() == this.reference
-		data.getIban() == this.account.getIBAN()
-		data.getType() == Type.DEPOSIT.name()
-		data.getValue() == AMOUNT
-		data.getTime() != null
+		with (data) {
+			getReference() == reference
+			getIban() == account.getIBAN()
+			getType() == Type.DEPOSIT.name()
+			getValue() == AMOUNT
+			getTime() != null
+		}
 	}
 
 	@Unroll("Get Operation Data: #ref")
 	def "exceptions"() {
-		when: "getting an Operation's data with invalid reference"
+		when:
 		BankInterface.getOperationData(ref)
 
 		then:
