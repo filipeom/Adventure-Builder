@@ -41,6 +41,7 @@ class BankGetAccountMethodSpockTest extends SpockRollbackTestAbstractClass {
 	}
 
 	def "emptySetOfAccounts"() {
+		expect:
 		this.bank.getAccount("XPTO") == null
 	}
 
