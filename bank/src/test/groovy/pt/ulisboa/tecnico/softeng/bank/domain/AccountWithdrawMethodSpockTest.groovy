@@ -63,4 +63,5 @@ class AccountWithdrawMethodSpockTest extends SpockRollbackTestAbstractClass {
 		99     | 1
 		100    | 0
 	}
+
 }
