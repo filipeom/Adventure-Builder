@@ -16,19 +16,19 @@ class HotelGetPriceMethodSpockTest extends SpockRollbackTestAbstractClass {
 
   def 'successSingle'() {
     expect:
-    this.hotel.getPrice(Room.Type.SINGLE) == priceSingle
+      this.hotel.getPrice(Room.Type.SINGLE) == priceSingle
   }
 
   def 'successDouble'() {
     expect:
-    this.hotel.getPrice(Room.Type.DOUBLE) == priceDouble
+      this.hotel.getPrice(Room.Type.DOUBLE) == priceDouble
   }
 
   def 'null Type'() {
     when:
-    this.hotel.getPrice(null)
+      this.hotel.getPrice(null)
 
     then:
-    thrown(HotelException)
+      thrown(HotelException)
   }
 }
