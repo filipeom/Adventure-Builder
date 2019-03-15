@@ -25,11 +25,13 @@ class BookingConstructorSpockTest extends SpockRollbackTestAbstractClass {
       def booking = new Booking(this.room, ARRIVAL, DEPARTURE, NIF_BUYER, IBAN_BUYER)
 
     then:
-      booking.getReference().startsWith(this.room.getHotel().getCode()) == true
-      booking.getReference().length() > Hotel.CODE_SIZE
-      booking.getArrival() == ARRIVAL
-      booking.getDeparture() == DEPARTURE
-      booking.getPrice() == ROOM_PRICE * 2
+    with(booking) {
+      getReference().startsWith(this.room.getHotel().getCode()) == true
+      getReference().length() > Hotel.CODE_SIZE
+      getArrival() == ARRIVAL
+      getDeparture() == DEPARTURE
+      getPrice() == ROOM_PRICE * 2
+      }
     }
 
   @Unroll
