@@ -29,51 +29,51 @@ class HotelInterfaceReserveRoomMethodSpockTest extends SpockRollbackTestAbstract
   }
 
   def "success"() {
-    given: "a booking"
+    given: 
     def bookingData = new RestRoomBookingData("SINGLE", ARRIVAL, DEPARTURE, NIF_BUYER, IBAN_BUYER, ADVENTURE_ID)
 
-    when: "reserving a room"
+    when: 
     bookingData = HotelInterface.reserveRoom(bookingData)
 
-    then: "it should succeed: get a reference"
+    then:
     bookingData.getReference() != null
     bookingData.getReference().startsWith("XPTO123") 
   }
 
   def "no hotels"() {
-    given: "delete all hotels"
+    given: 
     FenixFramework.getDomainRoot().getHotelSet().stream().forEach({ h -> h.delete() })
 
-    when: "creating a new booking"
+    when: 
     def bookingData = new RestRoomBookingData("SINGLE", ARRIVAL, DEPARTURE, NIF_BUYER, IBAN_BUYER, ADVENTURE_ID)
     HotelInterface.reserveRoom(bookingData)
 
-    then: "throws an exception"
+    then:
     thrown(HotelException)
   }
 
   def "no vacancy"() {
-    given: "book a reservation"
+    given:
     def bookingData = new RestRoomBookingData("SINGLE", ARRIVAL, DATE, NIF_BUYER, IBAN_BUYER, ADVENTURE_ID)
     HotelInterface.reserveRoom(bookingData)
 
-    when: "booking a new reservation"
+    when:
     bookingData = new RestRoomBookingData("SINGLE", ARRIVAL, DATE, NIF_BUYER, IBAN_BUYER, ADVENTURE_ID + "1")
     HotelInterface.reserveRoom(bookingData)
 
-    then: "throws an exception"
+    then: 
     thrown(HotelException)
   }
 
   def "no rooms"() {
-    given: "delete rooms"
+    given: 
     this.hotel.getRoomSet().stream().forEach({ r -> r.delete() })
 
-    when: "making a reservation"
+    when: 
     def bookingData = new RestRoomBookingData("SINGLE", ARRIVAL, DATE, NIF_BUYER, IBAN_BUYER, ADVENTURE_ID)
     HotelInterface.reserveRoom(bookingData)
 
-    then: "throws an exception"
+    then:
     thrown(HotelException)
   }
 }
