@@ -19,27 +19,27 @@ class RoomGetBookingMethodSpockTest extends SpockRollbackTestAbstractClass {
 
   @Override
   def populate4Test() {
-    this.hotel = new Hotel("XPTO123", "Lisboa", "NIF", "IBAN", 20.0, 30.0)
-    this.room = new Room(this.hotel, "01", Type.SINGLE)
-    this.booking = this.room.reserve(Type.SINGLE, this.arrival, this.departure, this.BUYER_NIF, this.BUYER_IBAN)
+    hotel = new Hotel("XPTO123", "Lisboa", "NIF", "IBAN", 20.0, 30.0)
+    room = new Room(hotel, "01", Type.SINGLE)
+    booking = room.reserve(Type.SINGLE, arrival, departure, BUYER_NIF, BUYER_IBAN)
   }
 
 
   def "success"() {
     expect:
-    this.booking == this.room.getBooking(this.booking.getReference())
+    booking == room.getBooking(booking.getReference())
   }
 
   def "success cancelled"() {
     when:
-    this.booking.cancel()
+    booking.cancel()
 
     then:
-    this.booking == this.room.getBooking(this.booking.getCancellation())
+    booking == room.getBooking(booking.getCancellation())
   }
 
   def "does not exist"() {
     expect:
-    this.room.getBooking("XPTO") == null
+    room.getBooking("XPTO") == null
   }
 }
