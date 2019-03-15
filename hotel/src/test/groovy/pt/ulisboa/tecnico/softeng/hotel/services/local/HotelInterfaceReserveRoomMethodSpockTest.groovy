@@ -24,8 +24,8 @@ class HotelInterfaceReserveRoomMethodSpockTest extends SpockRollbackTestAbstract
 
   @Override
   def populate4Test() {
-    this.hotel = new Hotel("XPTO123", "Lisboa", NIF_HOTEL, IBAN_BUYER, 20.0, 30.0)
-    new Room(this.hotel, "01", Room.Type.SINGLE)
+    hotel = new Hotel("XPTO123", "Lisboa", NIF_HOTEL, IBAN_BUYER, 20.0, 30.0)
+    new Room(hotel, "01", Room.Type.SINGLE)
   }
 
   def "success"() {
@@ -36,8 +36,10 @@ class HotelInterfaceReserveRoomMethodSpockTest extends SpockRollbackTestAbstract
     bookingData = HotelInterface.reserveRoom(bookingData)
 
     then:
-    bookingData.getReference() != null
-    bookingData.getReference().startsWith("XPTO123") 
+    with(bookingData) {
+      getReference() != null
+      getReference().startsWith("XPTO123")
+    }
   }
 
   def "no hotels"() {
@@ -67,7 +69,7 @@ class HotelInterfaceReserveRoomMethodSpockTest extends SpockRollbackTestAbstract
 
   def "no rooms"() {
     given: 
-    this.hotel.getRoomSet().stream().forEach({ r -> r.delete() })
+    hotel.getRoomSet().stream().forEach({ r -> r.delete() })
 
     when: 
     def bookingData = new RestRoomBookingData("SINGLE", ARRIVAL, DATE, NIF_BUYER, IBAN_BUYER, ADVENTURE_ID)
