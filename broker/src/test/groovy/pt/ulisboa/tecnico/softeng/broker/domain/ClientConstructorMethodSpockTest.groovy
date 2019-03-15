@@ -30,9 +30,11 @@ class ClientConstructorMethodSpockTest extends SpockRollbackTestAbstractClass {
       def client = new Client(this.broker, CLIENT_IBAN, CLIENT_NIF, DRIVING_LICENSE, AGE)
 
     then:
-      assert CLIENT_IBAN == client.getIban()
-      assert CLIENT_NIF == client.getNif()
-      assert AGE == client.getAge()
+    with(client) {
+      getIban() == CLIENT_IBAN
+      getNif() == CLIENT_NIF
+      getAge() == AGE
+    }
   }
 
   @Unroll
@@ -45,7 +47,7 @@ class ClientConstructorMethodSpockTest extends SpockRollbackTestAbstractClass {
 
     where:
 	    broker      | iban        | nif        | drivingLicense  | age
-	    null        | CLIENT_IBAN | CLIENT_NIF | DRIVING_LICENSE | AGE    
+	    null        | CLIENT_IBAN | CLIENT_NIF | DRIVING_LICENSE | AGE
 	    this.broker | null        | CLIENT_NIF | DRIVING_LICENSE | AGE
 	    this.broker | ""          | CLIENT_NIF | DRIVING_LICENSE | AGE
 	    this.broker | CLIENT_IBAN | null       | DRIVING_LICENSE | AGE
