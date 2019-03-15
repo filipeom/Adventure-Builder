@@ -7,38 +7,48 @@ class OperationRevertMethodSpockTest extends SpockRollbackTestAbstractClass {
 
 	@Override
 	def populate4Test() {
-		this.bank = new Bank("Money", "BK01")
-		def client = new Client(this.bank, "António")
-		this.account = new Account(this.bank, client)
+		bank = new Bank("Money", "BK01")
+		def client = new Client(bank, "António")
+		account = new Account(bank, client)
 	}
 
 	def "revertDeposit"() {
 		given:
-		def reference = this.account.deposit(100).getReference()
-		def operation = this.bank.getOperation(reference)
+		def reference = account.deposit(100).getReference()
+		def operation = bank.getOperation(reference)
 
 		when:
 		def newReference = operation.revert()
 
 		then:
-		this.account.getBalance() == 0
-		this.bank.getOperation(newReference) != null
-		this.bank.getOperation(reference) != null
+		with (account) {
+			getBalance() == 0
+		}
+
+		with (bank) {
+			getOperation(newReference) != null
+			getOperation(reference) != null
+		}
 	}
 
 	def "revertWithdraw"() {
 		given:
-		this.account.deposit(1000)
-		def reference = this.account.withdraw(100).getReference()
-		def operation = this.bank.getOperation(reference)
+		account.deposit(1000)
+		def reference = account.withdraw(100).getReference()
+		def operation = bank.getOperation(reference)
 
 		when:
 		def newReference = operation.revert()
 
 		then:
-		this.account.getBalance() == 1000
-		this.bank.getOperation(newReference) != null
-		this.bank.getOperation(reference) != null
+		with (account) {
+			getBalance() == 1000
+		}
+
+		with (bank) {
+			getOperation(newReference) != null
+			getOperation(reference) != null
+		}
 	}
 
 }
