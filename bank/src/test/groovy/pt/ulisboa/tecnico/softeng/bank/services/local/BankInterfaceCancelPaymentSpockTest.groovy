@@ -15,23 +15,25 @@ class BankInterfaceCancelPaymentSpockTest extends SpockRollbackTestAbstractClass
 
 	@Override
 	def populate4Test() {
-		this.bank = new Bank("Money", "BK01")
-		def client = new Client(this.bank, "António")
-		this.account = new Account(this.bank, client)
-		this.reference = this.account.deposit(100).getReference()
+		bank = new Bank("Money", "BK01")
+		def client = new Client(bank, "António")
+		account = new Account(bank, client)
+		reference = account.deposit(100).getReference()
 	}
 
 	def "success"() {
-		given:
-		def newReference = BankInterface.cancelPayment(this.reference)
+		when:
+		def newReference = BankInterface.cancelPayment(reference)
 
-		expect:
-		this.bank.getOperation(newReference) != null
+		then:
+		with (bank) {
+			getOperation(newReference) != null
+		}
 	}
 
 	@Unroll("Cancel Payment: #confirmation")
 	def "exceptions"() {
-		when: "cancelling a Payment with invalid reference"
+		when:
 		BankInterface.cancelPayment(confirmation)
 
 		then:
