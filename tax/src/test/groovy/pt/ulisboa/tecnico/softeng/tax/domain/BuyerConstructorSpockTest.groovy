@@ -15,27 +15,28 @@ class BuyerConstructorSpockTest extends SpockRollbackTestAbstractClass {
 
   @Override
   def populate4Test() {
-    this.irs = IRS.getIRSInstance()
+    irs = IRS.getIRSInstance()
   }
 
   def "success"() {
     when: 
-    def buyer = new Buyer(this.irs, NIF, NAME, ADDRESS)
+    def buyer = new Buyer(irs, NIF, NAME, ADDRESS)
 
     then: 
-    buyer.getNif()     == NIF
-    buyer.getName()    == NAME
-    buyer.getAddress() == ADDRESS
-
+    with(buyer) {
+      getNif() == NIF
+      getName() == NAME
+      getAddress() == ADDRESS
+    }
     buyer == IRS.getIRSInstance().getTaxPayerByNIF(NIF)
   }
 
   def "unique nif"() {
     given: 
-    def seller = new Buyer(this.irs, NIF, NAME, ADDRESS)
+    def seller = new Buyer(irs, NIF, NAME, ADDRESS)
 
     when: 
-    new Buyer(this.irs, NIF, NAME, ADDRESS)
+    new Buyer(irs, NIF, NAME, ADDRESS)
 
     then:
     thrown(TaxException)
@@ -47,7 +48,7 @@ class BuyerConstructorSpockTest extends SpockRollbackTestAbstractClass {
   @Unroll("Buyer: #nif, #name, #address")
   def "exceptions"() {
     when: 
-    new Buyer(this.irs, nif, name, address)
+    new Buyer(irs, nif, name, address)
 
     then:
     thrown(TaxException)
