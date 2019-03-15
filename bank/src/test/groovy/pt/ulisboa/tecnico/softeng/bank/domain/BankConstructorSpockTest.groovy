@@ -19,19 +19,24 @@ class BankConstructorSpockTest extends SpockRollbackTestAbstractClass {
 		def bank = new Bank(BANK_NAME, BANK_CODE)
 
 		then:
-		bank.getName() == BANK_NAME
-		bank.getCode() == BANK_CODE
-		FenixFramework.getDomainRoot().getBankSet().size() == 1
-		bank.getAccountSet().size() == 0
-		bank.getClientSet().size() == 0
+		with (bank) {
+			getName() == BANK_NAME
+			getCode() == BANK_CODE
+			getAccountSet().size() == 0
+			getClientSet().size() == 0
+		}
+
+		with (FenixFramework) {
+			getDomainRoot().getBankSet().size() == 1
+		}
 	}
 
 	@Unroll("Bank: #name, #code")
 	def "exceptions"() {
-		when: "creating a new Bank with invalid arguments"
+		when:
 		new Bank(name, code)
 
-		then: "throws an exception"
+		then:
 		thrown(BankException)
 
 		where:
