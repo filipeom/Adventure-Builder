@@ -7,42 +7,50 @@ import spock.lang.Shared
 class AccountContructorMethodSpockTest extends SpockRollbackTestAbstractClass {
 
 	@Shared def allien
-	def bank
-	def client
+	@Shared def bank
+	@Shared def client
 
 	@Override
 	def populate4Test() {
-		this.bank = new Bank("Money", "BK01")
-		this.client = new Client(this.bank, "António")
+		bank = new Bank("Money", "BK01")
+		client = new Client(bank, "António")
 	}
 
 	def "success"() {
 		when:
-		def account = new Account(this.bank, this.client)
+		def account = new Account(bank, client)
 
 		then:
-		this.bank == account.getBank()
-		account.getIBAN().startsWith(this.bank.getCode())
-		this.client == account.getClient()
-		account.getBalance() == 0
-		this.bank.getAccountSet().size() == 1
-		this.bank.getClientSet().contains(this.client)
+		with (account) {
+			getBank() == bank
+			getIBAN().startsWith(bank.getCode())
+			getClient() == client
+			getBalance() == 0
+		}
+
+		with (bank) {
+			getAccountSet().size() == 1
+		}
+
+		with (client) {
+			bank.getClientSet().contains(client)
+		}
 	}
 
-	@Unroll("Account: #banco, #cliente")
+	@Unroll("Account: #bank_new, #client_new")
 	def "exceptions"() {
-		when: "creating an Account with invalid arguments"
-		new Account(banco, cliente)
+		when:
+		new Account(banck_new, client_new)
 		allien = new Client(new Bank("MoneyPlus", "BK02"), "António")
 
-		then: "throws an exception"
+		then:
 		thrown(BankException)
 
 		where:
-		banco      | cliente
-		null       | this.client
-		this.bank  | null
-		this.bank  | allien
+		banck_new | client_new
+		null      | client
+		bank      | null
+		bank      | allien
 	}
 
 }
