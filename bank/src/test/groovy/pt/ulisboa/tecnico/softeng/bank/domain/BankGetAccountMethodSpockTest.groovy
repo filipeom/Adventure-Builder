@@ -10,16 +10,16 @@ class BankGetAccountMethodSpockTest extends SpockRollbackTestAbstractClass {
 
 	@Override
 	def populate4Test() {
-		this.bank = new Bank("Money", "BK01")
-		this.client = new Client(this.bank, "António")
+		bank = new Bank("Money", "BK01")
+		client = new Client(bank, "António")
 	}
 
 	def "success"() {
 		given:
-		def account = new Account(this.bank, this.client)
+		def account = new Account(bank, client)
 
 		when:
-		def result = this.bank.getAccount(account.getIBAN())
+		def result = bank.getAccount(account.getIBAN())
 
 		then:
 		account == result
@@ -27,10 +27,10 @@ class BankGetAccountMethodSpockTest extends SpockRollbackTestAbstractClass {
 
 	@Unroll("Bank: #account")
 	def "exceptions"() {
-		when: "retrieving an Account with invalid name"
-		this.bank.getAccount(account)
+		when:
+		bank.getAccount(account)
 
-		then: "throws an exception"
+		then:
 		thrown(BankException)
 
 		where:
@@ -42,18 +42,18 @@ class BankGetAccountMethodSpockTest extends SpockRollbackTestAbstractClass {
 
 	def "emptySetOfAccounts"() {
 		expect:
-		this.bank.getAccount("XPTO") == null
+		bank.getAccount("XPTO") == null
 	}
 
 	def "severalAccountsDoNoMatch"() {
 		given:
-		new Account(this.bank, this.client)
+		new Account(bank, client)
 
 		when:
-		new Account(this.bank, this.client)
+		new Account(bank, client)
 
 		then:
-		this.bank.getAccount("XPTO") == null
+		bank.getAccount("XPTO") == null
 	}
 
 }
