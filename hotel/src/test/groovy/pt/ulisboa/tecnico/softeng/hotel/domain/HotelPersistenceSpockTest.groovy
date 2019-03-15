@@ -1,9 +1,9 @@
-package pt.ulisboa.tecnico.softeng.hotel.domain;
+package pt.ulisboa.tecnico.softeng.hotel.domain
 
-import org.joda.time.LocalDate;
+import org.joda.time.LocalDate
 
 import pt.ist.fenixframework.FenixFramework
-import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type;
+import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type
 
 class HotelPersistenceSpockTest extends SpockPersistenceTestAbstractClass {
   def HOTEL_NIF = "123456789"
@@ -19,7 +19,7 @@ class HotelPersistenceSpockTest extends SpockPersistenceTestAbstractClass {
 
   def 'set Up'(){
     for (def hotel : FenixFramework.getDomainRoot().getHotelSet()) {
-      hotel.delete();
+      hotel.delete()
     }
   }
 
@@ -34,8 +34,8 @@ class HotelPersistenceSpockTest extends SpockPersistenceTestAbstractClass {
   def thenAssert() {
     FenixFramework.getDomainRoot().getHotelSet().size() == 1
 
-    def hotels = new ArrayList<>(FenixFramework.getDomainRoot().getHotelSet());
-    def hotel = hotels.get(0);
+    def hotels = new ArrayList<>(FenixFramework.getDomainRoot().getHotelSet())
+    def hotel = hotels.get(0)
 
     assert HOTEL_NAME == hotel.getName()
     assert HOTEL_CODE == hotel.getCode()
@@ -49,7 +49,7 @@ class HotelPersistenceSpockTest extends SpockPersistenceTestAbstractClass {
     assert 1 == processor.getBookingSet().size()
 
     def rooms = new ArrayList<>(hotel.getRoomSet())
-    def room = rooms.get(0);
+    def room = rooms.get(0)
 
     assert ROOM_NUMBER == room.getNumber()
     assert Type.DOUBLE == room.getType()
@@ -73,7 +73,7 @@ class HotelPersistenceSpockTest extends SpockPersistenceTestAbstractClass {
   @Override
   def deleteFromDatabase() {
     for (def hotel : FenixFramework.getDomainRoot().getHotelSet()) {
-      hotel.delete();
+      hotel.delete()
     }
   }
 
