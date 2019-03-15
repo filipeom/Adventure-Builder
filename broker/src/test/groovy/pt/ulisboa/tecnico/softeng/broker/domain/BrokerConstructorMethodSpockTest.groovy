@@ -22,10 +22,13 @@ class BrokerConstructorMethodSpockTest extends SpockRollbackTestAbstractClass {
       def broker = new Broker(BROKER_CODE, BROKER_NAME, BROKER_NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN)
 
     then:
-      BROKER_CODE == broker.getCode()
-      BROKER_NAME == broker.getName()
-      broker.getAdventureSet().size() == 0
-      FenixFramework.getDomainRoot().getBrokerSet().contains(broker) == true
+    FenixFramework.getDomainRoot().getBrokerSet().contains(broker) == true
+    
+    with(broker) {
+      getCode() == BROKER_CODE
+      getName() == BROKER_NAME
+      getAdventureSet().size() == 0
+    }
   }
 
   @Unroll
