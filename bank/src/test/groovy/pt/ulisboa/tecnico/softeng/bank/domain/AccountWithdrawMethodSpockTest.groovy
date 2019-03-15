@@ -10,55 +10,57 @@ class AccountWithdrawMethodSpockTest extends SpockRollbackTestAbstractClass {
 
 	@Override
 	def populate4Test() {
-		this.bank = new Bank("Money", "BK01")
-		def client = new Client(this.bank, "António")
-		this.account = new Account(this.bank, client)
-		this.account.deposit(100)
+		bank = new Bank("Money", "BK01")
+		def client = new Client(bank, "António")
+		account = new Account(bank, client)
+		account.deposit(100)
 	}
 
 	def "success"() {
 		when:
-		def reference = this.account.withdraw(40).getReference();
+		def reference = account.withdraw(40).getReference()
+		def operation = bank.getOperation(reference)
 
 		then:
-		this.account.getBalance() == 60
-		def operation = this.bank.getOperation(reference)
-		operation != null
-		operation.getType() == Operation.Type.WITHDRAW
-		operation.getAccount() == this.account
-		operation.getValue() == 40
+		with (account) {
+			getBalance() == 60
+		}
+
+		with (operation) {
+			operation != null
+			getType() == Operation.Type.WITHDRAW
+			getAccount() == account
+			getValue() == 40
+		}
 	}
 
-	@Unroll("Withdraw: #quantia")
+	@Unroll("Withdraw: #amount")
 	def "exceptions"() {
-		when: "making a withdraw with invalid amounts"
-		this.account.withdraw(quantia)
+		when:
+		account.withdraw(amount)
 
-		then: "throw an exception"
+		then:
 		thrown(BankException)
 
 		where:
-		quantia | _
-		-20     | _
-		0       | _
-		101     | _
-		150     | _
+		amount | _
+		-20    | _
+		0      | _
+		101    | _
+		150    | _
 	}
 
-	def "oneAmount"() {
+	@Unroll("Withdraw: #amount || #result")
+	def "withdrawAmount"() {
 		when:
-		this.account.withdraw(1)
+		account.withdraw(amount)
 
 		then:
-		this.account.getBalance() == 99
+		account.getBalance() == result
+
+		where:
+		amount | result
+		99     | 1
+		100    | 0
 	}
-
-	def "equalToBalance"() {
-		when:
-		this.account.withdraw(100)
-
-		then:
-		this.account.getBalance() == 0
-	}
-
 }
