@@ -27,12 +27,16 @@ class BookingConstructorSpockMethodTest extends SpockRollbackTestAbstractClass {
         def booking = new Booking(provider, offer, NIF, IBAN)
 
         then:
-        booking.getReference().startsWith(provider.getCode()) == true
-        booking.getReference().length() > ActivityProvider.CODE_SIZE
-        offer.getNumberActiveOfBookings() == 1
-        booking.getBuyerNif() == NIF
-        booking.getIban() == IBAN
-        booking.getAmount() == AMOUNT
+	with(booking) {
+         getReference().startsWith(provider.getCode()) == true
+         getReference().length() > ActivityProvider.CODE_SIZE
+         getBuyerNif() == NIF
+         getIban() == IBAN
+         getAmount() == AMOUNT
+	}
+	with(offer) {
+         getNumberActiveOfBookings() == 1
+	}
     }
 
     @Unroll('Booking: #_provider, #_offer, #_nif, #_iban')
