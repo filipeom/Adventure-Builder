@@ -10,41 +10,46 @@ class AccountDepositMethodSpockTest extends SpockRollbackTestAbstractClass {
 
 	@Override
 	def populate4Test() {
-		this.bank = new Bank("Money", "BK01")
-		def client = new Client(this.bank, "António")
-		this.account = new Account(this.bank, client)
+		bank = new Bank("Money", "BK01")
+		def client = new Client(bank, "António")
+		account = new Account(bank, client)
 	}
 
 	def "success"() {
 		when:
-		def reference = this.account.deposit(50).getReference()
+		def reference = account.deposit(50).getReference()
+		def operation = bank.getOperation(reference)
 
 		then:
-		this.account.getBalance() == 50
-		def operation = this.bank.getOperation(reference)
-		operation != null
-		operation.getType() == Operation.Type.DEPOSIT
-		operation.getAccount() == this.account
-		operation.getValue() == 50
+		with (operation) {
+			operation != null
+			getType() == Operation.Type.DEPOSIT
+			getAccount() == account
+			getValue() == 50
+		}
+
+		with (account) {
+			getBalance() == 50
+		}
 	}
 
-	@Unroll("Deposit: #quantia")
+	@Unroll("Deposit: #amount")
 	def "exceptions"() {
-		when: "making a deposit with invalid amounts"
-		this.account.deposit(quantia)
+		when:
+		account.deposit(amount)
 
-		then: "throw an exception"
+		then:
 		thrown(BankException)
 
 		where:
-		quantia | _
+		amount  | _
 		0       | _
 		-100    | _
 	}
 
 	def "oneAmount"() {
 		expect:
-		this.account.deposit(1)
+		account.deposit(1)
 	}
 
 }
