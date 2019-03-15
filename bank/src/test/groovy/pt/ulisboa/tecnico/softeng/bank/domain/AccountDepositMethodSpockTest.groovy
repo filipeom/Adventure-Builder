@@ -43,6 +43,7 @@ class AccountDepositMethodSpockTest extends SpockRollbackTestAbstractClass {
 	}
 
 	def "oneAmount"() {
+		expect:
 		this.account.deposit(1)
 	}
 

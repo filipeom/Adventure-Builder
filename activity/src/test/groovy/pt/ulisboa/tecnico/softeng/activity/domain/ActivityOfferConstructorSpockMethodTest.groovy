@@ -25,11 +25,15 @@ class ActivityOfferConstructorSpockMethodTest extends SpockRollbackTestAbstractC
         def offer = new ActivityOffer(activity, begin, end, 30)
 
         then:
-        offer.getBegin() == begin
-        offer.getEnd() == end
-        activity.getActivityOfferSet().size() == 1
-        offer.getNumberActiveOfBookings() == 0
-        offer.getPrice() == 30 //triple comparation
+	 with(offer) {
+         getBegin() == begin
+         getEnd() == end
+         getNumberActiveOfBookings() == 0
+         getPrice() == 30 //triple comparation
+	}
+	with(activity) {
+         getActivityOfferSet().size() == 1
+	}
     }
     
     @Unroll('ActivityOffer: #_activity, #_begin, #_end, #_capc')
@@ -54,10 +58,14 @@ class ActivityOfferConstructorSpockMethodTest extends SpockRollbackTestAbstractC
         def offer = new ActivityOffer(activity, begin, begin , 30)
 
         then:
-        offer.getBegin() == begin
-        offer.getEnd() == begin
-        activity.getActivityOfferSet().size() == 1
-        offer.getNumberActiveOfBookings() == 0
+	with(offer) { 
+         getBegin() == begin
+         getEnd() == begin
+         getNumberActiveOfBookings() == 0
+	}
+	with(activity){
+         getActivityOfferSet().size() == 1
+	}
     }
     
 } 

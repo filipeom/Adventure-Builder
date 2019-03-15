@@ -27,8 +27,8 @@ class BrokerPersistenceSpockTest extends SpockPersistenceTestAbstractClass {
     def broker = new Broker(BROKER_CODE, BROKER_NAME, BROKER_NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN)
     def client = new Client(broker, CLIENT_IBAN, CLIENT_NIF, DRIVING_LICENSE, AGE)
     
-    new Adventure(broker, this.begin, this.end, client, MARGIN, true)
-    def bulk = new BulkRoomBooking(broker, NUMBER_OF_BULK, this.begin, this.end, NIF_AS_BUYER, CLIENT_IBAN)
+    new Adventure(broker, begin, end, client, MARGIN, true)
+    def bulk = new BulkRoomBooking(broker, NUMBER_OF_BULK, begin, end, NIF_AS_BUYER, CLIENT_IBAN)
 
     new Reference(bulk, REF_ONE)
   }
@@ -53,8 +53,8 @@ class BrokerPersistenceSpockTest extends SpockPersistenceTestAbstractClass {
 
     assert adventure.getID() != null
     assert adventure.getBroker() == broker
-    assert adventure.getBegin() == this.begin
-    assert adventure.getEnd() == this.end
+    assert adventure.getBegin() == begin
+    assert adventure.getEnd() == end
     assert adventure.getAge() == AGE
     assert adventure.getIban() == CLIENT_IBAN
     assert adventure.getPaymentConfirmation() == null
@@ -79,8 +79,8 @@ class BrokerPersistenceSpockTest extends SpockPersistenceTestAbstractClass {
     def bulk = bulks.get(0)
 
     assert bulk != null
-    assert bulk.getArrival() == this.begin
-    assert bulk.getDeparture() == this.end
+    assert bulk.getArrival() == begin
+    assert bulk.getDeparture() == end
     assert bulk.getNumber() == NUMBER_OF_BULK
     assert bulk.getCancelled() == false
     assert bulk.getNumberOfHotelExceptions() == 0

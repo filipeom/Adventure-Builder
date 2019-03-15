@@ -20,58 +20,60 @@ class InvoiceConstructorSpockTest extends SpockRollbackTestAbstractClass {
   @Shared def date1 = LocalDate.parse('2018-02-13')
   @Shared def date2 = LocalDate.parse('1969-12-31')
 
-  def seller
-  def buyer
-  def itemType
+  @Shared def seller
+  @Shared def buyer
+  @Shared def itemType
 
   @Override
   def populate4Test() {
     def irs = IRS.getIRSInstance()
-    this.seller = new Seller(irs, SELLER_NIF, "José Vendido", "Somewhere")
-    this.buyer = new Buyer(irs, BUYER_NIF, "Manuel Comprado", "Anywhere")
-    this.itemType = new ItemType(irs, FOOD, TAX)
+    seller = new Seller(irs, SELLER_NIF, "José Vendido", "Somewhere")
+    buyer = new Buyer(irs, BUYER_NIF, "Manuel Comprado", "Anywhere")
+    itemType = new ItemType(irs, FOOD, TAX)
   }
 
   def "success"() {
     when: 
-    def invoice = new Invoice(VALUE, this.date1, this.itemType, this.seller, this.buyer)
+    def invoice = new Invoice(VALUE, date1, itemType, seller, buyer)
 
     then: 
-    invoice.getReference() != null
-    invoice.getValue()     == VALUE
-    invoice.getItemType()  == this.itemType
-    invoice.getSeller()    == this.seller
-    invoice.getBuyer()     == this.buyer
-    invoice.getIva()       == (VALUE * TAX / 100.0)
-    invoice.isCancelled()  == false
-    invoice.getDate().isEqual(this.date1)
-    invoice == this.seller.getInvoiceByReference(invoice.getReference())
-    invoice == this.buyer.getInvoiceByReference(invoice.getReference())
+    with(invoice) {
+      getReference() != null
+      getValue()     == VALUE
+      getItemType()  == itemType
+      getSeller()    == seller
+      getBuyer()     == buyer
+      getIva()       == (VALUE * TAX / 100.0)
+      isCancelled()  == false
+      getDate().isEqual(date1)
+    }
+    invoice == seller.getInvoiceByReference(invoice.getReference())
+    invoice == buyer.getInvoiceByReference(invoice.getReference())
 
   }
 
-  @Unroll("Invoice: #value, #date, #item, #seller, #buyer")
+  @Unroll("Invoice: #value, #date, #item, #sell, #buy")
   def "exceptions"() {
     when: 
-    new Invoice(value, date, item, seller, buyer)
+    new Invoice(value, date, item, sell, buy)
 
     then:
     thrown(TaxException)
 
     where:
-    value | date       | item          | seller      | buyer
-    VALUE | this.date1 | this.itemType | null        | this.buyer 
-    VALUE | this.date1 | this.itemType | this.seller | null
-    VALUE | this.date1 | null          | this.seller | this.buyer
-    0     | this.date1 | this.itemType | this.seller | this.buyer
-    -23.6f| this.date1 | this.itemType | this.seller | this.buyer
-    VALUE | null       | this.itemType | this.seller | this.buyer
-    VALUE | this.date2 | this.itemType | this.seller | this.buyer
+    value | date  | item     | sell   | buy
+    VALUE | date1 | itemType | null   | buyer 
+    VALUE | date1 | itemType | seller | null
+    VALUE | date1 | null     | seller | buyer
+    0     | date1 | itemType | seller | buyer
+    -23.6f| date1 | itemType | seller | buyer
+    VALUE | null  | itemType | seller | buyer
+    VALUE | date2 | itemType | seller | buyer
   }
 
   def "date equals to 1970"() {
     when:
-    new Invoice(VALUE, LocalDate.parse("1970-01-01"), this.itemType, this.seller, this.buyer)
+    new Invoice(VALUE, LocalDate.parse("1970-01-01"), itemType, seller, buyer)
 
     then: 
     notThrown(TaxException)

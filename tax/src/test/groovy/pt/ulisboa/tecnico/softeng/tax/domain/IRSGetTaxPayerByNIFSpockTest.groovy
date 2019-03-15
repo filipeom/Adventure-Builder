@@ -14,14 +14,14 @@
 
    @Override
    def populate4Test() {
-     this.irs = IRS.getIRSInstance()
-     new Seller(this.irs, SELLER_NIF, "José Vendido", "Somewhere")
-     new Buyer(this.irs, BUYER_NIF, "Manuel Comprado", "Anywhere")
+     irs = IRS.getIRSInstance()
+     new Seller(irs, SELLER_NIF, "José Vendido", "Somewhere")
+     new Buyer(irs, BUYER_NIF, "Manuel Comprado", "Anywhere")
    }
 
    def 'success buyer'() {
      when:
-     def taxPayer = this.irs.getTaxPayerByNIF(BUYER_NIF)
+     def taxPayer = irs.getTaxPayerByNIF(BUYER_NIF)
 
      then:
      taxPayer != null
@@ -30,7 +30,7 @@
 
    def 'success seller'() {
      when:
-     def taxPayer = this.irs.getTaxPayerByNIF(SELLER_NIF)
+     def taxPayer = irs.getTaxPayerByNIF(SELLER_NIF)
 
      then:
      taxPayer != null
@@ -40,7 +40,7 @@
    @Unroll('getTaxPayerByNif: #label')
    def 'exceptions'() {
      when:
-     def taxPayer = this.irs.getTaxPayerByNIF(nif)
+     def taxPayer = irs.getTaxPayerByNIF(nif)
 
      then:
      taxPayer == null

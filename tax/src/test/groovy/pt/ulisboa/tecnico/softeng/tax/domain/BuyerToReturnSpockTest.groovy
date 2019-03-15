@@ -23,19 +23,19 @@ class BuyerToReturnSpockTest extends SpockRollbackTestAbstractClass {
   @Override
   def populate4Test() {
     def irs = IRS.getIRSInstance()
-    this.seller = new Seller(irs, SELLER_NIF, "José Vendido", "Somewhere")
-    this.buyer = new Buyer(irs, BUYER_NIF, "Manuel Comprado", "Anywhere")
-    this.itemType = new ItemType(irs, FOOD, TAX)
+    seller = new Seller(irs, SELLER_NIF, "José Vendido", "Somewhere")
+    buyer = new Buyer(irs, BUYER_NIF, "Manuel Comprado", "Anywhere")
+    itemType = new ItemType(irs, FOOD, TAX)
   }
 
   def "success"() {
     given: 
-    new Invoice(100, this.date, this.itemType, this.seller, this.buyer)
-    new Invoice(100, this.date, this.itemType, this.seller, this.buyer)
-    new Invoice(50, this.date, this.itemType, this.seller, this.buyer)
+    new Invoice(100, date, itemType, seller, buyer)
+    new Invoice(100, date, itemType, seller, buyer)
+    new Invoice(50, date, itemType, seller, buyer)
 
     when:
-    def val = this.buyer.taxReturn(2018)
+    def val = buyer.taxReturn(2018)
 
     then:
     val == 1.25f
@@ -43,12 +43,12 @@ class BuyerToReturnSpockTest extends SpockRollbackTestAbstractClass {
 
   def "year without invoices"() {
     given:
-    new Invoice(100, this.date, this.itemType, this.seller, this.buyer)
-    new Invoice(100, this.date, this.itemType, this.seller, this.buyer)
-    new Invoice(50, this.date, this.itemType, this.seller, this.buyer)
+    new Invoice(100, date, itemType, seller, buyer)
+    new Invoice(100, date, itemType, seller, buyer)
+    new Invoice(50, date, itemType, seller, buyer)
 
     when:
-    def val = this.buyer.taxReturn(2017)
+    def val = buyer.taxReturn(2017)
 
     then:
     val == 0.0f
@@ -56,7 +56,7 @@ class BuyerToReturnSpockTest extends SpockRollbackTestAbstractClass {
 
   def "no invoices"() {
     when:
-    def val = this.buyer.taxReturn(2018)
+    def val = buyer.taxReturn(2018)
 
     then:
     val == 0.0f
@@ -64,7 +64,7 @@ class BuyerToReturnSpockTest extends SpockRollbackTestAbstractClass {
 
   def "before 1970"() {
     when:
-    def val = this.buyer.taxReturn(1969)
+    def val = buyer.taxReturn(1969)
 
     then:
     thrown(TaxException)
@@ -72,10 +72,10 @@ class BuyerToReturnSpockTest extends SpockRollbackTestAbstractClass {
 
   def "after 1970"() {
     given:
-    new Invoice(100, LocalDate.parse("1970-02-13"), this.itemType, this.seller, this.buyer)
+    new Invoice(100, LocalDate.parse("1970-02-13"), itemType, seller, buyer)
 
     when:
-    def val = this.buyer.taxReturn(1970)
+    def val = buyer.taxReturn(1970)
 
     then:
     val == 0.5f
@@ -83,13 +83,13 @@ class BuyerToReturnSpockTest extends SpockRollbackTestAbstractClass {
 
   def "ignore cancelled"() {
     given: 
-    new Invoice(100, this.date, this.itemType, this.seller, this.buyer)
-    def invoice = new Invoice(100, this.date, this.itemType, this.seller, this.buyer)
-    new Invoice(50, this.date, this.itemType, this.seller, this.buyer)
+    new Invoice(100, date, itemType, seller, buyer)
+    def invoice = new Invoice(100, date, itemType, seller, buyer)
+    new Invoice(50, date, itemType, seller, buyer)
 
     when:
     invoice.cancel()
-    def val = this.buyer.taxReturn(2018)
+    def val = buyer.taxReturn(2018)
 
     then:
     val == 0.75f

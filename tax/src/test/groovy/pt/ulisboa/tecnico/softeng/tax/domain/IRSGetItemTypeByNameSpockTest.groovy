@@ -12,23 +12,25 @@
 
    @Override
    def populate4Test() {
-     this.irs = IRS.getIRSInstance()
-     new ItemType(this.irs, FOOD, VALUE)
+     irs = IRS.getIRSInstance()
+     new ItemType(irs, FOOD, VALUE)
    }
 
    def 'success'() {
      when:
-     def itemType = this.irs.getItemTypeByName(FOOD)
+     def itemType = irs.getItemTypeByName(FOOD)
 
      then:
-     itemType.getName() != null
-     itemType.getName() == FOOD
+     with(itemType) {
+       getName() != null
+       getName() == FOOD
+     }
    }
 
    @Unroll('getItemTypeByName: #label')
    def 'exceptions'() {
      when:
-     def itemType = this.irs.getItemTypeByName(arg)
+     def itemType = irs.getItemTypeByName(arg)
 
      then:
      itemType == null
