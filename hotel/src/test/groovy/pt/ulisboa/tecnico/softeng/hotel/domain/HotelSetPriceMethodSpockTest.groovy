@@ -6,7 +6,7 @@ import spock.lang.Unroll
 
 class HotelSetPriceMethodSpockTest extends SpockRollbackTestAbstractClass {
 
-  def hotel;
+  def hotel
   def price = 25.0
 
   @Override
