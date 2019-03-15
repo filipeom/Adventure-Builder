@@ -20,11 +20,13 @@ class ActivityProviderConstructorSpockMethodTest extends SpockRollbackTestAbstra
         def provider = new ActivityProvider(PROVIDER_CODE, PROVIDER_NAME, NIF, IBAN)
 
         then:
-        provider.getName() == PROVIDER_NAME
-        provider.getCode().length() == ActivityProvider.CODE_SIZE == true // triple comparation
+	with(provider) {
+         getName() == PROVIDER_NAME
+         getCode().length() == ActivityProvider.CODE_SIZE == true // triple comparation
+         getActivitySet().size() == 0
+	}
         FenixFramework.getDomainRoot().getActivityProviderSet().size() == 1
-        provider.getActivitySet().size() == 0
-    }
+     }
 
     @Unroll('ActivityProvider: #prov_code, #prov_name, #nif, #iban')
     def 'exception'() {
