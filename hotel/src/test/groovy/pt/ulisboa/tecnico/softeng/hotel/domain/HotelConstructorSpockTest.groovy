@@ -25,12 +25,15 @@ class HotelConstructorSpockTest extends SpockRollbackTestAbstractClass {
       def hotel =  new Hotel(HOTEL_CODE, HOTEL_NAME, NIF, IBAN, PRICE_SINGLE, PRICE_DOUBLE)
 
     then:
-      hotel.getName() == HOTEL_NAME
-      hotel.getCode().length() == Hotel.CODE_SIZE
-      hotel.getRoomSet().size() == 0
-      FenixFramework.getDomainRoot().getHotelSet().size() == 1
-      hotel.getPrice(Room.Type.SINGLE) == PRICE_SINGLE
-      hotel.getPrice(Room.Type.DOUBLE) == PRICE_DOUBLE
+    FenixFramework.getDomainRoot().getHotelSet().size() == 1
+
+    with(hotel) {
+      getName() == HOTEL_NAME
+      getCode().length() == Hotel.CODE_SIZE
+      getRoomSet().size() == 0
+      getPrice(Room.Type.SINGLE) == PRICE_SINGLE
+      getPrice(Room.Type.DOUBLE) == PRICE_DOUBLE
+    }
   }
 
   @Unroll("Hotel: #code, #name, #price_single, #price_double")
