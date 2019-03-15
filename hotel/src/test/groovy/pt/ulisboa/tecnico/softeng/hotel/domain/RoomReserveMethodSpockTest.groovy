@@ -37,10 +37,10 @@ class RoomReserveMethodSpockTest extends SpockRollbackTestAbstractClass {
 
   @Unroll("Reserve: #type, #arr, #dep")
   def "exceptions"() {
-    when: "making a reservation with invalid args"
+    when: 
     this.room.reserve(type, arr, dep, BUYER_NIF, IBAN_BUYER)
 
-    then: "throws an exception"
+    then: 
     thrown(HotelException)
 
     where:
@@ -52,16 +52,16 @@ class RoomReserveMethodSpockTest extends SpockRollbackTestAbstractClass {
   }
 
   def "all conflict"() {
-    given: "a reservation"
+    given: 
     this.room.reserve(Type.SINGLE, ARRIVAL, DEPARTURE, BUYER_NIF, IBAN_BUYER)
 
-    when: "insert a duplicate reservation"
+    when: 
     this.room.reserve(Type.SINGLE, ARRIVAL, DEPARTURE, BUYER_NIF, IBAN_BUYER)
 
-    then: "throws an exception"
+    then: 
     thrown(HotelException)
 
-    and: "check if not inserted"
+    and: 
     this.room.getBookingSet().size() == 1
   }
 }
