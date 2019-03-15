@@ -18,14 +18,14 @@ class BrokerConstructorMethodSpockTest extends SpockRollbackTestAbstractClass {
   def populate4Test() {}
 
   def 'success'() {
-    given:
-    def broker = new Broker(BROKER_CODE, BROKER_NAME, BROKER_NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN)
+    when:
+      def broker = new Broker(BROKER_CODE, BROKER_NAME, BROKER_NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN)
 
-    expect:
-    BROKER_CODE == broker.getCode()
-    BROKER_NAME == broker.getName()
-    broker.getAdventureSet().size() == 0
-    FenixFramework.getDomainRoot().getBrokerSet().contains(broker) == true
+    then:
+      BROKER_CODE == broker.getCode()
+      BROKER_NAME == broker.getName()
+      broker.getAdventureSet().size() == 0
+      FenixFramework.getDomainRoot().getBrokerSet().contains(broker) == true
   }
 
   @Unroll
