@@ -52,10 +52,10 @@ class InvoiceConstructorSpockTest extends SpockRollbackTestAbstractClass {
 
   @Unroll("Invoice: #value, #date, #item, #seller, #buyer")
   def "exceptions"() {
-    when: "Invoice with invalid args"
+    when: 
     new Invoice(value, date, item, seller, buyer)
 
-    then: "throws an exception"
+    then:
     thrown(TaxException)
 
     where:
@@ -70,10 +70,10 @@ class InvoiceConstructorSpockTest extends SpockRollbackTestAbstractClass {
   }
 
   def "date equals to 1970"() {
-    when: "Invoice with a date in 1970"
+    when:
     new Invoice(VALUE, LocalDate.parse("1970-01-01"), this.itemType, this.seller, this.buyer)
 
-    then: "should not throw an exception"
+    then: 
     notThrown(TaxException)
   }
 }

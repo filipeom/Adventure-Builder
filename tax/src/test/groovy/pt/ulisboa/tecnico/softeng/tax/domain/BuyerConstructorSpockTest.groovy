@@ -19,7 +19,7 @@ class BuyerConstructorSpockTest extends SpockRollbackTestAbstractClass {
   }
 
   def "success"() {
-    when: "Creating a valid buyer"
+    when: 
     def buyer = new Buyer(this.irs, NIF, NAME, ADDRESS)
 
     then: 
@@ -31,13 +31,13 @@ class BuyerConstructorSpockTest extends SpockRollbackTestAbstractClass {
   }
 
   def "unique nif"() {
-    given: "a buyer"
+    given: 
     def seller = new Buyer(this.irs, NIF, NAME, ADDRESS)
 
-    when: "inserert a buyer with the same nif"
+    when: 
     new Buyer(this.irs, NIF, NAME, ADDRESS)
 
-    then: "throws an exception"
+    then:
     thrown(TaxException)
     
     and:
@@ -46,10 +46,10 @@ class BuyerConstructorSpockTest extends SpockRollbackTestAbstractClass {
 
   @Unroll("Buyer: #nif, #name, #address")
   def "exceptions"() {
-    when: "creating a buyer with invalid args"
+    when: 
     new Buyer(this.irs, nif, name, address)
 
-    then: "throws an exception"
+    then:
     thrown(TaxException)
 
     where:

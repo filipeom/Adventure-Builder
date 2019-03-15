@@ -25,10 +25,10 @@ class RoomConstructorMethodSpockTest extends SpockRollbackTestAbstractClass {
 
   @Unroll("Room: #hotel, #room, #type")
   def "exceptions"() {
-    when: "creating a room with invalid args"
+    when: 
     new Room(hotel, room, type)
 
-    then: "throws an exception"
+    then: 
     thrown(HotelException)
 
     where:
@@ -42,13 +42,13 @@ class RoomConstructorMethodSpockTest extends SpockRollbackTestAbstractClass {
   }
 
   def "non unique room number"() {
-    given: "a room"
+    given: 
     new Room(this.hotel, "01", Type.SINGLE)
 
-    when: "adding a room with the same room number"
+    when: 
     new Room(this.hotel, "01", Type.DOUBLE)
 
-    then: "throws an exception"
+    then: 
     thrown(HotelException)
 
     and:
