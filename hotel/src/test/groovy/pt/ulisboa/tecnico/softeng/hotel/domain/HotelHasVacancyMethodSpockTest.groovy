@@ -1,9 +1,9 @@
-package pt.ulisboa.tecnico.softeng.hotel.domain;
+package pt.ulisboa.tecnico.softeng.hotel.domain
 
-import org.joda.time.LocalDate;
+import org.joda.time.LocalDate
 
-import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type;
-import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException;
+import pt.ulisboa.tecnico.softeng.hotel.domain.Room.Type
+import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException
 
 import spock.lang.Unroll
 
@@ -23,27 +23,27 @@ class HotelHasVacancyMethodSpockTest extends SpockRollbackTestAbstractClass {
 	}
 
   def 'has Vacancy'(){
-    given:
+    when:
       def room = this.hotel.hasVacancy(Type.DOUBLE, this.arrival, this.departure)
 
-    expect:
+    then:
       room != null
       room.getNumber() == "01"
   }
 
   def 'no Vacancy'(){
-    given:
+    when:
       this.room.reserve(Type.DOUBLE, this.arrival, this.departure, this.NIF_BUYER, this.IBAN_BUYER)
 
-    expect:
+    then:
       this.hotel.hasVacancy(Type.DOUBLE, this.arrival, this.departure) == null
   }
 
   def 'no Vacancy Empty Room Set'(){
-    given:
+    when:
       def otherHotel = new Hotel("XPTO124", "Paris Germain", "NIF2", "IBAN", 25.0, 35.0)
 
-    expect:
+    then:
       otherHotel.hasVacancy(Type.DOUBLE, this.arrival, this.departure) == null
   }
 
