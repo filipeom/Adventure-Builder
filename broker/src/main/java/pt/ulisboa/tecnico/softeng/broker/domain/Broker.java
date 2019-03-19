@@ -6,11 +6,29 @@ import org.slf4j.LoggerFactory;
 
 import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.softeng.broker.exception.BrokerException;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.ActivityInterface;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.BankInterface;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.CarInterface;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.HotelInterface;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.TaxInterface;
 
 public class Broker extends Broker_Base {
 	private static Logger logger = LoggerFactory.getLogger(Broker.class);
 
-	public Broker(String code, String name, String nifAsSeller, String nifAsBuyer, String iban) {
+
+  private final ActivityInterface activityInterface;
+  private final BankInterface bankInterface;
+  private final CarInterface carInterface;
+  private final HotelInterface hotelInterface;
+  private final TaxInterface taxInterface;
+
+  public Broker(String code, String name, String nifAsSeller, String nifAsBuyer, String iban) {
+    this(code, name, nifAsSeller, nifAsBuyer, iban, new ActivityInterface(), new BankInterface(), 
+        new CarInterface(), new HotelInterface(), new TaxInterface());
+	}
+
+	public Broker(String code, String name, String nifAsSeller, String nifAsBuyer, String iban,
+      ActivityInterface activity, BankInterface bank, CarInterface car, HotelInterface hotel, TaxInterface tax) {
 		checkArguments(code, name, nifAsSeller, nifAsBuyer, iban);
 
 		setCode(code);
@@ -18,6 +36,12 @@ public class Broker extends Broker_Base {
 		setNifAsSeller(nifAsSeller);
 		setNifAsBuyer(nifAsBuyer);
 		setIban(iban);
+
+    this.activityInterface = activity;
+    this.bankInterface = bank;
+    this.carInterface = car;
+    this.hotelInterface = hotel;
+    this.taxInterface = tax;
 
 		FenixFramework.getDomainRoot().addBroker(this);
 	}
@@ -83,6 +107,27 @@ public class Broker extends Broker_Base {
 		BulkRoomBooking bulkBooking = new BulkRoomBooking(this, number, arrival, departure, getNifAsBuyer(), getIban());
 		bulkBooking.processBooking();
 	}
+
+
+  public ActivityInterface getActivityInterface() {
+    return this.activityInterface;
+  }
+
+  public BankInterface getBankInterface() {
+    return this.bankInterface;
+  }
+
+  public CarInterface getCarInterface() {
+    return this.carInterface;
+  }
+
+  public HotelInterface getHotelInterface() {
+    return this.hotelInterface;
+  }
+
+  public TaxInterface getTaxInterface() {
+    return this.taxInterface;
+  }
 
 	@Override
 	public int getCounter() {
