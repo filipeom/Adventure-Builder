@@ -24,13 +24,15 @@ public class AdventureController {
 	public String showAdventures(Model model, @PathVariable String brokerCode, @PathVariable String clientNif) {
 		logger.info("showAdventures brokerCode:{}, clientNif:{}", brokerCode, clientNif);
 
-		ClientData clientData = BrokerInterface.getClientDataByBrokerCodeAndNif(brokerCode, clientNif);
+    final BrokerInterface brokerInterface = new BrokerInterface();
+
+		ClientData clientData = brokerInterface.getClientDataByBrokerCodeAndNif(brokerCode, clientNif);
 
 		if (clientData == null) {
 			model.addAttribute("error", "Error: it does not exist a client with the nif " + clientNif
 					+ " in the broker with the code " + brokerCode);
 			model.addAttribute("broker", new BrokerData());
-			model.addAttribute("brokers", BrokerInterface.getBrokers());
+			model.addAttribute("brokers", brokerInterface.getBrokers());
 			return "brokers";
 		}
 
@@ -47,12 +49,14 @@ public class AdventureController {
 				brokerCode, clientNif, adventureData.getBegin(), adventureData.getEnd(), adventureData.getMargin(),
 				adventureData.getAge(), adventureData.getVehicle());
 
+    final BrokerInterface brokerInterface = new BrokerInterface();
+
 		try {
-			BrokerInterface.createAdventure(brokerCode, clientNif, adventureData);
+			brokerInterface.createAdventure(brokerCode, clientNif, adventureData);
 		} catch (BrokerException be) {
 			model.addAttribute("error", "Error: it was not possible to create the adventure");
 			model.addAttribute("adventure", adventureData);
-			model.addAttribute("client", BrokerInterface.getClientDataByBrokerCodeAndNif(brokerCode, clientNif));
+			model.addAttribute("client", brokerInterface.getClientDataByBrokerCodeAndNif(brokerCode, clientNif));
 			return "adventures";
 		}
 
@@ -64,7 +68,9 @@ public class AdventureController {
 			@PathVariable String id) {
 		logger.info("processAdventure brokerCode:{}, adventureId:{}", brokerCode, id);
 
-		BrokerInterface.processAdventure(brokerCode, id);
+    final BrokerInterface brokerInterface = new BrokerInterface();
+
+		brokerInterface.processAdventure(brokerCode, id);
 		return "redirect:/brokers/" + brokerCode + "/clients/" + clientNif + "/adventures";
 	}
 

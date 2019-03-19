@@ -54,7 +54,7 @@ public class BulkRoomBooking extends BulkRoomBooking_Base {
         }
 
         try {
-            for (String reference : HotelInterface.bulkBooking(getNumber(), getArrival(), getDeparture(), getBuyerNif(),
+            for (String reference : getBroker().getHotelInterface().bulkBooking(getNumber(), getArrival(), getDeparture(), getBuyerNif(),
                     getBuyerIban(), getId())) {
                 addReference(new Reference(this, reference));
             }
@@ -86,7 +86,7 @@ public class BulkRoomBooking extends BulkRoomBooking_Base {
         for (Reference reference : getReferenceSet()) {
             RestRoomBookingData data = null;
             try {
-                data = HotelInterface.getRoomBookingData(reference.getValue());
+                data = getBroker().getHotelInterface().getRoomBookingData(reference.getValue());
                 setNumberOfRemoteErrors(0);
             } catch (HotelException he) {
                 setNumberOfRemoteErrors(0);

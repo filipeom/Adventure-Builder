@@ -1,7 +1,6 @@
 package pt.ulisboa.tecnico.softeng.broker.domain;
 
 import pt.ulisboa.tecnico.softeng.broker.domain.Adventure.State;
-import pt.ulisboa.tecnico.softeng.broker.services.remote.ActivityInterface;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.RestActivityBookingData;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.ActivityException;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.RemoteAccessException;
@@ -17,7 +16,7 @@ public class ReserveActivityState extends ReserveActivityState_Base {
 	@Override
 	public void process() {
 		try {
-			RestActivityBookingData result = ActivityInterface
+			RestActivityBookingData result = getAdventure().getBroker().getActivityInterface()
 					.reserveActivity(new RestActivityBookingData(getAdventure().getBegin(), getAdventure().getEnd(),
 							getAdventure().getAge(), getAdventure().getBroker().getNifAsBuyer(),
 							getAdventure().getBroker().getIban(), getAdventure().getID()));

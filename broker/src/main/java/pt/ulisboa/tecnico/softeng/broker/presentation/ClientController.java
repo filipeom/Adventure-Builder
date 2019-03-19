@@ -24,12 +24,14 @@ public class ClientController {
 	public String showClients(Model model, @PathVariable String brokerCode) {
 		logger.info("showClients code:{}", brokerCode);
 
-		BrokerData brokerData = BrokerInterface.getBrokerDataByCode(brokerCode, CopyDepth.CLIENTS);
+    final BrokerInterface brokerInterface = new BrokerInterface();
+
+		BrokerData brokerData = brokerInterface.getBrokerDataByCode(brokerCode, CopyDepth.CLIENTS);
 
 		if (brokerData == null) {
 			model.addAttribute("error", "Error: it does not exist a broker with the code " + brokerCode);
 			model.addAttribute("broker", new BrokerData());
-			model.addAttribute("brokers", BrokerInterface.getBrokers());
+			model.addAttribute("brokers", brokerInterface.getBrokers());
 			return "brokers";
 		} else {
 			model.addAttribute("client", new ClientData());
@@ -43,12 +45,14 @@ public class ClientController {
 		logger.info("submitClient brokerCode:{}, age:{}, nif:{}, iban:{}, drivingLicense:{}", brokerCode,
 				clientData.getAge(), clientData.getNif(), clientData.getIban(), clientData.getDrivingLicense());
 
+    final BrokerInterface brokerInterface = new BrokerInterface();
+
 		try {
-			BrokerInterface.createClient(brokerCode, clientData);
+			brokerInterface.createClient(brokerCode, clientData);
 		} catch (BrokerException be) {
 			model.addAttribute("error", "Error: it was not possible to create the client");
 			model.addAttribute("client", clientData);
-			model.addAttribute("broker", BrokerInterface.getBrokerDataByCode(brokerCode, CopyDepth.CLIENTS));
+			model.addAttribute("broker", brokerInterface.getBrokerDataByCode(brokerCode, CopyDepth.CLIENTS));
 			return "clients";
 		}
 

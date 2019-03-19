@@ -10,12 +10,12 @@ import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.BankException
 import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.RemoteAccessException;
 
 public class BankInterface {
-	private static Logger logger = LoggerFactory.getLogger(BankInterface.class);
+	private final Logger logger = LoggerFactory.getLogger(BankInterface.class);
 
-	private static String ENDPOINT = "http://localhost:8082";
+	private final String ENDPOINT = "http://localhost:8082";
 
-	public static String processPayment(RestBankOperationData bankOperationData) {
-		logger.info("processPayment iban:{}, amount:{}, transactionSource:{}, transactionReference:{}",
+	public String processPayment(RestBankOperationData bankOperationData) {
+		this.logger.info("processPayment iban:{}, amount:{}, transactionSource:{}, transactionReference:{}",
 				bankOperationData.getIban(), bankOperationData.getValue(), bankOperationData.getTransactionSource(),
 				bankOperationData.getTransactionReference());
 
@@ -26,21 +26,21 @@ public class BankInterface {
 					bankOperationData, String.class);
 			return result;
 		} catch (HttpClientErrorException e) {
-			logger.info(
+			this.logger.info(
 					"processPayment HttpClientErrorException  iban:{}, amount:{}, transactionSource:{}, transactionReference:{}",
 					bankOperationData.getIban(), bankOperationData.getValue(), bankOperationData.getTransactionSource(),
 					bankOperationData.getTransactionReference());
 			throw new BankException();
 		} catch (Exception e) {
-			logger.info("processPayment Exception iban:{}, amount:{}, transactionSource:{}, transactionReference:{}",
+			this.logger.info("processPayment Exception iban:{}, amount:{}, transactionSource:{}, transactionReference:{}",
 					bankOperationData.getIban(), bankOperationData.getValue(), bankOperationData.getTransactionSource(),
 					bankOperationData.getTransactionReference());
 			throw new RemoteAccessException();
 		}
 	}
 
-	public static String cancelPayment(String reference) {
-		logger.info("cancelPayment reference:{}", reference);
+	public String cancelPayment(String reference) {
+		this.logger.info("cancelPayment reference:{}", reference);
 
 		RestTemplate restTemplate = new RestTemplate();
 		try {
@@ -48,28 +48,28 @@ public class BankInterface {
 					String.class);
 			return result;
 		} catch (HttpClientErrorException e) {
-			logger.info("cancelPayment HttpClientErrorException reference:{}", reference);
+			this.logger.info("cancelPayment HttpClientErrorException reference:{}", reference);
 			throw new BankException();
 		} catch (Exception e) {
-			logger.info("cancelPayment Exception reference:{}", reference);
+			this.logger.info("cancelPayment Exception reference:{}", reference);
 			throw new RemoteAccessException();
 		}
 	}
 
-	public static RestBankOperationData getOperationData(String reference) {
-		logger.info("getOperationData reference:{}", reference);
+	public RestBankOperationData getOperationData(String reference) {
+		this.logger.info("getOperationData reference:{}", reference);
 
 		RestTemplate restTemplate = new RestTemplate();
 		try {
 			RestBankOperationData result = restTemplate.getForObject(
 					ENDPOINT + "/rest/banks/operation?reference=" + reference, RestBankOperationData.class);
-			logger.info("getOperationData iban:{}", result.getIban());
+			this.logger.info("getOperationData iban:{}", result.getIban());
 			return result;
 		} catch (HttpClientErrorException e) {
-			logger.info("getOperationData HttpClientErrorException reference:{}", reference);
+			this.logger.info("getOperationData HttpClientErrorException reference:{}", reference);
 			throw new BankException();
 		} catch (Exception e) {
-			logger.info("getOperationData Exception reference:{}", reference);
+			this.logger.info("getOperationData Exception reference:{}", reference);
 			throw new RemoteAccessException();
 		}
 	}

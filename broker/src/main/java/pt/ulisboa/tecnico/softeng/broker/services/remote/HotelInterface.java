@@ -15,16 +15,16 @@ import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.HotelExceptio
 import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.RemoteAccessException;
 
 public class HotelInterface {
-	public static enum Type {
+	public enum Type {
 		SINGLE, DOUBLE
 	}
 
-	private static Logger logger = LoggerFactory.getLogger(HotelInterface.class);
+	private final Logger logger = LoggerFactory.getLogger(HotelInterface.class);
 
-	private static String ENDPOINT = "http://localhost:8085";
+	private final String ENDPOINT = "http://localhost:8085";
 
-	public static RestRoomBookingData reserveRoom(RestRoomBookingData roomBookingData) {
-		logger.info("reserveRoom arrival:{}, departure:{}, nif:{}, iban:{}, adventureId:{}",
+	public RestRoomBookingData reserveRoom(RestRoomBookingData roomBookingData) {
+		this.logger.info("reserveRoom arrival:{}, departure:{}, nif:{}, iban:{}, adventureId:{}",
 				roomBookingData.getArrival(), roomBookingData.getDeparture(), roomBookingData.getBuyerNif(),
 				roomBookingData.getBuyerIban(), roomBookingData.getAdventureId());
 		RestTemplate restTemplate = new RestTemplate();
@@ -33,53 +33,53 @@ public class HotelInterface {
 					RestRoomBookingData.class);
 			return result;
 		} catch (HttpClientErrorException e) {
-			logger.info("reserveRoom HttpClientErrorException arrival:{}, departure:{}, adventureId:{}",
+			this.logger.info("reserveRoom HttpClientErrorException arrival:{}, departure:{}, adventureId:{}",
 					roomBookingData.getArrival(), roomBookingData.getDeparture(), roomBookingData.getBuyerNif(),
 					roomBookingData.getBuyerIban(), roomBookingData.getAdventureId());
 			throw new HotelException();
 		} catch (Exception e) {
-			logger.info("reserveRoom Exception arrival:{}, departure:{}, adventureId:{}", roomBookingData.getArrival(),
+			this.logger.info("reserveRoom Exception arrival:{}, departure:{}, adventureId:{}", roomBookingData.getArrival(),
 					roomBookingData.getDeparture(), roomBookingData.getBuyerNif(), roomBookingData.getBuyerIban(),
 					roomBookingData.getAdventureId());
 			throw new RemoteAccessException();
 		}
 	}
 
-	public static String cancelBooking(String roomConfirmation) {
-		logger.info("cancelBooking roomConfirmation:{}", roomConfirmation);
+	public String cancelBooking(String roomConfirmation) {
+		this.logger.info("cancelBooking roomConfirmation:{}", roomConfirmation);
 		RestTemplate restTemplate = new RestTemplate();
 		try {
 			String result = restTemplate.postForObject(ENDPOINT + "/rest/hotels/cancel?reference=" + roomConfirmation,
 					null, String.class);
 			return result;
 		} catch (HttpClientErrorException e) {
-			logger.info("cancelBooking HttpClientErrorException roomConfirmation:{}", roomConfirmation);
+			this.logger.info("cancelBooking HttpClientErrorException roomConfirmation:{}", roomConfirmation);
 			throw new HotelException();
 		} catch (Exception e) {
-			logger.info("cancelBooking RemoteAccessException roomConfirmation:{}", roomConfirmation);
+			this.logger.info("cancelBooking RemoteAccessException roomConfirmation:{}", roomConfirmation);
 			throw new RemoteAccessException();
 		}
 	}
 
-	public static RestRoomBookingData getRoomBookingData(String reference) {
-		logger.info("getRoomBookingData reference:{}", reference);
+	public RestRoomBookingData getRoomBookingData(String reference) {
+		this.logger.info("getRoomBookingData reference:{}", reference);
 		RestTemplate restTemplate = new RestTemplate();
 		try {
 			RestRoomBookingData result = restTemplate
 					.getForObject(ENDPOINT + "/rest/hotels/booking?reference=" + reference, RestRoomBookingData.class);
 			return result;
 		} catch (HttpClientErrorException e) {
-			logger.info("getRoomBookingData HttpClientErrorException reference:{}", reference);
+			this.logger.info("getRoomBookingData HttpClientErrorException reference:{}", reference);
 			throw new HotelException();
 		} catch (Exception e) {
-			logger.info("getRoomBookingData Exception reference:{}", reference);
+			this.logger.info("getRoomBookingData Exception reference:{}", reference);
 			throw new RemoteAccessException();
 		}
 	}
 
-	public static Set<String> bulkBooking(int number, LocalDate arrival, LocalDate departure, String nif, String iban,
+	public Set<String> bulkBooking(int number, LocalDate arrival, LocalDate departure, String nif, String iban,
 			String bulkId) {
-		logger.info("bulkBooking number:{}, arrival:{}, departure:{}, nif:{}, iban:{}, bulkId:{}", number, arrival,
+		this.logger.info("bulkBooking number:{}, arrival:{}, departure:{}, nif:{}, iban:{}, bulkId:{}", number, arrival,
 				departure, nif, iban, bulkId);
 		RestTemplate restTemplate = new RestTemplate();
 		try {
@@ -92,7 +92,7 @@ public class HotelInterface {
 		} catch (HttpClientErrorException e) {
 			throw new HotelException();
 		} catch (Exception e) {
-			logger.info("bulkBooking Exception");
+			this.logger.info("bulkBooking Exception");
 			throw new RemoteAccessException();
 		}
 

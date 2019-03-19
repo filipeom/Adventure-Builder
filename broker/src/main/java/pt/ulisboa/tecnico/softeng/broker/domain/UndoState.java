@@ -1,11 +1,6 @@
 package pt.ulisboa.tecnico.softeng.broker.domain;
 
 import pt.ulisboa.tecnico.softeng.broker.domain.Adventure.State;
-import pt.ulisboa.tecnico.softeng.broker.services.remote.ActivityInterface;
-import pt.ulisboa.tecnico.softeng.broker.services.remote.BankInterface;
-import pt.ulisboa.tecnico.softeng.broker.services.remote.CarInterface;
-import pt.ulisboa.tecnico.softeng.broker.services.remote.HotelInterface;
-import pt.ulisboa.tecnico.softeng.broker.services.remote.TaxInterface;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.ActivityException;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.BankException;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.CarException;
@@ -25,8 +20,7 @@ public class UndoState extends UndoState_Base {
 		if (getAdventure().shouldCancelPayment()) {
 			try {
 				getAdventure()
-						.setPaymentCancellation(getAdventure().getBroker().getBankInterface()
-                .cancelPayment(getAdventure().getPaymentConfirmation()));
+						.setPaymentCancellation(getAdventure().getBroker().getBankInterface().cancelPayment(getAdventure().getPaymentConfirmation()));
 			} catch (BankException | RemoteAccessException ex) {
 				// does not change state
 			}
