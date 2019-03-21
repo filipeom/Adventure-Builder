@@ -44,9 +44,7 @@ class CancelledStateProcessMethodSpockTest extends SpockRollbackTestAbstractClas
 
     then:
     0 * bankInterface.getOperationData(_)
-    and:
     0 * activityInterface.getActivityReservationData(_)
-    and:
     0 * hotelInterface.getRoomBookingData(_)
     and:
     adventure.getState().getValue() == State.CANCELLED
@@ -103,7 +101,6 @@ class CancelledStateProcessMethodSpockTest extends SpockRollbackTestAbstractClas
 
     then:
     1 * bankInterface.getOperationData(PAYMENT_CONFIRMATION)
-    and:
     1 * bankInterface.getOperationData(PAYMENT_CANCELLATION)
     and:
     adventure.getState().getValue() == State.CANCELLED
@@ -121,9 +118,7 @@ class CancelledStateProcessMethodSpockTest extends SpockRollbackTestAbstractClas
 
     then:
     1 * bankInterface.getOperationData(PAYMENT_CONFIRMATION)
-    and:
     1 * bankInterface.getOperationData(PAYMENT_CANCELLATION)
-    and:
     1 * activityInterface.getActivityReservationData(ACTIVITY_CANCELLATION)
     and:
     adventure.getState().getValue() == State.CANCELLED
@@ -143,11 +138,8 @@ class CancelledStateProcessMethodSpockTest extends SpockRollbackTestAbstractClas
 
     then:
     1 * bankInterface.getOperationData(PAYMENT_CONFIRMATION)
-    and:
     1 * bankInterface.getOperationData(PAYMENT_CANCELLATION)
-    and:
     1 * activityInterface.getActivityReservationData(ACTIVITY_CANCELLATION)
-    and:
     1 * hotelInterface.getRoomBookingData(ROOM_CANCELLATION)
     and:
     adventure.getState().getValue() == State.CANCELLED
@@ -167,11 +159,8 @@ class CancelledStateProcessMethodSpockTest extends SpockRollbackTestAbstractClas
 
     then:
     1 * bankInterface.getOperationData(PAYMENT_CONFIRMATION)
-    and:
     1 * bankInterface.getOperationData(PAYMENT_CANCELLATION)
-    and:
     1 * activityInterface.getActivityReservationData(ACTIVITY_CANCELLATION)
-    and:
     1 * carInterface.getRentingData(RENTING_CANCELLATION)
     and:
     adventure.getState().getValue() == State.CANCELLED
@@ -193,13 +182,9 @@ class CancelledStateProcessMethodSpockTest extends SpockRollbackTestAbstractClas
 
     then:
     1 * bankInterface.getOperationData(PAYMENT_CONFIRMATION)
-    and:
     1 * bankInterface.getOperationData(PAYMENT_CANCELLATION)
-    and:
     1 * activityInterface.getActivityReservationData(ACTIVITY_CANCELLATION)
-    and:
     1 * hotelInterface.getRoomBookingData(ROOM_CANCELLATION)
-    and:
     1 * carInterface.getRentingData(RENTING_CANCELLATION)
     and:
     adventure.getState().getValue() == State.CANCELLED
