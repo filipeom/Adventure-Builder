@@ -20,8 +20,11 @@ public class HotelController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String hotelForm(Model model) {
 		logger.info("hotelForm");
+
+		HotelInterface hotelInterface = new HotelInterface();
+
 		model.addAttribute("hotel", new HotelData());
-		model.addAttribute("hotels", HotelInterface.getHotels());
+		model.addAttribute("hotels", hotelInterface.getHotels());
 		return "hotels";
 	}
 
@@ -31,12 +34,14 @@ public class HotelController {
 				hotelData.getCode(), hotelData.getNif(), hotelData.getIban(), hotelData.getPriceSingle(),
 				hotelData.getPriceDouble());
 
+		HotelInterface hotelInterface = new HotelInterface();
+
 		try {
-			HotelInterface.createHotel(hotelData);
+			hotelInterface.createHotel(hotelData);
 		} catch (HotelException be) {
 			model.addAttribute("error", "Error: it was not possible to create the hotel");
 			model.addAttribute("hotel", hotelData);
-			model.addAttribute("hotels", HotelInterface.getHotels());
+			model.addAttribute("hotels", hotelInterface.getHotels());
 			return "hotels";
 		}
 
@@ -47,7 +52,9 @@ public class HotelController {
 	public String deleteHotels(Model model) {
 		logger.info("deleteHotels");
 
-		HotelInterface.deleteHotels();
+		HotelInterface hotelInterface = new HotelInterface();
+
+		hotelInterface.deleteHotels();
 
 		return "redirect:/hotels";
 	}

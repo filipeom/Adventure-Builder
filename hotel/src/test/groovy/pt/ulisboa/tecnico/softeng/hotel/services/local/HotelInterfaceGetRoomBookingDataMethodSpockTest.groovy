@@ -21,17 +21,19 @@ class HotelInterfaceGetRoomBookingDataMethodSpockTest extends SpockRollbackTestA
 	def hotel
 	def room
 	def booking
+	def hotelInterface
 
 	@Override
 	def populate4Test() {
 		hotel = new Hotel('XPTO123', 'Lisboa', NIF_HOTEL, 'IBAN', 20.0, 30.0)
 		room = new Room(hotel, '01', Type.SINGLE)
 		booking = room.reserve(Type.SINGLE, ARRIVAL, DEPARTURE, NIF_BUYER, IBAN_BUYER)
+		hotelInterface = new HotelInterface()
 	}
 
 	def 'success'() {
 		when: 'get the booking data from a booking'
-		RestRoomBookingData data = HotelInterface.getRoomBookingData(booking.getReference())
+		RestRoomBookingData data = hotelInterface.getRoomBookingData(booking.getReference())
 
 		then: 'it contains the correct information'
 		booking.getReference().equals(data.getReference())
@@ -51,7 +53,7 @@ class HotelInterfaceGetRoomBookingDataMethodSpockTest extends SpockRollbackTestA
 		booking.cancel();
 
 		when: 'the get booking data'
-		RestRoomBookingData data = HotelInterface.getRoomBookingData(booking.getCancellation());
+		RestRoomBookingData data = hotelInterface.getRoomBookingData(booking.getCancellation());
 
 		then: 'it contains the correct information'
 		booking.getReference().equals(data.getReference())
@@ -69,7 +71,7 @@ class HotelInterfaceGetRoomBookingDataMethodSpockTest extends SpockRollbackTestA
 	@Unroll('invalid #reference')
 	def 'invalid arguments'() {
 		when:
-		HotelInterface.getRoomBookingData(reference)
+		hotelInterface.getRoomBookingData(reference)
 
 		then:
 		thrown(HotelException)

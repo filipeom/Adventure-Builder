@@ -26,8 +26,12 @@ public class HotelRestController {
 		logger.info("reserve type:{}, arrival:{}, departure:{}, nif:{}, iba:{}, adventureId:{}",
 				roomBookingData.getRoomType(), roomBookingData.getArrival(), roomBookingData.getDeparture(),
 				roomBookingData.getBuyerNif(), roomBookingData.getBuyerIban(), roomBookingData.getAdventureId());
+
+		HotelInterface hotelInterface = new HotelInterface();
+
+
 		try {
-			return new ResponseEntity<RestRoomBookingData>(HotelInterface.reserveRoom(roomBookingData), HttpStatus.OK);
+			return new ResponseEntity<RestRoomBookingData>(hotelInterface.reserveRoom(roomBookingData), HttpStatus.OK);
 		} catch (HotelException be) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
@@ -36,8 +40,12 @@ public class HotelRestController {
 	@RequestMapping(value = "/cancel", method = RequestMethod.POST)
 	public ResponseEntity<String> cancel(@RequestParam String reference) {
 		logger.info("cancel reference:{}", reference);
+
+		HotelInterface hotelInterface = new HotelInterface();
+
+
 		try {
-			return new ResponseEntity<>(HotelInterface.cancelBooking(reference), HttpStatus.OK);
+			return new ResponseEntity<>(hotelInterface.cancelBooking(reference), HttpStatus.OK);
 		} catch (HotelException be) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
@@ -46,8 +54,12 @@ public class HotelRestController {
 	@RequestMapping(value = "/booking", method = RequestMethod.GET)
 	public ResponseEntity<RestRoomBookingData> booking(@RequestParam String reference) {
 		logger.info("booking reference:{}", reference);
+
+		HotelInterface hotelInterface = new HotelInterface();
+
+
 		try {
-			return new ResponseEntity<>(HotelInterface.getRoomBookingData(reference), HttpStatus.OK);
+			return new ResponseEntity<>(hotelInterface.getRoomBookingData(reference), HttpStatus.OK);
 		} catch (HotelException be) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
@@ -60,8 +72,12 @@ public class HotelRestController {
 			@RequestParam String iban, @RequestParam String bulkId) {
 		logger.info("bulk number:{}, arrival:{}, departure:{}, nif:{}, iban:{}, bulkId:{}", number, arrival, departure,
 				nif, iban, bulkId);
+
+		HotelInterface hotelInterface = new HotelInterface();
+
+
 		try {
-			return new ResponseEntity<>(HotelInterface.bulkBooking(number, arrival, departure, nif, iban, bulkId)
+			return new ResponseEntity<>(hotelInterface.bulkBooking(number, arrival, departure, nif, iban, bulkId)
 					.stream().toArray(size -> new String[size]), HttpStatus.OK);
 		} catch (HotelException be) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

@@ -23,12 +23,14 @@ public class RoomController {
 	public String roomForm(Model model, @PathVariable String code) {
 		logger.info("roomForm hotelCode:{}", code);
 
-		HotelData hotelData = HotelInterface.getHotelDataByCode(code);
+		HotelInterface hotelInterface = new HotelInterface();
+
+		HotelData hotelData = hotelInterface.getHotelDataByCode(code);
 
 		if (hotelData == null) {
 			model.addAttribute("error", "Error: it does not exist a hotel with the code " + code);
 			model.addAttribute("hotel", new HotelData());
-			model.addAttribute("hotels", HotelInterface.getHotels());
+			model.addAttribute("hotels", hotelInterface.getHotels());
 			return "hotels";
 		} else {
 			model.addAttribute("room", new RoomData());
@@ -41,12 +43,14 @@ public class RoomController {
 	public String roomSubmit(Model model, @PathVariable String code, @ModelAttribute RoomData roomData) {
 		logger.info("roomSubmit hotelCode:{}, number:{}, type:{}", code, roomData.getNumber(), roomData.getType());
 
+		HotelInterface hotelInterface = new HotelInterface();
+
 		try {
-			HotelInterface.createRoom(code, roomData);
+			hotelInterface.createRoom(code, roomData);
 		} catch (HotelException be) {
 			model.addAttribute("error", "Error: it was not possible to create the room");
 			model.addAttribute("room", roomData);
-			model.addAttribute("hotel", HotelInterface.getHotelDataByCode(code));
+			model.addAttribute("hotel", hotelInterface.getHotelDataByCode(code));
 			return "rooms";
 		}
 

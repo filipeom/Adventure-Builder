@@ -51,7 +51,7 @@ public class Booking extends Booking_Base {
 
 	}
 
-	public static String getType() {
+	public String getType() {
 		return HOUSING_TYPE;
 	}
 

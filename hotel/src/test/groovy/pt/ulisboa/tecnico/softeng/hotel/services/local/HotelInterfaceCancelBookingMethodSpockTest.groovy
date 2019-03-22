@@ -20,16 +20,19 @@ class HotelInterfaceCancelBookingMethodSpockTest extends SpockRollbackTestAbstra
 	def room;
 	def booking;
 
+	def hotelInterface
+
 	@Override
 	def populate4Test() {
 		hotel = new Hotel("XPTO123", "Paris", "NIF", "IBAN", 20.0, 30.0);
 		room = new Room(hotel, "01", Type.DOUBLE);
 		booking = room.reserve(Type.DOUBLE, ARRIVAL, DEPARTURE, NIF_BUYER, IBAN_BUYER);
+		hotelInterface = new HotelInterface()
 	}
 
 	def 'success'() {
 		when: 'a booking is cancelled'
-		def cancel = HotelInterface.cancelBooking(booking.getReference());
+		def cancel = hotelInterface.cancelBooking(booking.getReference());
 
 		then:
 		booking.isCancelled()
@@ -39,7 +42,7 @@ class HotelInterfaceCancelBookingMethodSpockTest extends SpockRollbackTestAbstra
 	@Unroll()
 	def 'invalid arguments'() {
 		when: 'a booking is cancelled'
-		HotelInterface.cancelBooking(reference);
+		hotelInterface.cancelBooking(reference);
 
 		then: 'throws an exception'
 		thrown(HotelException)
