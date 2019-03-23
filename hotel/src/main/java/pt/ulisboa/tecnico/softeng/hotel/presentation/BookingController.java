@@ -18,11 +18,11 @@ import pt.ulisboa.tecnico.softeng.hotel.services.local.dataobjects.RoomData;
 @Controller
 @RequestMapping(value = "/hotels/{code}/rooms/{number}/bookings")
 public class BookingController {
-	private static Logger logger = LoggerFactory.getLogger(BookingController.class);
+	private final Logger logger = LoggerFactory.getLogger(BookingController.class);
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String bookingForm(Model model, @PathVariable String code, @PathVariable String number) {
-		logger.info("bookingForm hotelCode:{}, roomNumber", code, number);
+		this.logger.info("bookingForm hotelCode:{}, roomNumber", code, number);
 
 		HotelInterface hotelInterface = new HotelInterface();
 
@@ -44,7 +44,7 @@ public class BookingController {
 	@RequestMapping(method = RequestMethod.POST)
 	public String bookingSubmit(Model model, @PathVariable String code, @PathVariable String number,
 			@ModelAttribute RoomBookingData booking) {
-		logger.info("bookingSubmit hotelCode:{}, roomNumber:{}, arrival:{}, departure:{}, nif:{}, iban:{}", code,
+		this.logger.info("bookingSubmit hotelCode:{}, roomNumber:{}, arrival:{}, departure:{}, nif:{}, iban:{}", code,
 				number, booking.getArrival(), booking.getDeparture(), booking.getBuyerNif(), booking.getBuyerIban());
 
 		HotelInterface hotelInterface = new HotelInterface();

@@ -15,11 +15,11 @@ import pt.ulisboa.tecnico.softeng.hotel.services.local.dataobjects.HotelData;
 @Controller
 @RequestMapping(value = "/hotels")
 public class HotelController {
-	private static Logger logger = LoggerFactory.getLogger(HotelController.class);
+	private final Logger logger = LoggerFactory.getLogger(HotelController.class);
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String hotelForm(Model model) {
-		logger.info("hotelForm");
+		this.logger.info("hotelForm");
 
 		HotelInterface hotelInterface = new HotelInterface();
 
@@ -30,7 +30,7 @@ public class HotelController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public String hotelSubmit(Model model, @ModelAttribute HotelData hotelData) {
-		logger.info("hotelSubmit name:{}, code:{}, nif:{}, iban:{}, single:{}, double:{}", hotelData.getName(),
+		this.logger.info("hotelSubmit name:{}, code:{}, nif:{}, iban:{}, single:{}, double:{}", hotelData.getName(),
 				hotelData.getCode(), hotelData.getNif(), hotelData.getIban(), hotelData.getPriceSingle(),
 				hotelData.getPriceDouble());
 
@@ -50,7 +50,7 @@ public class HotelController {
 
 	@RequestMapping(method = RequestMethod.DELETE)
 	public String deleteHotels(Model model) {
-		logger.info("deleteHotels");
+		this.logger.info("deleteHotels");
 
 		HotelInterface hotelInterface = new HotelInterface();
 
