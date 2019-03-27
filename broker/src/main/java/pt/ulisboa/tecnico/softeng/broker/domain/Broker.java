@@ -103,6 +103,12 @@ public class Broker extends Broker_Base {
 		return getClientSet().stream().anyMatch(client -> client.getDrivingLicense().equals(drivingLicense));
 	}
 
+  public BulkRoomBooking getBulkRoomBooking() {
+    for (BulkRoomBooking brb : getRoomBulkBookingSet())
+      return brb;
+    throw new BrokerException();
+  }
+
 	public void bulkBooking(int number, LocalDate arrival, LocalDate departure) {
 		BulkRoomBooking bulkBooking = new BulkRoomBooking(this, number, arrival, departure, getNifAsBuyer(), getIban());
 		bulkBooking.processBooking();
