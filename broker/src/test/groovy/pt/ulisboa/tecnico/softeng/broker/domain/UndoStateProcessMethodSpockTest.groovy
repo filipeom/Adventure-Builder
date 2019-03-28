@@ -72,9 +72,11 @@ class UndoStateProcessMethodSpockTest extends SpockRollbackTestAbstractClass {
 
   def 'success revert activity'() {
     given:
-    adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION)
-    adventure.setPaymentCancellation(PAYMENT_CANCELLATION)
-    adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION)
+    with(adventure) {
+      setPaymentConfirmation(PAYMENT_CONFIRMATION)
+      setPaymentCancellation(PAYMENT_CANCELLATION)
+      setActivityConfirmation(ACTIVITY_CONFIRMATION)
+    }
     activityInterface.cancelReservation(ACTIVITY_CONFIRMATION) >> ACTIVITY_CANCELLATION
 
     when:
@@ -87,9 +89,11 @@ class UndoStateProcessMethodSpockTest extends SpockRollbackTestAbstractClass {
   @Unroll('the #failure occurred')
   def 'fail revert activity'() {
     given:
-    adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION)
-    adventure.setPaymentCancellation(PAYMENT_CANCELLATION)
-    adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION)
+    with(adventure) {
+      setPaymentConfirmation(PAYMENT_CONFIRMATION)
+      setPaymentCancellation(PAYMENT_CANCELLATION)
+      setActivityConfirmation(ACTIVITY_CONFIRMATION)
+    }
  
     when:
     adventure.process()
@@ -107,11 +111,13 @@ class UndoStateProcessMethodSpockTest extends SpockRollbackTestAbstractClass {
   
   def 'success revert room booking'() {
     given:
-    adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION)
-    adventure.setPaymentCancellation(PAYMENT_CANCELLATION)
-    adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION)
-    adventure.setActivityCancellation(ACTIVITY_CANCELLATION)
-    adventure.setRoomConfirmation(ROOM_CONFIRMATION)
+    with(adventure) {
+      setPaymentConfirmation(PAYMENT_CONFIRMATION)
+      setPaymentCancellation(PAYMENT_CANCELLATION)
+      setActivityConfirmation(ACTIVITY_CONFIRMATION)
+      setActivityCancellation(ACTIVITY_CANCELLATION)
+      setRoomConfirmation(ROOM_CONFIRMATION)
+    }
     hotelInterface.cancelBooking(ROOM_CONFIRMATION) >> ROOM_CANCELLATION
 
     when:
@@ -124,11 +130,13 @@ class UndoStateProcessMethodSpockTest extends SpockRollbackTestAbstractClass {
   @Unroll('the #failure occurred')
   def 'fail revert room booking'() {
     given:
-    adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION)
-    adventure.setPaymentCancellation(PAYMENT_CANCELLATION)
-    adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION)
-    adventure.setActivityCancellation(ACTIVITY_CANCELLATION)
-    adventure.setRoomConfirmation(ROOM_CONFIRMATION)
+    with(adventure) {
+      setPaymentConfirmation(PAYMENT_CONFIRMATION)
+      setPaymentCancellation(PAYMENT_CANCELLATION)
+      setActivityConfirmation(ACTIVITY_CONFIRMATION)
+      setActivityCancellation(ACTIVITY_CANCELLATION)
+      setRoomConfirmation(ROOM_CONFIRMATION)
+    }
 
     when:
     adventure.process()
@@ -146,13 +154,15 @@ class UndoStateProcessMethodSpockTest extends SpockRollbackTestAbstractClass {
 
   def 'success revert rent a car'() {
     given:
-    adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION)
-    adventure.setPaymentCancellation(PAYMENT_CANCELLATION)
-    adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION)
-    adventure.setActivityCancellation(ACTIVITY_CANCELLATION)
-    adventure.setRoomConfirmation(ROOM_CONFIRMATION)
-    adventure.setRoomCancellation(ROOM_CANCELLATION)
-    adventure.setRentingConfirmation(RENTING_CONFIRMATION)
+    with(adventure) {
+      setPaymentConfirmation(PAYMENT_CONFIRMATION)
+      setPaymentCancellation(PAYMENT_CANCELLATION)
+      setActivityConfirmation(ACTIVITY_CONFIRMATION)
+      setActivityCancellation(ACTIVITY_CANCELLATION)
+      setRoomConfirmation(ROOM_CONFIRMATION)
+      setRoomCancellation(ROOM_CANCELLATION)
+      setRentingConfirmation(RENTING_CONFIRMATION)
+    }
     carInterface.cancelRenting(RENTING_CONFIRMATION) >> RENTING_CANCELLATION
 
     when:
@@ -165,13 +175,15 @@ class UndoStateProcessMethodSpockTest extends SpockRollbackTestAbstractClass {
   @Unroll('the #failure occured')
   def 'fail revert rent a car'() {
     given:
-    adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION)
-    adventure.setPaymentCancellation(PAYMENT_CANCELLATION)
-    adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION)
-    adventure.setActivityCancellation(ACTIVITY_CANCELLATION)
-    adventure.setRoomConfirmation(ROOM_CONFIRMATION)
-    adventure.setRoomCancellation(ROOM_CANCELLATION)
-    adventure.setRentingConfirmation(RENTING_CONFIRMATION)
+    with(adventure) {
+      setPaymentConfirmation(PAYMENT_CONFIRMATION)
+      setPaymentCancellation(PAYMENT_CANCELLATION)
+      setActivityConfirmation(ACTIVITY_CONFIRMATION)
+      setActivityCancellation(ACTIVITY_CANCELLATION)
+      setRoomConfirmation(ROOM_CONFIRMATION)
+      setRoomCancellation(ROOM_CANCELLATION)
+      setRentingConfirmation(RENTING_CONFIRMATION)
+    }
 
     when:
     adventure.process()
@@ -189,15 +201,17 @@ class UndoStateProcessMethodSpockTest extends SpockRollbackTestAbstractClass {
 
   def 'sucess cancel invoice'() {
     given:
-    adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION)
-    adventure.setPaymentCancellation(PAYMENT_CANCELLATION)
-    adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION)
-    adventure.setActivityCancellation(ACTIVITY_CANCELLATION)
-    adventure.setRoomConfirmation(ROOM_CONFIRMATION)
-    adventure.setRoomCancellation(ROOM_CANCELLATION)
-    adventure.setRentingConfirmation(RENTING_CONFIRMATION)
-    adventure.setRentingCancellation(RENTING_CANCELLATION)
-    adventure.setInvoiceReference(INVOICE_REFERENCE)
+    with(adventure) {
+      setPaymentConfirmation(PAYMENT_CONFIRMATION)
+      setPaymentCancellation(PAYMENT_CANCELLATION)
+      setActivityConfirmation(ACTIVITY_CONFIRMATION)
+      setActivityCancellation(ACTIVITY_CANCELLATION)
+      setRoomConfirmation(ROOM_CONFIRMATION)
+      setRoomCancellation(ROOM_CANCELLATION)
+      setRentingConfirmation(RENTING_CONFIRMATION)
+      setRentingCancellation(RENTING_CANCELLATION)
+      setInvoiceReference(INVOICE_REFERENCE)
+    }
 
     when:
     adventure.process()
@@ -211,15 +225,17 @@ class UndoStateProcessMethodSpockTest extends SpockRollbackTestAbstractClass {
   @Unroll('the #failure occured')
   def 'fail cancel invoice'() {
     given:
-    adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION)
-    adventure.setPaymentCancellation(PAYMENT_CANCELLATION)
-    adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION)
-    adventure.setActivityCancellation(ACTIVITY_CANCELLATION)
-    adventure.setRoomConfirmation(ROOM_CONFIRMATION)
-    adventure.setRoomCancellation(ROOM_CANCELLATION)
-    adventure.setRentingConfirmation(RENTING_CONFIRMATION)
-    adventure.setRentingCancellation(RENTING_CANCELLATION)
-    adventure.setInvoiceReference(INVOICE_REFERENCE)
+    with(adventure) {
+      setPaymentConfirmation(PAYMENT_CONFIRMATION)
+      setPaymentCancellation(PAYMENT_CANCELLATION)
+      setActivityConfirmation(ACTIVITY_CONFIRMATION)
+      setActivityCancellation(ACTIVITY_CANCELLATION)
+      setRoomConfirmation(ROOM_CONFIRMATION)
+      setRoomCancellation(ROOM_CANCELLATION)
+      setRentingConfirmation(RENTING_CONFIRMATION)
+      setRentingCancellation(RENTING_CANCELLATION)
+      setInvoiceReference(INVOICE_REFERENCE)
+    }
 
     when:
     adventure.process()
