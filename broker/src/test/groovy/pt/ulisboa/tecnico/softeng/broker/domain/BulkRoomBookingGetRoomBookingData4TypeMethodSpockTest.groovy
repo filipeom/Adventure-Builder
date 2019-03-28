@@ -1,14 +1,14 @@
-package pt.ulisboa.tecnico.softeng.broker.domain;
+package pt.ulisboa.tecnico.softeng.broker.domain
 
 import spock.lang.Unroll
-import pt.ulisboa.tecnico.softeng.broker.services.remote.ActivityInterface;
-import pt.ulisboa.tecnico.softeng.broker.services.remote.TaxInterface;
-import pt.ulisboa.tecnico.softeng.broker.services.remote.CarInterface;
-import pt.ulisboa.tecnico.softeng.broker.services.remote.HotelInterface;
-import pt.ulisboa.tecnico.softeng.broker.services.remote.BankInterface;
-import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.RestRoomBookingData;
-import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.HotelException;
-import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.RemoteAccessException;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.ActivityInterface
+import pt.ulisboa.tecnico.softeng.broker.services.remote.TaxInterface
+import pt.ulisboa.tecnico.softeng.broker.services.remote.CarInterface
+import pt.ulisboa.tecnico.softeng.broker.services.remote.HotelInterface
+import pt.ulisboa.tecnico.softeng.broker.services.remote.BankInterface
+import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.RestRoomBookingData
+import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.HotelException
+import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.RemoteAccessException
 
 
 class BulkRoomBookingGetRoomBookingData4TypeMethodSpockTest extends SpockRollbackTestAbstractClass {

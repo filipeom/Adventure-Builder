@@ -1,15 +1,15 @@
 package pt.ulisboa.tecnico.softeng.broker.domain
 
 import spock.lang.Unroll
-import pt.ulisboa.tecnico.softeng.broker.domain.Adventure.State;
-import pt.ulisboa.tecnico.softeng.broker.services.remote.ActivityInterface;
-import pt.ulisboa.tecnico.softeng.broker.services.remote.TaxInterface;
-import pt.ulisboa.tecnico.softeng.broker.services.remote.CarInterface;
-import pt.ulisboa.tecnico.softeng.broker.services.remote.HotelInterface;
-import pt.ulisboa.tecnico.softeng.broker.services.remote.BankInterface;
-import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.RestActivityBookingData;
-import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.ActivityException;
-import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.RemoteAccessException;
+import pt.ulisboa.tecnico.softeng.broker.domain.Adventure.State
+import pt.ulisboa.tecnico.softeng.broker.services.remote.ActivityInterface
+import pt.ulisboa.tecnico.softeng.broker.services.remote.TaxInterface
+import pt.ulisboa.tecnico.softeng.broker.services.remote.CarInterface
+import pt.ulisboa.tecnico.softeng.broker.services.remote.HotelInterface
+import pt.ulisboa.tecnico.softeng.broker.services.remote.BankInterface
+import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.RestActivityBookingData
+import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.ActivityException
+import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.RemoteAccessException
 
 
 class ReserveActivityStateProcessMethodSpockTest extends SpockRollbackTestAbstractClass {
@@ -58,7 +58,7 @@ class ReserveActivityStateProcessMethodSpockTest extends SpockRollbackTestAbstra
 		sameDayAdventure.process()
 
 		then:
-		activityInterface.reserveActivity(_) >> bookingData;
+		activityInterface.reserveActivity(_) >> bookingData
 
 		and:
 		sameDayAdventure.getState().getValue() == State.PROCESS_PAYMENT

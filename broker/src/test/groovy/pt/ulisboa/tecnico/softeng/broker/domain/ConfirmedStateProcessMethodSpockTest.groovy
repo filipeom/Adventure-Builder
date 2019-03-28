@@ -331,9 +331,9 @@ class ConfirmedStateProcessMethodSpockTest extends SpockRollbackTestAbstractClas
 
 	def 'hotelNoPaymentConfirmation'() {
 		given:
-		adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION);
-		adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION);
-		adventure.setRoomConfirmation(ROOM_CONFIRMATION);
+		adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION)
+		adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION)
+		adventure.setRoomConfirmation(ROOM_CONFIRMATION)
 		
 		when:
 		adventure.process()
