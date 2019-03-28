@@ -17,13 +17,13 @@ import pt.ulisboa.tecnico.softeng.activity.services.local.dataobjects.ActivityPr
 @Controller
 @RequestMapping(value = "/providers/{code}/activities")
 public class ActivityController {
-	private static Logger logger = LoggerFactory.getLogger(ActivityController.class);
+	private final Logger logger = LoggerFactory.getLogger(ActivityController.class);
     
     
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String activityForm(Model model, @PathVariable String code) {
-		logger.info("activityForm providerCode:{}", code);
+		this.logger.info("activityForm providerCode:{}", code);
 
         ActivityInterface activityInterface = new ActivityInterface();
         ActivityProviderData providerData = activityInterface.getProviderDataByCode(code);
@@ -41,7 +41,7 @@ public class ActivityController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public String activitySubmit(Model model, @PathVariable String code, @ModelAttribute ActivityData activity) {
-		logger.info(
+		this.logger.info(
 				"activitySubmit providerCode:{}, activityName:{}, activityMinAge:{}, activityMaxAge:{}, activityCapacity:{}",
 				code, activity.getName(), activity.getMinAge(), activity.getMaxAge(), activity.getCapacity());
         

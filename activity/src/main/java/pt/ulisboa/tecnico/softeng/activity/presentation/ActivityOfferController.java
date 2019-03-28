@@ -18,11 +18,11 @@ import pt.ulisboa.tecnico.softeng.activity.services.local.dataobjects.ActivityPr
 @Controller
 @RequestMapping(value = "/providers/{codeProvider}/activities/{codeActivity}/offers")
 public class ActivityOfferController {
-	private Logger logger = LoggerFactory.getLogger(ActivityOfferController.class);
+	private final Logger logger = LoggerFactory.getLogger(ActivityOfferController.class);
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String offerForm(final Model model, @PathVariable final String codeProvider, @PathVariable final String codeActivity) {
-		logger.info("offerForm codeProvider:{}, codeActivity:{}", codeProvider, codeActivity);
+		this.logger.info("offerForm codeProvider:{}, codeActivity:{}", codeProvider, codeActivity);
         
          ActivityInterface activityInterface = new ActivityInterface();
 		 ActivityData activityData = activityInterface.getActivityDataByCode(codeProvider, codeActivity);
@@ -44,7 +44,7 @@ public class ActivityOfferController {
 	@RequestMapping(method = RequestMethod.POST)
 	public String offerSubmit(final Model model, @PathVariable final String codeProvider, @PathVariable final String codeActivity,
 			@ModelAttribute  ActivityOfferData offer) {
-		logger.info("offerSubmit codeProvider:{}, codeActivity:{}, begin:{}, end:{}", codeProvider, codeActivity,
+		this.logger.info("offerSubmit codeProvider:{}, codeActivity:{}, begin:{}, end:{}", codeProvider, codeActivity,
 				offer.getBegin(), offer.getEnd());
             ActivityInterface activityInterface = new ActivityInterface();
 		try {

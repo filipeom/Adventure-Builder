@@ -15,11 +15,11 @@ import pt.ulisboa.tecnico.softeng.activity.services.local.dataobjects.ActivityPr
 @Controller
 @RequestMapping(value = "/providers")
 public class ActivityProviderController {
-	private static Logger logger = LoggerFactory.getLogger(ActivityProviderController.class);
+	private final Logger logger = LoggerFactory.getLogger(ActivityProviderController.class);
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String providerForm(Model model) {
-		logger.info("providerForm");
+		this.logger.info("providerForm");
         ActivityInterface activityInterface = new ActivityInterface();
 		model.addAttribute("provider", new ActivityProviderData());
 		model.addAttribute("providers", activityInterface.getProviders());
@@ -28,7 +28,7 @@ public class ActivityProviderController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public String providerSubmit(final Model model, @ModelAttribute final ActivityProviderData provider) {
-		logger.info("providerSubmit name:{}, code:{}, nif:{}, iban:{}", provider.getName(), provider.getCode(),
+		this.logger.info("providerSubmit name:{}, code:{}, nif:{}, iban:{}", provider.getName(), provider.getCode(),
 				provider.getNif(), provider.getIban());
         ActivityInterface activityInterface = new ActivityInterface();
 		try {
@@ -45,7 +45,7 @@ public class ActivityProviderController {
 
 	@RequestMapping(method = RequestMethod.DELETE)
 	public String deleteProviders(Model model) {
-		logger.info("deleteProviders");
+		this.logger.info("deleteProviders");
         ActivityInterface activityInterface = new ActivityInterface();
 		activityInterface.deleteActivityProviders();
 

@@ -17,10 +17,10 @@ public class Broker extends Broker_Base {
 
 
   private final ActivityInterface activityInterface;
-  private final BankInterface bankInterface;
-  private final CarInterface carInterface;
-  private final HotelInterface hotelInterface;
-  private final TaxInterface taxInterface;
+  private final BankInterface     bankInterface;
+  private final CarInterface      carInterface;
+  private final HotelInterface    hotelInterface;
+  private final TaxInterface      taxInterface;
 
   public Broker(String code, String name, String nifAsSeller, String nifAsBuyer, String iban) {
     this(code, name, nifAsSeller, nifAsBuyer, iban, new ActivityInterface(), new BankInterface(), 
@@ -38,13 +38,33 @@ public class Broker extends Broker_Base {
 		setIban(iban);
 
     this.activityInterface = activity;
-    this.bankInterface = bank;
-    this.carInterface = car;
-    this.hotelInterface = hotel;
-    this.taxInterface = tax;
+    this.bankInterface     = bank;
+    this.carInterface      = car;
+    this.hotelInterface    = hotel;
+    this.taxInterface      = tax;
 
 		FenixFramework.getDomainRoot().addBroker(this);
 	}
+
+  public ActivityInterface getActivityInterface() {
+    return this.activityInterface;
+  }
+
+  public BankInterface getBankInterface() {
+    return this.bankInterface;
+  }
+
+  public CarInterface getCarInterface() {
+    return this.carInterface;
+  }
+
+  public HotelInterface getHotelInterface() {
+    return this.hotelInterface;
+  }
+
+  public TaxInterface getTaxInterface() {
+    return this.taxInterface;
+  }
 
 	public void delete() {
 		setRoot(null);
@@ -113,27 +133,6 @@ public class Broker extends Broker_Base {
 		BulkRoomBooking bulkBooking = new BulkRoomBooking(this, number, arrival, departure, getNifAsBuyer(), getIban());
 		bulkBooking.processBooking();
 	}
-
-
-  public ActivityInterface getActivityInterface() {
-    return this.activityInterface;
-  }
-
-  public BankInterface getBankInterface() {
-    return this.bankInterface;
-  }
-
-  public CarInterface getCarInterface() {
-    return this.carInterface;
-  }
-
-  public HotelInterface getHotelInterface() {
-    return this.hotelInterface;
-  }
-
-  public TaxInterface getTaxInterface() {
-    return this.taxInterface;
-  }
 
 	@Override
 	public int getCounter() {

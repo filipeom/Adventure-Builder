@@ -17,11 +17,11 @@ import pt.ulisboa.tecnico.softeng.activity.services.remote.dataobjects.RestActiv
 @RestController
 @RequestMapping(value = "/rest/providers")
 public class ActivityRestController {
-	private static Logger logger = LoggerFactory.getLogger(ActivityRestController.class);
+	private final Logger logger = LoggerFactory.getLogger(ActivityRestController.class);
 
 	@RequestMapping(value = "/reserve", method = RequestMethod.POST)
 	public ResponseEntity<RestActivityBookingData> reserve(@RequestBody RestActivityBookingData activityBookingData) {
-		logger.info("reserveActivity begin:{}, end:{}, age:{}, nif:{}, iban:{}, adventureId:{}",
+		this.logger.info("reserveActivity begin:{}, end:{}, age:{}, nif:{}, iban:{}, adventureId:{}",
 				activityBookingData.getBegin(), activityBookingData.getEnd(), activityBookingData.getAge(),
 				activityBookingData.getNif(), activityBookingData.getIban(), activityBookingData.getAdventureId());
         ActivityInterface activityInterface = new ActivityInterface();
@@ -35,7 +35,7 @@ public class ActivityRestController {
 
 	@RequestMapping(value = "/cancel", method = RequestMethod.POST)
 	public ResponseEntity<String> cancel(@RequestParam String reference) {
-		logger.info("cancel reference:{}", reference);
+		this.logger.info("cancel reference:{}", reference);
         ActivityInterface activityInterface = new ActivityInterface();
 		try {
 			return new ResponseEntity<>(activityInterface.cancelReservation(reference), HttpStatus.OK);
@@ -46,7 +46,7 @@ public class ActivityRestController {
 
 	@RequestMapping(value = "/reservation", method = RequestMethod.GET)
 	public ResponseEntity<RestActivityBookingData> reservation(@RequestParam String reference) {
-		logger.info("reservation reference:{}", reference);
+		this.logger.info("reservation reference:{}", reference);
         ActivityInterface activityInterface = new ActivityInterface();
 		try {
 			return new ResponseEntity<>(activityInterface.getActivityReservationData(reference), HttpStatus.OK);

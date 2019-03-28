@@ -15,14 +15,14 @@ import pt.ulisboa.tecnico.softeng.broker.services.local.dataobjects.BrokerData;
 @Controller
 @RequestMapping(value = "/brokers")
 public class BrokerController {
-	private static Logger logger = LoggerFactory.getLogger(BrokerController.class);
+	private final Logger logger = LoggerFactory.getLogger(BrokerController.class);
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String brokerForm(Model model) {
 
     final BrokerInterface brokerInterface = new BrokerInterface();
 
-		logger.info("brokerForm");
+		this.logger.info("brokerForm");
 		model.addAttribute("broker", new BrokerData());
 		model.addAttribute("brokers", brokerInterface.getBrokers());
 		return "brokers";
@@ -30,7 +30,7 @@ public class BrokerController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public String brokerSubmit(Model model, @ModelAttribute BrokerData brokerData) {
-		logger.info("brokerSubmit name:{}, code:{}, nifAsSeller:{}, nifAsBuyer:{}, iban:{}", brokerData.getName(),
+		this.logger.info("brokerSubmit name:{}, code:{}, nifAsSeller:{}, nifAsBuyer:{}, iban:{}", brokerData.getName(),
 				brokerData.getCode(), brokerData.getNifAsSeller(), brokerData.getNifAsBuyer(), brokerData.getIban());
 
     final BrokerInterface brokerInterface = new BrokerInterface();
@@ -49,7 +49,7 @@ public class BrokerController {
 
 	@RequestMapping(method = RequestMethod.DELETE)
 	public String deleteBrokers(Model model) {
-		logger.info("deleteBrokers");
+		this.logger.info("deleteBrokers");
 
     final BrokerInterface brokerInterface = new BrokerInterface();
 

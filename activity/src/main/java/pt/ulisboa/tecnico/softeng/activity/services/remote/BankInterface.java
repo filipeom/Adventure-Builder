@@ -15,7 +15,7 @@ public class BankInterface {
 	private final String ENDPOINT = "http://localhost:8082";
 
 	public String processPayment(RestBankOperationData bankOperationData) {
-		logger.info("processPayment iban:{}, amount:{}, transactionSource:{}, transactionReference:{}",
+		this.logger.info("processPayment iban:{}, amount:{}, transactionSource:{}, transactionReference:{}",
 				bankOperationData.getIban(), bankOperationData.getValue(), bankOperationData.getTransactionSource(),
 				bankOperationData.getTransactionReference());
 
@@ -26,13 +26,13 @@ public class BankInterface {
 					bankOperationData, String.class);
 			return result;
 		} catch (HttpClientErrorException e) {
-			logger.info(
+			this.logger.info(
 					"processPayment HttpClientErrorException  iban:{}, amount:{}, transactionSource:{}, transactionReference:{}",
 					bankOperationData.getIban(), bankOperationData.getValue(), bankOperationData.getTransactionSource(),
 					bankOperationData.getTransactionReference());
 			throw new BankException();
 		} catch (Exception e) {
-			logger.info("processPayment Exception iban:{}, amount:{}, transactionSource:{}, transactionReference:{}",
+			this.logger.info("processPayment Exception iban:{}, amount:{}, transactionSource:{}, transactionReference:{}",
 					bankOperationData.getIban(), bankOperationData.getValue(), bankOperationData.getTransactionSource(),
 					bankOperationData.getTransactionReference());
 			throw new RemoteAccessException();
@@ -40,7 +40,7 @@ public class BankInterface {
 	}
 
 	public String cancelPayment(String reference) {
-		logger.info("cancelPayment reference:{}", reference);
+		this.logger.info("cancelPayment reference:{}", reference);
 
 		RestTemplate restTemplate = new RestTemplate();
 		try {
@@ -48,10 +48,10 @@ public class BankInterface {
 					String.class);
 			return result;
 		} catch (HttpClientErrorException e) {
-			logger.info("cancelPayment HttpClientErrorException reference:{}", reference);
+			this.logger.info("cancelPayment HttpClientErrorException reference:{}", reference);
 			throw new BankException();
 		} catch (Exception e) {
-			logger.info("cancelPayment Exception reference:{}", reference);
+			this.logger.info("cancelPayment Exception reference:{}", reference);
 			throw new RemoteAccessException();
 		}
 	}

@@ -18,12 +18,12 @@ import pt.ulisboa.tecnico.softeng.activity.services.remote.dataobjects.RestActiv
 @Controller
 @RequestMapping(value = "/providers/{codeProvider}/activities/{codeActivity}/offers/{externalId}/bookings")
 public class BookingController {
-	private static Logger logger = LoggerFactory.getLogger(BookingController.class);
+	private final Logger logger = LoggerFactory.getLogger(BookingController.class);
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String offerBookingsPage(Model model, @PathVariable String codeProvider, @PathVariable String codeActivity,
 			@PathVariable String externalId) {
-		logger.info("offerBookingsPage codeProvider:{}, codeActivity:{}, externalId:{}", codeProvider, codeActivity,
+		this.logger.info("offerBookingsPage codeProvider:{}, codeActivity:{}, externalId:{}", codeProvider, codeActivity,
 				externalId);
         ActivityInterface activityInterface = new ActivityInterface();
 		ActivityOfferData activityOfferData = activityInterface.getActivityOfferDataByExternalId(externalId);
@@ -43,7 +43,7 @@ public class BookingController {
 	@RequestMapping(method = RequestMethod.POST)
 	public String bookingSubmit(Model model, @PathVariable String codeProvider, @PathVariable String codeActivity,
 			@PathVariable String externalId, @ModelAttribute RestActivityBookingData booking) {
-		logger.info("offerSubmit codeProvider:{}, codeActivity:{}, externalId:{}", codeProvider, codeActivity,
+		this.logger.info("offerSubmit codeProvider:{}, codeActivity:{}, externalId:{}", codeProvider, codeActivity,
 				externalId);
         ActivityInterface activityInterface = new ActivityInterface();
 		try {

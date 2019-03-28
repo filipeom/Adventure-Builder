@@ -15,9 +15,6 @@ import pt.ulisboa.tecnico.softeng.activity.services.local.dataobjects.ActivityDa
 import pt.ulisboa.tecnico.softeng.activity.services.local.dataobjects.ActivityOfferData;
 import pt.ulisboa.tecnico.softeng.activity.services.local.dataobjects.ActivityProviderData;
 import pt.ulisboa.tecnico.softeng.activity.services.remote.dataobjects.RestActivityBookingData;
-import pt.ulisboa.tecnico.softeng.activity.domain.Processor;
-import pt.ulisboa.tecnico.softeng.activity.services.remote.BankInterface;
-import pt.ulisboa.tecnico.softeng.activity.services.remote.TaxInterface;
 
 public class ActivityInterface {
 
@@ -30,8 +27,7 @@ public class ActivityInterface {
 
 	@Atomic(mode = TxMode.WRITE)
 	public void createProvider(final ActivityProviderData provider) {
-        final Processor processor = new Processor(new BankInterface(), new TaxInterface());
-		new ActivityProvider(provider.getCode(), provider.getName(), provider.getNif(), provider.getIban(), processor);
+		new ActivityProvider(provider.getCode(), provider.getName(), provider.getNif(), provider.getIban());
 	}
 
 	@Atomic(mode = TxMode.READ)

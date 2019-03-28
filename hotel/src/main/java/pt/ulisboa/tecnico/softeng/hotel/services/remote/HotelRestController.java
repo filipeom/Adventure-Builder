@@ -19,16 +19,15 @@ import pt.ulisboa.tecnico.softeng.hotel.services.remote.dataobjects.RestRoomBook
 @RestController
 @RequestMapping(value = "/rest/hotels")
 public class HotelRestController {
-	private static Logger logger = LoggerFactory.getLogger(HotelRestController.class);
+	private final Logger logger = LoggerFactory.getLogger(HotelRestController.class);
 
 	@RequestMapping(value = "/reserve", method = RequestMethod.POST)
 	public ResponseEntity<RestRoomBookingData> reserve(@RequestBody RestRoomBookingData roomBookingData) {
-		logger.info("reserve type:{}, arrival:{}, departure:{}, nif:{}, iba:{}, adventureId:{}",
+		this.logger.info("reserve type:{}, arrival:{}, departure:{}, nif:{}, iba:{}, adventureId:{}",
 				roomBookingData.getRoomType(), roomBookingData.getArrival(), roomBookingData.getDeparture(),
 				roomBookingData.getBuyerNif(), roomBookingData.getBuyerIban(), roomBookingData.getAdventureId());
 
 		HotelInterface hotelInterface = new HotelInterface();
-
 
 		try {
 			return new ResponseEntity<RestRoomBookingData>(hotelInterface.reserveRoom(roomBookingData), HttpStatus.OK);
@@ -39,7 +38,7 @@ public class HotelRestController {
 
 	@RequestMapping(value = "/cancel", method = RequestMethod.POST)
 	public ResponseEntity<String> cancel(@RequestParam String reference) {
-		logger.info("cancel reference:{}", reference);
+		this.logger.info("cancel reference:{}", reference);
 
 		HotelInterface hotelInterface = new HotelInterface();
 
@@ -53,7 +52,7 @@ public class HotelRestController {
 
 	@RequestMapping(value = "/booking", method = RequestMethod.GET)
 	public ResponseEntity<RestRoomBookingData> booking(@RequestParam String reference) {
-		logger.info("booking reference:{}", reference);
+		this.logger.info("booking reference:{}", reference);
 
 		HotelInterface hotelInterface = new HotelInterface();
 
@@ -70,7 +69,7 @@ public class HotelRestController {
 			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate arrival,
 			@DateTimeFormat(pattern = "yyyy-MM-dd") @RequestParam LocalDate departure, @RequestParam String nif,
 			@RequestParam String iban, @RequestParam String bulkId) {
-		logger.info("bulk number:{}, arrival:{}, departure:{}, nif:{}, iban:{}, bulkId:{}", number, arrival, departure,
+		this.logger.info("bulk number:{}, arrival:{}, departure:{}, nif:{}, iban:{}, bulkId:{}", number, arrival, departure,
 				nif, iban, bulkId);
 
 		HotelInterface hotelInterface = new HotelInterface();

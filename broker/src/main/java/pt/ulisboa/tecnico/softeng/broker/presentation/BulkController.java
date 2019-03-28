@@ -18,11 +18,11 @@ import pt.ulisboa.tecnico.softeng.broker.services.local.dataobjects.BulkData;
 @Controller
 @RequestMapping(value = "/brokers/{brokerCode}/bulks")
 public class BulkController {
-	private static Logger logger = LoggerFactory.getLogger(AdventureController.class);
+	private final Logger logger = LoggerFactory.getLogger(AdventureController.class);
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String showBulks(Model model, @PathVariable String brokerCode) {
-		logger.info("showBulks code:{}", brokerCode);
+		this.logger.info("showBulks code:{}", brokerCode);
 
     final BrokerInterface brokerInterface = new BrokerInterface();
 
@@ -42,7 +42,7 @@ public class BulkController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public String submitBulk(Model model, @PathVariable String brokerCode, @ModelAttribute BulkData bulkData) {
-		logger.info("submitBulk brokerCode:{}, number:{}, arrival:{}, departure:{}, nif:{}, iban:{}", brokerCode,
+		this.logger.info("submitBulk brokerCode:{}, number:{}, arrival:{}, departure:{}, nif:{}, iban:{}", brokerCode,
 				bulkData.getNumber(), bulkData.getArrival(), bulkData.getDeparture());
 
     final BrokerInterface brokerInterface = new BrokerInterface();
@@ -61,7 +61,7 @@ public class BulkController {
 
 	@RequestMapping(value = "/{bulkId}/process", method = RequestMethod.POST)
 	public String processBulk(Model model, @PathVariable String brokerCode, @PathVariable String bulkId) {
-		logger.info("processBulk brokerCode:{}, bulkId:{}, ", brokerCode, bulkId);
+		this.logger.info("processBulk brokerCode:{}, bulkId:{}, ", brokerCode, bulkId);
 
     final BrokerInterface brokerInterface = new BrokerInterface();
 

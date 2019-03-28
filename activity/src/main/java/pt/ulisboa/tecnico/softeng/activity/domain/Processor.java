@@ -13,18 +13,19 @@ import pt.ulisboa.tecnico.softeng.activity.services.remote.exceptions.TaxExcepti
 
 public class Processor extends Processor_Base {
 	private static final String TRANSACTION_SOURCE = "ACTIVITY";
-    private final BankInterface _bankInterface;
-    private final TaxInterface _taxInterface;
+
+  private final BankInterface _bankInterface;
+  private final TaxInterface _taxInterface;
     
-    public Processor(BankInterface bankInterface, TaxInterface taxInterface){
-        _bankInterface = bankInterface;
-        _taxInterface = taxInterface;
-    }
+  public Processor(BankInterface bankInterface, TaxInterface taxInterface){
+    _bankInterface = bankInterface;
+    _taxInterface = taxInterface;
+  }
     
-    public Processor(){
-        _bankInterface = new BankInterface();
-        _taxInterface = new TaxInterface();
-    }
+  public Processor(){
+    _bankInterface = new BankInterface();
+    _taxInterface = new TaxInterface();
+  }
     
 	public void delete() {
 		setActivityProvider(null);

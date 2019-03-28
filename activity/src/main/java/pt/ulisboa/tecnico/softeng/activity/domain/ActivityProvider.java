@@ -4,13 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.LocalDate;
-import pt.ulisboa.tecnico.softeng.activity.services.remote.BankInterface;
-import pt.ulisboa.tecnico.softeng.activity.services.remote.TaxInterface;
 import pt.ist.fenixframework.FenixFramework;
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 
 public class ActivityProvider extends ActivityProvider_Base {
-	static final int CODE_SIZE = 6;
+  private static final int CODE_SIZE = 6;
 
 	public ActivityProvider(String code, String name, String nif, String iban, Processor processor) {
 		checkArguments(code, name, nif, iban);
@@ -25,18 +23,9 @@ public class ActivityProvider extends ActivityProvider_Base {
 		FenixFramework.getDomainRoot().addActivityProvider(this);
 	}
     
-    public ActivityProvider(String code, String name, String nif, String iban) {
-        checkArguments(code, name, nif, iban);
-        
-        setCode(code);
-        setName(name);
-        setNif(nif);
-        setIban(iban);
-        
-        setProcessor(new Processor(new BankInterface(), new TaxInterface()));
-        
-        FenixFramework.getDomainRoot().addActivityProvider(this);
-    }
+  public ActivityProvider(String code, String name, String nif, String iban) {
+    this(code, name, nif, iban, new Processor());
+  }
 
 	public void delete() {
 		setRoot(null);

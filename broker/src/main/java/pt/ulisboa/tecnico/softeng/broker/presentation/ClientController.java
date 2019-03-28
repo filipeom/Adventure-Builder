@@ -18,11 +18,11 @@ import pt.ulisboa.tecnico.softeng.broker.services.local.dataobjects.ClientData;
 @Controller
 @RequestMapping(value = "/brokers/{brokerCode}/clients")
 public class ClientController {
-	private static Logger logger = LoggerFactory.getLogger(ClientController.class);
+	private final Logger logger = LoggerFactory.getLogger(ClientController.class);
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String showClients(Model model, @PathVariable String brokerCode) {
-		logger.info("showClients code:{}", brokerCode);
+		this.logger.info("showClients code:{}", brokerCode);
 
     final BrokerInterface brokerInterface = new BrokerInterface();
 
@@ -42,7 +42,7 @@ public class ClientController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public String submitClient(Model model, @PathVariable String brokerCode, @ModelAttribute ClientData clientData) {
-		logger.info("submitClient brokerCode:{}, age:{}, nif:{}, iban:{}, drivingLicense:{}", brokerCode,
+		this.logger.info("submitClient brokerCode:{}, age:{}, nif:{}, iban:{}, drivingLicense:{}", brokerCode,
 				clientData.getAge(), clientData.getNif(), clientData.getIban(), clientData.getDrivingLicense());
 
     final BrokerInterface brokerInterface = new BrokerInterface();

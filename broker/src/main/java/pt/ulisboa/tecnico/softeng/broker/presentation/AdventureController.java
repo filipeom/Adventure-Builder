@@ -18,11 +18,11 @@ import pt.ulisboa.tecnico.softeng.broker.services.local.dataobjects.ClientData;
 @Controller
 @RequestMapping(value = "/brokers/{brokerCode}/clients/{clientNif}/adventures")
 public class AdventureController {
-	private static Logger logger = LoggerFactory.getLogger(AdventureController.class);
+	private final Logger logger = LoggerFactory.getLogger(AdventureController.class);
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String showAdventures(Model model, @PathVariable String brokerCode, @PathVariable String clientNif) {
-		logger.info("showAdventures brokerCode:{}, clientNif:{}", brokerCode, clientNif);
+		this.logger.info("showAdventures brokerCode:{}, clientNif:{}", brokerCode, clientNif);
 
     final BrokerInterface brokerInterface = new BrokerInterface();
 
@@ -45,7 +45,7 @@ public class AdventureController {
 	@RequestMapping(method = RequestMethod.POST)
 	public String submitAdventure(Model model, @PathVariable String brokerCode, @PathVariable String clientNif,
 			@ModelAttribute AdventureData adventureData) {
-		logger.info("adventureSubmit brokerCode:{}, clientNif:{}, begin:{}, end:{},margin:{}, age:{}, vehicle:{}",
+		this.logger.info("adventureSubmit brokerCode:{}, clientNif:{}, begin:{}, end:{},margin:{}, age:{}, vehicle:{}",
 				brokerCode, clientNif, adventureData.getBegin(), adventureData.getEnd(), adventureData.getMargin(),
 				adventureData.getAge(), adventureData.getVehicle());
 
@@ -66,7 +66,7 @@ public class AdventureController {
 	@RequestMapping(value = "/{id}/process", method = RequestMethod.POST)
 	public String processAdventure(Model model, @PathVariable String brokerCode, @PathVariable String clientNif,
 			@PathVariable String id) {
-		logger.info("processAdventure brokerCode:{}, adventureId:{}", brokerCode, id);
+		this.logger.info("processAdventure brokerCode:{}, adventureId:{}", brokerCode, id);
 
     final BrokerInterface brokerInterface = new BrokerInterface();
 
