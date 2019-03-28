@@ -6,9 +6,9 @@ import pt.ulisboa.tecnico.softeng.broker.services.remote.BankInterface
 import pt.ulisboa.tecnico.softeng.broker.services.remote.CarInterface
 import pt.ulisboa.tecnico.softeng.broker.services.remote.HotelInterface
 import pt.ulisboa.tecnico.softeng.broker.services.remote.TaxInterface
-import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.RestBankOperationData
 import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.BankException
 import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.RemoteAccessException
+import spock.lang.Unroll
 
 class ProcessPaymentStateProcessMethodSpockTest extends SpockRollbackTestAbstractClass {
   def TRANSACTION_SOURCE = "ADVENTURE"
@@ -48,60 +48,28 @@ class ProcessPaymentStateProcessMethodSpockTest extends SpockRollbackTestAbstrac
     adventure.getState().getValue() == State.TAX_PAYMENT
   }
 
-  def 'bank exception'() {
+  @Unroll('Exceptions: #exception, #numberOf, #state')
+  def 'exceptions'() {
     given:
-    bankInterface.processPayment(_) >> { throw new BankException() }
+    bankInterface.processPayment(_) >> { throw exception }
 
     when:
-    adventure.process()
-    adventure.process()
-    
-    then:
-    adventure.getState().getValue() == State.CANCELLED
-  }
-
-  def 'single remote exception'() {
-    given:
-    bankInterface.processPayment(_) >> { throw new RemoteAccessException() }
-
-    when:
-    adventure.process()
+    numberOf.times { adventure.process() }
 
     then:
-    adventure.getState().getValue() == State.PROCESS_PAYMENT
+    adventure.getState().getValue() == state
+
+    where:
+    exception                   | numberOf | state
+    new BankException()         | 2        | State.CANCELLED
+    new RemoteAccessException() | 1        | State.PROCESS_PAYMENT
+    new RemoteAccessException() | 4        | State.CANCELLED
+    new RemoteAccessException() | 2        | State.PROCESS_PAYMENT
   }
-
-  def 'max remote exception'() {
-    given:
-    bankInterface.processPayment(_) >> { throw new RemoteAccessException() }
-
-    when:
-    adventure.process()
-    adventure.process()
-    adventure.process()
-    adventure.process()
-
-    then:
-    adventure.getState().getValue() == State.CANCELLED
-  }
-
-  def 'max minus one remote exception'() {
-    given:
-    bankInterface.processPayment(_) >> { throw new RemoteAccessException() }
-
-    when:
-    adventure.process()
-    adventure.process()
-
-    then:
-    adventure.getState().getValue() == State.PROCESS_PAYMENT
-  }
-
+  
   def 'two remote exceptions one success'() {
     when:
-    adventure.process()
-    adventure.process()
-    adventure.process()
+    3.times { adventure.process() }
 
     then:
     2 * bankInterface.processPayment(_) >> { throw new RemoteAccessException() }
@@ -112,9 +80,7 @@ class ProcessPaymentStateProcessMethodSpockTest extends SpockRollbackTestAbstrac
 
   def 'one remote access exception one bank exception'() {
     when:
-    adventure.process()
-    adventure.process()
-    adventure.process()
+    3.times { adventure.process() }
 
     then:
     1 * bankInterface.processPayment(_) >> { throw new RemoteAccessException() }
