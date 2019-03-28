@@ -7,11 +7,14 @@ import org.joda.time.LocalDate;
 
 import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 
+import pt.ulisboa.tecnico.softeng.activity.services.remote.BankInterface;
+import pt.ulisboa.tecnico.softeng.activity.services.remote.TaxInterface;
+
 public class Activity extends Activity_Base {
 	private static final int MIN_AGE = 18;
 	private static final int MAX_AGE = 100;
 
-	public Activity(ActivityProvider provider, String name, int minAge, int maxAge, int capacity) {
+	public Activity(final ActivityProvider provider, final String name, final int minAge, final int maxAge, final int capacity) {
 		checkArguments(provider, name, minAge, maxAge, capacity);
 
 		setCode(provider.getCode() + Integer.toString(provider.getCounter()));
@@ -26,14 +29,14 @@ public class Activity extends Activity_Base {
 	public void delete() {
 		setActivityProvider(null);
 
-		for (ActivityOffer offer : getActivityOfferSet()) {
+		for (final ActivityOffer offer : getActivityOfferSet()) {
 			offer.delete();
 		}
 
 		deleteDomainObject();
 	}
 
-	private void checkArguments(ActivityProvider provider, String name, int minAge, int maxAge, int capacity) {
+	private void checkArguments(ActivityProvider provider, final String name, final int minAge, final int maxAge, final int capacity) {
 		if (provider == null || name == null || name.trim().equals("")) {
 			throw new ActivityException();
 		}
@@ -48,9 +51,9 @@ public class Activity extends Activity_Base {
 
 	}
 
-	Set<ActivityOffer> getOffers(LocalDate begin, LocalDate end, int age) {
-		Set<ActivityOffer> result = new HashSet<>();
-		for (ActivityOffer offer : getActivityOfferSet()) {
+	Set<ActivityOffer> getOffers(final LocalDate begin, final LocalDate end, final int age) {
+		final Set<ActivityOffer> result = new HashSet<>();
+		for (final ActivityOffer offer : getActivityOfferSet()) {
 			if (matchAge(age) && offer.available(begin, end)) {
 				result.add(offer);
 			}
@@ -58,13 +61,13 @@ public class Activity extends Activity_Base {
 		return result;
 	}
 
-	boolean matchAge(int age) {
+	boolean matchAge(final int age) {
 		return age >= getMinAge() && age <= getMaxAge();
 	}
 
-	public Booking getBooking(String reference) {
-		for (ActivityOffer offer : getActivityOfferSet()) {
-			Booking booking = offer.getBooking(reference);
+	public Booking getBooking(final String reference) {
+		for (final ActivityOffer offer : getActivityOfferSet()) {
+			final Booking booking = offer.getBooking(reference);
 			if (booking != null) {
 				return booking;
 			}

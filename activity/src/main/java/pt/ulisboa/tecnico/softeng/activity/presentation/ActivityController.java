@@ -18,17 +18,19 @@ import pt.ulisboa.tecnico.softeng.activity.services.local.dataobjects.ActivityPr
 @RequestMapping(value = "/providers/{code}/activities")
 public class ActivityController {
 	private static Logger logger = LoggerFactory.getLogger(ActivityController.class);
+    
+    
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String activityForm(Model model, @PathVariable String code) {
 		logger.info("activityForm providerCode:{}", code);
 
-		ActivityProviderData providerData = ActivityInterface.getProviderDataByCode(code);
-
+        ActivityInterface activityInterface = new ActivityInterface();
+        ActivityProviderData providerData = activityInterface.getProviderDataByCode(code);
 		if (providerData == null) {
 			model.addAttribute("error", "Error: it does not exist an activity provider with the code " + code);
 			model.addAttribute("provider", new ActivityProviderData());
-			model.addAttribute("providers", ActivityInterface.getProviders());
+			model.addAttribute("providers", activityInterface.getProviders());
 			return "providers";
 		}
 
@@ -42,13 +44,14 @@ public class ActivityController {
 		logger.info(
 				"activitySubmit providerCode:{}, activityName:{}, activityMinAge:{}, activityMaxAge:{}, activityCapacity:{}",
 				code, activity.getName(), activity.getMinAge(), activity.getMaxAge(), activity.getCapacity());
-
+        
+        ActivityInterface activityInterface = new ActivityInterface();
 		try {
-			ActivityInterface.createActivity(code, activity);
+			activityInterface.createActivity(code, activity);
 		} catch (ActivityException be) {
 			model.addAttribute("error", "Error: it was not possible to create the activity");
 			model.addAttribute("activity", activity);
-			model.addAttribute("provider", ActivityInterface.getProviderDataByCode(code));
+			model.addAttribute("provider", activityInterface.getProviderDataByCode(code));
 			return "activities";
 		}
 

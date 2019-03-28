@@ -24,8 +24,9 @@ public class ActivityRestController {
 		logger.info("reserveActivity begin:{}, end:{}, age:{}, nif:{}, iban:{}, adventureId:{}",
 				activityBookingData.getBegin(), activityBookingData.getEnd(), activityBookingData.getAge(),
 				activityBookingData.getNif(), activityBookingData.getIban(), activityBookingData.getAdventureId());
+        ActivityInterface activityInterface = new ActivityInterface();
 		try {
-			return new ResponseEntity<RestActivityBookingData>(ActivityInterface.reserveActivity(activityBookingData),
+			return new ResponseEntity<RestActivityBookingData>(activityInterface.reserveActivity(activityBookingData),
 					HttpStatus.OK);
 		} catch (ActivityException be) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -35,8 +36,9 @@ public class ActivityRestController {
 	@RequestMapping(value = "/cancel", method = RequestMethod.POST)
 	public ResponseEntity<String> cancel(@RequestParam String reference) {
 		logger.info("cancel reference:{}", reference);
+        ActivityInterface activityInterface = new ActivityInterface();
 		try {
-			return new ResponseEntity<>(ActivityInterface.cancelReservation(reference), HttpStatus.OK);
+			return new ResponseEntity<>(activityInterface.cancelReservation(reference), HttpStatus.OK);
 		} catch (ActivityException be) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
@@ -45,8 +47,9 @@ public class ActivityRestController {
 	@RequestMapping(value = "/reservation", method = RequestMethod.GET)
 	public ResponseEntity<RestActivityBookingData> reservation(@RequestParam String reference) {
 		logger.info("reservation reference:{}", reference);
+        ActivityInterface activityInterface = new ActivityInterface();
 		try {
-			return new ResponseEntity<>(ActivityInterface.getActivityReservationData(reference), HttpStatus.OK);
+			return new ResponseEntity<>(activityInterface.getActivityReservationData(reference), HttpStatus.OK);
 		} catch (ActivityException be) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}

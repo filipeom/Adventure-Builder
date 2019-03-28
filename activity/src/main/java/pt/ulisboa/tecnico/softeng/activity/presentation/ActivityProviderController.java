@@ -20,22 +20,23 @@ public class ActivityProviderController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String providerForm(Model model) {
 		logger.info("providerForm");
+        ActivityInterface activityInterface = new ActivityInterface();
 		model.addAttribute("provider", new ActivityProviderData());
-		model.addAttribute("providers", ActivityInterface.getProviders());
+		model.addAttribute("providers", activityInterface.getProviders());
 		return "providers";
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String providerSubmit(Model model, @ModelAttribute ActivityProviderData provider) {
+	public String providerSubmit(final Model model, @ModelAttribute final ActivityProviderData provider) {
 		logger.info("providerSubmit name:{}, code:{}, nif:{}, iban:{}", provider.getName(), provider.getCode(),
 				provider.getNif(), provider.getIban());
-
+        ActivityInterface activityInterface = new ActivityInterface();
 		try {
-			ActivityInterface.createProvider(provider);
+			activityInterface.createProvider(provider);
 		} catch (ActivityException be) {
 			model.addAttribute("error", "Error: it was not possible to create the activity provider");
 			model.addAttribute("provider", provider);
-			model.addAttribute("providers", ActivityInterface.getProviders());
+			model.addAttribute("providers", activityInterface.getProviders());
 			return "providers";
 		}
 
@@ -45,8 +46,8 @@ public class ActivityProviderController {
 	@RequestMapping(method = RequestMethod.DELETE)
 	public String deleteProviders(Model model) {
 		logger.info("deleteProviders");
-
-		ActivityInterface.deleteActivityProviders();
+        ActivityInterface activityInterface = new ActivityInterface();
+		activityInterface.deleteActivityProviders();
 
 		return "redirect:/providers/";
 	}

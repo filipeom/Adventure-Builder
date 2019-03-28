@@ -25,13 +25,13 @@ public class BookingController {
 			@PathVariable String externalId) {
 		logger.info("offerBookingsPage codeProvider:{}, codeActivity:{}, externalId:{}", codeProvider, codeActivity,
 				externalId);
-
-		ActivityOfferData activityOfferData = ActivityInterface.getActivityOfferDataByExternalId(externalId);
+        ActivityInterface activityInterface = new ActivityInterface();
+		ActivityOfferData activityOfferData = activityInterface.getActivityOfferDataByExternalId(externalId);
 
 		if (activityOfferData == null) {
 			model.addAttribute("error", "Error: it does not exist an offer");
 			model.addAttribute("provider", new ActivityProviderData());
-			model.addAttribute("providers", ActivityInterface.getProviders());
+			model.addAttribute("providers", activityInterface.getProviders());
 			return "providers";
 		} else {
 			model.addAttribute("booking", new RestActivityBookingData());
@@ -45,13 +45,13 @@ public class BookingController {
 			@PathVariable String externalId, @ModelAttribute RestActivityBookingData booking) {
 		logger.info("offerSubmit codeProvider:{}, codeActivity:{}, externalId:{}", codeProvider, codeActivity,
 				externalId);
-
+        ActivityInterface activityInterface = new ActivityInterface();
 		try {
-			ActivityInterface.reserveActivity(externalId, booking);
+			activityInterface.reserveActivity(externalId, booking);
 		} catch (ActivityException e) {
 			model.addAttribute("error", "Error: it was not possible to do the booking");
 			model.addAttribute("booking", booking);
-			model.addAttribute("offer", ActivityInterface.getActivityOfferDataByExternalId(externalId));
+			model.addAttribute("offer", activityInterface.getActivityOfferDataByExternalId(externalId));
 			return "bookings";
 		}
 
