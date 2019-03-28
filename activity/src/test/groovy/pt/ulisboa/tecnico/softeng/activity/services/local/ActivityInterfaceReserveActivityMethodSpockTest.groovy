@@ -1,5 +1,7 @@
 package pt.ulisboa.tecnico.softeng.activity.services.local
 
+import pt.ulisboa.tecnico.softeng.activity.domain.Processor
+
 import org.joda.time.LocalDate
 
 import pt.ulisboa.tecnico.softeng.activity.domain.Activity
@@ -10,10 +12,11 @@ import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException
 import pt.ulisboa.tecnico.softeng.activity.services.remote.BankInterface
 import pt.ulisboa.tecnico.softeng.activity.services.remote.TaxInterface
 import pt.ulisboa.tecnico.softeng.activity.services.remote.dataobjects.RestActivityBookingData
-import pt.ulisboa.tecnico.softeng.activity.services.remote.dataobjects.RestBankOperationData
-import pt.ulisboa.tecnico.softeng.activity.services.remote.dataobjects.RestInvoiceData
 
 class ActivityInterfaceReserveActivityMethodSpockTest extends SpockRollbackTestAbstractClass {
+	def INVOICE_REFERENCE = 'InvoiceReference'
+	def PAYMENT_REFERENCE = 'PaymentReference'
+	def CANCEL_PAYMENT_REFERENCE = 'CancelPaymentReference'
 	def IBAN = "IBAN"
 	def NIF = "123456789"
 	def MIN_AGE = 18
@@ -26,20 +29,28 @@ class ActivityInterfaceReserveActivityMethodSpockTest extends SpockRollbackTestA
 	def taxInterface
 	def bankInterface
 	def activityInterface
+	def processor
 
 	@Override
 	def populate4Test() {
-		provider1 = new ActivityProvider("XtremX", "Adventure++", "NIF", IBAN)
-		provider2 = new ActivityProvider("Walker", "Sky", "NIF2", IBAN)
+		activityInterface = new ActivityInterface()
+
 		taxInterface = Mock(TaxInterface)
 		bankInterface = Mock(BankInterface)
-		activityInterface = Mock(ActivityInterface)
+		processor = new Processor(bankInterface, taxInterface)
+		provider1 = new ActivityProvider("XtremX", "Adventure++", "NIF", IBAN, processor)
+
+		taxInterface = Mock(TaxInterface)
+		bankInterface = Mock(BankInterface)
+		processor = new Processor(bankInterface, taxInterface)
+		provider2 = new ActivityProvider("Walker", "Sky", "NIF2", IBAN, processor)
+
 	}
 
 	def "reserveActivity"() {
 		given:
-		0 * bankInterface.processPayment(_)
-		0 * taxInterface.submitInvoice(_)
+		bankInterface.processPayment(_) >> PAYMENT_REFERENCE
+		taxInterface.submitInvoice(_) >> INVOICE_REFERENCE
 		def activity = new Activity(provider1, "XtremX", MIN_AGE, MAX_AGE, CAPACITY)
 		new ActivityOffer(activity, new LocalDate(2018, 02, 19), new LocalDate(2018, 12, 20), 30)
 		def activityBookingData = new RestActivityBookingData()
@@ -51,6 +62,7 @@ class ActivityInterfaceReserveActivityMethodSpockTest extends SpockRollbackTestA
 
 		when:
 		def bookingData = activityInterface.reserveActivity(activityBookingData)
+
 
 		then:
 		bookingData != null

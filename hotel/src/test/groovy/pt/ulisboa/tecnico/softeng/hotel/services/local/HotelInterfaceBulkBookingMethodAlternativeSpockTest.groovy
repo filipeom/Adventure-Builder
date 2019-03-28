@@ -31,11 +31,12 @@ class HotelInterfaceBulkBookingMethodAlternativeSpockTest extends SpockRollbackT
 	def processor
 
 	@Override
-	def populate4Test() { 
+	def populate4Test() {
+
+		hotelInterface = new HotelInterface()
 
 		bankInterface = Mock(BankInterface)
 		taxInterface = Mock(TaxInterface)
-		hotelInterface = new HotelInterface()
 		processor = new Processor(bankInterface, taxInterface)
 
 		hotel = new Hotel("XPTO123", "Paris", "NIF", "IBAN", 20.0, 30.0, processor)
@@ -83,7 +84,7 @@ class HotelInterfaceBulkBookingMethodAlternativeSpockTest extends SpockRollbackT
 			hotel.delete()
 		}
 		taxInterface = Mock(TaxInterface)
-		hotelInterface = new HotelInterface()
+		bankInterface = Mock(BankInterface)
 		processor = new Processor(bankInterface, taxInterface)
 		hotel = new Hotel("XPTO124", "Paris", "NIF", "IBAN", 27.0, 37.0, processor)
 
