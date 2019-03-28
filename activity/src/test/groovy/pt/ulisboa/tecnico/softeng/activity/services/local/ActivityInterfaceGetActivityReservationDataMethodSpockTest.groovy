@@ -19,9 +19,11 @@ class ActivityInterfaceGetActivityReservationDataMethodSpockTest extends SpockRo
 	def provider
 	def offer
 	def booking
+	def activityInterface
 
 	@Override
 	def populate4Test() {
+		activityInterface = new ActivityInterface()
 		provider = new ActivityProvider(CODE,NAME,'NIF','IBAN')
 		def activity = new Activity(provider,'Bush Walking',18,80,3)
 		offer = new ActivityOffer(activity,begin,end,30)
@@ -32,7 +34,7 @@ class ActivityInterfaceGetActivityReservationDataMethodSpockTest extends SpockRo
 		booking = new Booking(provider,offer,'123456789','IBAN')
 
 		when:
-		RestActivityBookingData data=ActivityInterface.getActivityReservationData(booking.getReference())
+		RestActivityBookingData data = activityInterface.getActivityReservationData(booking.getReference())
 
 		then:
 		data.getReference() == booking.getReference()
@@ -51,7 +53,7 @@ class ActivityInterfaceGetActivityReservationDataMethodSpockTest extends SpockRo
 		booking.cancel()
 
 		when: 'get booking data'
-		RestActivityBookingData data=ActivityInterface.getActivityReservationData(booking.getCancel())
+		RestActivityBookingData data = activityInterface.getActivityReservationData(booking.getCancel())
 
 		then: 'the information if OK'
 		data.getReference() == booking.getReference()
@@ -66,7 +68,7 @@ class ActivityInterfaceGetActivityReservationDataMethodSpockTest extends SpockRo
 	@Unroll('exceptions: #label')
 	def 'exceptions'() {
 		when:
-		ActivityInterface.getActivityReservationData(ref)
+		activityInterface.getActivityReservationData(ref)
 
 		then:
 		thrown(ActivityException)
