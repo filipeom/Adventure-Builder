@@ -53,8 +53,10 @@ class CancelledStateProcessMethodSpockTest extends SpockRollbackTestAbstractClas
   @Unroll('the #failure occurred')
   def 'cancelled payment first'() {
     given:
-    adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION)
-    adventure.setPaymentCancellation(PAYMENT_CANCELLATION)
+    with(adventure) {
+      setPaymentConfirmation(PAYMENT_CONFIRMATION)
+      setPaymentCancellation(PAYMENT_CANCELLATION)
+    }
 
     when:
     adventure.process()
@@ -73,8 +75,10 @@ class CancelledStateProcessMethodSpockTest extends SpockRollbackTestAbstractClas
   @Unroll('the #failure occurred')
   def 'cancelled payment second'() {
     given:
-    adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION)
-    adventure.setPaymentCancellation(PAYMENT_CANCELLATION)
+    with(adventure) {
+      setPaymentConfirmation(PAYMENT_CONFIRMATION)
+      setPaymentCancellation(PAYMENT_CANCELLATION)
+    }
 
     when:
     adventure.process()
@@ -93,8 +97,10 @@ class CancelledStateProcessMethodSpockTest extends SpockRollbackTestAbstractClas
 
   def 'cancelled payment'() {
     given:
-    adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION)
-    adventure.setPaymentCancellation(PAYMENT_CANCELLATION)
+    with(adventure) {
+      setPaymentConfirmation(PAYMENT_CONFIRMATION)
+      setPaymentCancellation(PAYMENT_CANCELLATION)
+    }
 
     when:
     adventure.process()
@@ -108,10 +114,12 @@ class CancelledStateProcessMethodSpockTest extends SpockRollbackTestAbstractClas
 
   def 'cancelled activity'() {
     given:
-    adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION)
-    adventure.setPaymentCancellation(PAYMENT_CANCELLATION)
-    adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION)
-    adventure.setActivityCancellation(ACTIVITY_CANCELLATION)
+    with(adventure) {
+      setPaymentConfirmation(PAYMENT_CONFIRMATION)
+      setPaymentCancellation(PAYMENT_CANCELLATION)
+      setActivityConfirmation(ACTIVITY_CONFIRMATION)
+      setActivityCancellation(ACTIVITY_CANCELLATION)
+    }
 
     when:
     adventure.process()
@@ -126,12 +134,14 @@ class CancelledStateProcessMethodSpockTest extends SpockRollbackTestAbstractClas
 
   def 'cancelled room'() {
     given:
-    adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION)
-    adventure.setPaymentCancellation(PAYMENT_CANCELLATION)
-    adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION)
-    adventure.setActivityCancellation(ACTIVITY_CANCELLATION)
-    adventure.setRoomConfirmation(ROOM_CONFIRMATION)
-    adventure.setRoomCancellation(ROOM_CANCELLATION)
+    with(adventure) {
+      setPaymentConfirmation(PAYMENT_CONFIRMATION)
+      setPaymentCancellation(PAYMENT_CANCELLATION)
+      setActivityConfirmation(ACTIVITY_CONFIRMATION)
+      setActivityCancellation(ACTIVITY_CANCELLATION)
+      setRoomConfirmation(ROOM_CONFIRMATION)
+      setRoomCancellation(ROOM_CANCELLATION)
+    }
 
     when:
     adventure.process()
@@ -147,12 +157,14 @@ class CancelledStateProcessMethodSpockTest extends SpockRollbackTestAbstractClas
 
   def 'cancelled renting'() {
     given:
-    adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION)
-    adventure.setPaymentCancellation(PAYMENT_CANCELLATION)
-    adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION)
-    adventure.setActivityCancellation(ACTIVITY_CANCELLATION)
-    adventure.setRentingConfirmation(RENTING_CONFIRMATION)
-    adventure.setRentingCancellation(RENTING_CANCELLATION)
+    with(adventure) {
+      setPaymentConfirmation(PAYMENT_CONFIRMATION)
+      setPaymentCancellation(PAYMENT_CANCELLATION)
+      setActivityConfirmation(ACTIVITY_CONFIRMATION)
+      setActivityCancellation(ACTIVITY_CANCELLATION)
+      setRentingConfirmation(RENTING_CONFIRMATION)
+      setRentingCancellation(RENTING_CANCELLATION)
+    }
 
     when:
     adventure.process()
@@ -168,14 +180,16 @@ class CancelledStateProcessMethodSpockTest extends SpockRollbackTestAbstractClas
 
   def 'cancelled booking and renting'() {
     given:
-    adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION)
-    adventure.setPaymentCancellation(PAYMENT_CANCELLATION)
-    adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION)
-    adventure.setActivityCancellation(ACTIVITY_CANCELLATION)
-    adventure.setRoomConfirmation(ROOM_CONFIRMATION)
-    adventure.setRoomCancellation(ROOM_CANCELLATION)
-    adventure.setRentingConfirmation(RENTING_CONFIRMATION)
-    adventure.setRentingCancellation(RENTING_CANCELLATION)
+    with(adventure) {
+      setPaymentConfirmation(PAYMENT_CONFIRMATION)
+      setPaymentCancellation(PAYMENT_CANCELLATION)
+      setActivityConfirmation(ACTIVITY_CONFIRMATION)
+      setActivityCancellation(ACTIVITY_CANCELLATION)
+      setRoomConfirmation(ROOM_CONFIRMATION)
+      setRoomCancellation(ROOM_CANCELLATION)
+      setRentingConfirmation(RENTING_CONFIRMATION)
+      setRentingCancellation(RENTING_CANCELLATION)
+    }
 
     when:
     adventure.process()
