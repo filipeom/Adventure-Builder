@@ -19,6 +19,7 @@ public class BookRoomState extends BookRoomState_Base {
   @Override
   public void process() {
     RestRoomBookingData newRoomData;
+    Type roomType;
 
     try {
       /* getBulkRoomBooking throws BrokerException when, (a) there are no available 
@@ -30,8 +31,11 @@ public class BookRoomState extends BookRoomState_Base {
       String reference = roomBulkBooking.getReferences().stream().findFirst().get();
       RestRoomBookingData roomData = getAdventure().getBroker().getHotelInterface().getRoomBookingData(reference);
 
+      /* Get the room type */
+      roomType = roomData.getRoomType().equals(Type.SINGLE.toString()) ? Type.SINGLE : Type.DOUBLE;
+
       /* Create a RestRoomBookingData with the correct date */
-      newRoomData = new RestRoomBookingData(Type.SINGLE, getAdventure().getBegin(),
+      newRoomData = new RestRoomBookingData(roomType, getAdventure().getBegin(),
           getAdventure().getEnd(), roomData.getBuyerNif(), roomData.getBuyerIban(), roomData.getAdventureId());
 
     } catch (HotelException | RemoteAccessException | BrokerException e) {
