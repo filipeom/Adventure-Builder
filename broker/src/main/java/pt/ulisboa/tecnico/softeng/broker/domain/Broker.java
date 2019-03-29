@@ -123,9 +123,12 @@ public class Broker extends Broker_Base {
 		return getClientSet().stream().anyMatch(client -> client.getDrivingLicense().equals(drivingLicense));
 	}
 
-  public BulkRoomBooking getBulkRoomBooking() {
+  public BulkRoomBooking getBulkRoomBooking(LocalDate arrival, LocalDate departure) {
     for (BulkRoomBooking brb : getRoomBulkBookingSet())
-      return brb;
+      if ((arrival.isAfter(brb.getArrival()) || arrival.equals(brb.getArrival())) &&
+          (departure.isBefore(brb.getDeparture()) || departure.equals(brb.getDeparture())))
+        if (brb.getReferences().size() != 0)
+          return brb;
     throw new BrokerException();
   }
 

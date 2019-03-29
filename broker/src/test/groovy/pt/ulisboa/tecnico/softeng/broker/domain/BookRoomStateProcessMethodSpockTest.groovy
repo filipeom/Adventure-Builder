@@ -6,6 +6,7 @@ import pt.ulisboa.tecnico.softeng.broker.services.remote.ActivityInterface
 import pt.ulisboa.tecnico.softeng.broker.services.remote.BankInterface
 import pt.ulisboa.tecnico.softeng.broker.services.remote.CarInterface
 import pt.ulisboa.tecnico.softeng.broker.services.remote.HotelInterface
+import pt.ulisboa.tecnico.softeng.broker.services.remote.HotelInterface.Type
 import pt.ulisboa.tecnico.softeng.broker.services.remote.TaxInterface
 import pt.ulisboa.tecnico.softeng.broker.exception.BrokerException
 import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.ActivityException
@@ -31,7 +32,6 @@ class BookRoomStateProcessMethodSpockTest extends SpockRollbackTestAbstractClass
 
   @Override
   def populate4Test() {
-
     activityInterface = Mock(ActivityInterface)
     bankInterface = Mock(BankInterface)
     carInterface = Mock(CarInterface)
@@ -45,7 +45,7 @@ class BookRoomStateProcessMethodSpockTest extends SpockRollbackTestAbstractClass
     def client = new Client(broker, CLIENT_IBAN, CLIENT_NIF, DRIVING_LICENSE, AGE)
     adventure = new Adventure(broker, BEGIN, END, client, MARGIN)
 
-    bookingData = new RestRoomBookingData()
+    bookingData = new RestRoomBookingData(Type.SINGLE, ARRIVAL, DEPARTURE, NIF_AS_BUYER, BROKER_IBAN, bulk.getId())
     bookingData.setReference(ROOM_CONFIRMATION)
     bookingData.setPrice(80.0)
 
@@ -61,7 +61,7 @@ class BookRoomStateProcessMethodSpockTest extends SpockRollbackTestAbstractClass
     adventure.process()
 
     then:
-    1 * hotelInterface.getRoomBookingData(_)
+    1 * hotelInterface.getRoomBookingData(_) >> bookingData
     1 * hotelInterface.reserveRoom(_) >> bookingData
 
     and:

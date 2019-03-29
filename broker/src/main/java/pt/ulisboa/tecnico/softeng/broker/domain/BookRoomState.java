@@ -21,14 +21,19 @@ public class BookRoomState extends BookRoomState_Base {
     RestRoomBookingData newRoomData;
 
     try {
-      BulkRoomBooking roomBulkBooking = getAdventure().getBroker().getBulkRoomBooking();
+      /* getBulkRoomBooking throws BrokerException when, (a) there are no available 
+       * BulkRoomBookings in the date interval. (b) the BulkRoomBooking doesn't 
+       * contain any rooms, i.e., NO references */ 
+      BulkRoomBooking roomBulkBooking = getAdventure().getBroker().getBulkRoomBooking(
+          getAdventure().getBegin(), getAdventure().getEnd());
 
-      if (roomBulkBooking.getReferences().size() != 0) {
-        String reference = roomBulkBooking.getReferences().stream().findFirst().get();
-        newRoomData = getAdventure().getBroker().getHotelInterface().getRoomBookingData(reference);
-      } else {
-        throw new BrokerException();
-      }
+      String reference = roomBulkBooking.getReferences().stream().findFirst().get();
+      RestRoomBookingData roomData = getAdventure().getBroker().getHotelInterface().getRoomBookingData(reference);
+
+      /* Create a RestRoomBookingData with the correct date */
+      newRoomData = new RestRoomBookingData(Type.SINGLE, getAdventure().getBegin(),
+          getAdventure().getEnd(), roomData.getBuyerNif(), roomData.getBuyerIban(), roomData.getAdventureId());
+
     } catch (HotelException | RemoteAccessException | BrokerException e) {
       /* catch and ignore, reserve a room directly in the hotel */ 
       newRoomData = new RestRoomBookingData(Type.SINGLE,
