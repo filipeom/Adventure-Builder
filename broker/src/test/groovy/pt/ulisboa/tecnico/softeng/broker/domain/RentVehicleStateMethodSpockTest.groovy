@@ -8,12 +8,8 @@ import pt.ulisboa.tecnico.softeng.broker.services.remote.BankInterface
 import pt.ulisboa.tecnico.softeng.broker.services.remote.CarInterface
 import pt.ulisboa.tecnico.softeng.broker.services.remote.HotelInterface
 import pt.ulisboa.tecnico.softeng.broker.services.remote.TaxInterface
-import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.ActivityException
-import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.BankException
 import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.CarException
-import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.HotelException
 import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.RemoteAccessException
-import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.TaxException
 
 class RentVehicleStateMethodSpockTest extends SpockRollbackTestAbstractClass {
   def adventure

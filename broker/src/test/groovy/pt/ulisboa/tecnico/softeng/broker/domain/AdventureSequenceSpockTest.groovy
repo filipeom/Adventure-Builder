@@ -7,8 +7,6 @@ import pt.ulisboa.tecnico.softeng.broker.services.remote.CarInterface
 import pt.ulisboa.tecnico.softeng.broker.services.remote.HotelInterface
 import pt.ulisboa.tecnico.softeng.broker.services.remote.TaxInterface
 import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.RestActivityBookingData
-import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.RestBankOperationData
-import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.RestInvoiceData
 import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.RestRentingData
 import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.RestRoomBookingData
 import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.ActivityException
@@ -75,7 +73,7 @@ class AdventureSequenceSpockTest extends SpockRollbackTestAbstractClass {
     and:
     1 * hotelInterface.reserveRoom(_) >> bookingRoomData
     and:
-    1 * carInterface.rentCar(_,_,_,_,_,_,_) >> rentingData
+    1 * carInterface.rentCar(*_) >> rentingData
     and:
     1 * bankInterface.processPayment(_) >> PAYMENT_CONFIRMATION
     and:
@@ -129,7 +127,7 @@ class AdventureSequenceSpockTest extends SpockRollbackTestAbstractClass {
     then:
     1 * activityInterface.reserveActivity(_) >> bookingActivityData
     and:
-    1 * carInterface.rentCar(_,_,_,_,_,_,_) >> rentingData
+    1 * carInterface.rentCar(*_) >> rentingData
     and:
     1 * bankInterface.processPayment(_) >> PAYMENT_CONFIRMATION
     and:
@@ -209,7 +207,7 @@ class AdventureSequenceSpockTest extends SpockRollbackTestAbstractClass {
     then:
     1 * activityInterface.reserveActivity(_) >> bookingActivityData
     and:
-    1 * carInterface.rentCar(_,_,_,_,_,_,_) >> { throw new CarException() }
+    1 * carInterface.rentCar(*_) >> { throw new CarException() }
     and:
     1 * activityInterface.cancelReservation(ACTIVITY_CONFIRMATION) >> ACTIVITY_CANCELLATION
     and:
@@ -229,7 +227,7 @@ class AdventureSequenceSpockTest extends SpockRollbackTestAbstractClass {
     and:
     1 * hotelInterface.reserveRoom(_) >> bookingRoomData
     and:
-    1 * carInterface.rentCar(_,_,_,_,_,_,_) >> rentingData
+    1 * carInterface.rentCar(*_) >> rentingData
     and:
     1 * bankInterface.processPayment(_) >> { throw new BankException() }
     and:
@@ -255,7 +253,7 @@ class AdventureSequenceSpockTest extends SpockRollbackTestAbstractClass {
     and:
     1 * hotelInterface.reserveRoom(_) >> bookingRoomData
     and:
-    1 * carInterface.rentCar(_,_,_,_,_,_,_) >> rentingData
+    1 * carInterface.rentCar(*_) >> rentingData
     and:
     1 * bankInterface.processPayment(_) >> PAYMENT_CONFIRMATION
     and:

@@ -9,13 +9,8 @@ import pt.ulisboa.tecnico.softeng.broker.services.remote.HotelInterface
 import pt.ulisboa.tecnico.softeng.broker.services.remote.HotelInterface.Type
 import pt.ulisboa.tecnico.softeng.broker.services.remote.TaxInterface
 import pt.ulisboa.tecnico.softeng.broker.exception.BrokerException
-import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.ActivityException
-import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.BankException
-import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.CarException
 import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.HotelException
 import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.RemoteAccessException
-import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.TaxException
-
 import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.RestRoomBookingData
 
 class BookRoomStateProcessMethodSpockTest extends SpockRollbackTestAbstractClass {
