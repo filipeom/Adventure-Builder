@@ -41,7 +41,7 @@ class BookingConstructorSpockTest extends SpockRollbackTestAbstractClass {
 
     then:
       thrown(HotelException)
-
+    //some test cases missing
     where:
       room      | arrival | departure
       null      | ARRIVAL | DEPARTURE

@@ -19,7 +19,7 @@ class BookingConflictMethodSpockTest extends SpockRollbackTestAbstractClass {
 
 		this.booking = new Booking(room, this.arrival, this.departure, this.NIF_BUYER, this.IBAN_BUYER)
 	}
-
+  //should use data tables to join test cases
   def 'arguments Are Consistent'() {
     when:
       def date1 = LocalDate.parse('2016-12-9')

@@ -10,7 +10,7 @@ import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException
 import pt.ulisboa.tecnico.softeng.hotel.services.remote.dataobjects.RestRoomBookingData
 import spock.lang.Shared
 import spock.lang.Unroll
-
+//are you missing one test, HotelInterfaceGetRoomMethod?
 class HotelInterfaceReserveRoomMethodSpockTest extends SpockRollbackTestAbstractClass {
   def ARRIVAL = LocalDate.parse("2016-12-19")
   def DEPARTURE = LocalDate.parse("2016-12-24")

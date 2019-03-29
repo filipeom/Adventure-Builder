@@ -68,6 +68,8 @@ class HotelConstructorSpockTest extends SpockRollbackTestAbstractClass {
 
     then:
       thrown(HotelException)
+    FenixFramework.getDomainRoot().getHotelSet().size() == 1
+
   }
 
   def 'nif Not Unique'(){
@@ -79,6 +81,8 @@ class HotelConstructorSpockTest extends SpockRollbackTestAbstractClass {
 
     then:
       thrown(HotelException)
+    FenixFramework.getDomainRoot().getHotelSet().size() == 1
+
   }
 
 

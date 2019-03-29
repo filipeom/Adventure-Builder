@@ -7,7 +7,8 @@ import spock.lang.Shared
 
 
 class AdventureConstructorSpockMethodTest extends SpockRollbackTestAbstractClass {
-     @Shared def MARGIN = 0.3
+    //should use shared def.
+    @Shared def MARGIN = 0.3
      @Shared def begin = new LocalDate(2016, 12, 19)
      @Shared def end = new LocalDate(2016, 12, 21)
      @Shared def broker
@@ -32,7 +33,7 @@ class AdventureConstructorSpockMethodTest extends SpockRollbackTestAbstractClass
      def 'success'() {
         when:
         def adventure = new Adventure(broker, begin, end, client, MARGIN)
-
+        //can use keyword "with" and join tests, using data tables
         then:
         adventure.getBroker() == broker
         adventure.getBegin() == begin

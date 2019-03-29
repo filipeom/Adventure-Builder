@@ -1,5 +1,6 @@
 package pt.ulisboa.tecnico.softeng.tax.domain
 
+//imports not needed: same package
 import pt.ulisboa.tecnico.softeng.tax.domain.Buyer
 import pt.ulisboa.tecnico.softeng.tax.domain.IRS
 import pt.ulisboa.tecnico.softeng.tax.exception.TaxException
