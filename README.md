@@ -16,6 +16,52 @@ To see the coverage reports, go to <module name>/target/site/jacoco/index.html.
 
 - **Group 1:**
 - **Group 2:**
+### Sprint 2:
+#### Migrated Tests:
+* **Filipe Marques, 86411, [filipeom](https://github.com/filipeom):**
+  + **Broker:**
+    - Create tests for BookRoomState for the new functionality, #107
+    - Broker checks bulkbooking before reserving a a new room, #105
+    - Create TaxPaymentStateProcessMethodTest, #101
+    - Add final interfaces to Broker, issue #76
+    - Migrate UndoStateProcessMethodTest, and remove static variables from Broker, issue #69
+    - Migrate ProcessPaymentStateProcessMethodTest, issue #66
+    - Migrate CancelledStateProcessMethodTest, issue #64
+
+* **Jorge Martins, 86456, Jorgecmartins:**
+  + **Broker:**
+    - Create tests for BookRoomState for the new functionality, issue #107
+    - Broker checks bulkbooking before reserving a a new room, issue #105
+    - Remove static method calls in BookRoomState and RentVeHicleState, issue #78
+    - Migrate ReserveActivityStateProcessMethodTest, issue #68
+    - Migrate ConfirmedStateProcessMethodTest, issue #65
+    - Migrate BulkRoomBookingGetRoomBookingData4TypeMethodTest, issue #62
+
+* **Paulo Dias, 86492, PauloACDias:**
+  + **Broker:**
+    - Remove static method calls in ConfirmedState and ReserveActivityState, issue #79
+    - Migrate RentVehicleStateMethodTest, issue #67
+    - Migrate BulkRoomBookingProcessBookingMethodTest, issue #63
+    - Migrate BookRoomStateMethodTest, issue #61
+    - Migrate AdventureSequenceTest, issue #60
+
+* **Hussein Giva, 86434, HusseinGiva:**
+  + **Hotel:**
+    - Remove static method calls in Processor, issue #75
+    - Migrate HotelInterfaceCancelBookingMethodTest, issue #73
+    - Migrate HotelInterfaceBulkBookingMethodTest, issue #72
+    - Migrate ProcessSubmitBookingMethodTest, issue #71
+
+  + **Activity:**
+    - Migrate ActivityInterfaceReserveActivityMethodtest, issue #59
+
+* **Tomas Zaki, 79690, Zakovich:**
+  + **Activity:**
+    - Remove static method calls in Processor, issue #74
+    - Migrate ActivityInterfaceGetActivityReservationDataMethodTest, issue #58
+    - Migrate ActivityInterfaceCancelReservationMethodTest, issue #57
+    - Migrate InvoiceProcessorSubmitBookingMethodTest, issue #56
+    - Migrate ActivityOfferHasVacancyMethodTest, issue #55
 
 ### Infrastructure
 
