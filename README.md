@@ -17,15 +17,6 @@ To see the coverage reports, go to <module name>/target/site/jacoco/index.html.
 - **Group 1:**
 - **Group 2:**
 
-* **Hussein Giva, 86434, HusseinGiva:**
-  + **Activity Module:**
-    - Migrate ActivityInterfaceReserveActivityMethodTest - issue #59
-  + **Hotel Module:**
-    - Migrate ProcessSubmitBookingMethodTest - issue #71 
-    - Migrate HotelInterfaceBulkBookingMethodTest - issue #72  
-    - Migrate HotelInterfaceCancelBookingMethodTest - issue #73  
-    - Remove static method calls in Processor - issue #75   
-
 ### Infrastructure
 
 This project includes the persistent layer, as offered by the FénixFramework.
