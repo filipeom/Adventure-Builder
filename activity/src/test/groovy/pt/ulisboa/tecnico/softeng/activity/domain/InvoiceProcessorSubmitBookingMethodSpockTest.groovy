@@ -8,7 +8,6 @@ import pt.ulisboa.tecnico.softeng.activity.services.remote.exceptions.BankExcept
 import pt.ulisboa.tecnico.softeng.activity.services.remote.exceptions.RemoteAccessException
 import pt.ulisboa.tecnico.softeng.activity.services.remote.exceptions.TaxException
 
-import spock.lang.Shared
 import spock.lang.Unroll
 
 
