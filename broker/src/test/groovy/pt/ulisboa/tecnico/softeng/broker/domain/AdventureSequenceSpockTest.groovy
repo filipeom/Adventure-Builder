@@ -1,6 +1,7 @@
 package pt.ulisboa.tecnico.softeng.broker.domain
 
 import pt.ulisboa.tecnico.softeng.broker.domain.Adventure.State
+import pt.ulisboa.tecnico.softeng.broker.services.remote.HotelInterface.Type
 import pt.ulisboa.tecnico.softeng.broker.services.remote.*
 import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.*
 import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.*
@@ -111,6 +112,7 @@ class AdventureSequenceSpockTest extends SpockRollbackTestAbstractClass {
     def 'unsuccess sequence fail hotel'() {
         given: 'an adventure'
         def adventure = new Adventure(broker, ARRIVAL, DEPARTURE, client, MARGIN)
+        new RoomType(adventure, Type.SINGLE)
         and: 'an activity reservation'
         activityInterface.reserveActivity(_) >> bookingActivityData
         and: 'an hotel exception'

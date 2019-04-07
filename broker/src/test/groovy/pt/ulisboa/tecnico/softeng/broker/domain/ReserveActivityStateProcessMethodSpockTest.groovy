@@ -2,6 +2,7 @@ package pt.ulisboa.tecnico.softeng.broker.domain
 
 import spock.lang.Unroll
 
+import pt.ulisboa.tecnico.softeng.broker.services.remote.HotelInterface.Type
 import pt.ulisboa.tecnico.softeng.broker.services.remote.*
 import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.*
 import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.*
@@ -23,6 +24,7 @@ class ReserveActivityStateProcessMethodSpockTest extends SpockRollbackTestAbstra
 
         adventure = new Adventure(broker, BEGIN, END, client, MARGIN)
         adventure.setState(Adventure.State.RESERVE_ACTIVITY)
+        new RoomType(adventure, Type.SINGLE)
 
         bookingData = new RestActivityBookingData()
         bookingData.setReference(ACTIVITY_CONFIRMATION)
@@ -58,6 +60,18 @@ class ReserveActivityStateProcessMethodSpockTest extends SpockRollbackTestAbstra
 
         then: 'state of adventure is as expected'
         adventure.getState().getValue() == Adventure.State.BOOK_ROOM
+    }
+
+    def 'success with no room reservation'() {
+        given: 'activity reserved'
+        def adv = new Adventure(broker, BEGIN, END, client, MARGIN)
+        activityInterface.reserveActivity(_) >> bookingData
+
+        when: 'adventure is processed'
+        adv.process()
+
+        then: 'state of adventure is as expected'
+        adv.getState().getValue() == Adventure.State.PROCESS_PAYMENT
     }
 
     @Unroll('#label: #mock_exception')

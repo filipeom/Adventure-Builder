@@ -41,6 +41,9 @@ public class Adventure extends Adventure_Base {
 
         getState().delete();
 
+        if (getRoomType() != null)
+          getRoomType().delete();
+
         deleteDomainObject();
     }
 
@@ -80,6 +83,10 @@ public class Adventure extends Adventure_Base {
 
     public boolean shouldRentVehicle() {
         return getRentVehicle();
+    }
+
+    public boolean shouldReserveRoom() {
+        return getRoomType() != null;
     }
 
     public void setState(State state) {

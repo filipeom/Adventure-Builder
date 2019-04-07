@@ -1,5 +1,6 @@
 package pt.ulisboa.tecnico.softeng.broker.domain
 
+import pt.ulisboa.tecnico.softeng.broker.services.remote.HotelInterface.Type
 import pt.ulisboa.tecnico.softeng.broker.services.remote.*
 import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.RestRoomBookingData
 import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.HotelException
@@ -23,6 +24,7 @@ class BookRoomStateMethodSpockTest extends SpockRollbackTestAbstractClass {
         new Reference(bulk, REF_TWO)
         client = new Client(broker, CLIENT_IBAN, CLIENT_NIF, DRIVING_LICENSE, AGE)
         adventure = new Adventure(broker, BEGIN, END, client, MARGIN)
+        new RoomType(adventure, Type.SINGLE)
 
         bookingData = new RestRoomBookingData()
         bookingData.setRoomType(SINGLE)
@@ -63,6 +65,7 @@ class BookRoomStateMethodSpockTest extends SpockRollbackTestAbstractClass {
     def 'success book room move to renting'() {
         given: 'an adventure wich includes renting'
         def adv = new Adventure(broker, BEGIN, END, client, MARGIN, true)
+        new RoomType(adv, Type.SINGLE)
         and: 'in book room state'
         adv.setState(Adventure.State.BOOK_ROOM)
         and: 'a successful room booking'
