@@ -54,6 +54,7 @@ class ActivityInterfaceReserveActivityMethodSpockTest extends SpockRollbackTestA
 		def activity = new Activity(provider1, "XtremX", MIN_AGE, MAX_AGE, CAPACITY)
 		new ActivityOffer(activity, new LocalDate(2018, 02, 19), new LocalDate(2018, 12, 20), 30)
 		def activityBookingData = new RestActivityBookingData()
+		//activity booking data should be defined on populate4test
 		activityBookingData.setAge(20)
 		activityBookingData.setBegin(new LocalDate(2018, 02, 19))
 		activityBookingData.setEnd(new LocalDate(2018, 12, 20))

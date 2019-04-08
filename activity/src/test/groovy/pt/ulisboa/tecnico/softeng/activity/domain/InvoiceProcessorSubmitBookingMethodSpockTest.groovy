@@ -208,4 +208,30 @@ class InvoiceProcessorSubmitBookingMethodSpockTest extends SpockRollbackTestAbst
       new RemoteAccessException() | 'remote access exception'
   }
 
+    def 'one remote exception on cancel invoice'() {
+        when: 'a successful booking'
+        provider.getProcessor().submitBooking(booking)
+
+        then: 'the remote invocations succeed'
+        1 * bankInterface.processPayment(_) >> PAYMENT_REFERENCE
+        1 * taxInterface.submitInvoice(_) >> INVOICE_REFERENCE
+
+        when: 'cancelling the booking'
+        booking.cancel()
+
+        then: 'the payment is cancelled'
+        1 * bankInterface.cancelPayment(PAYMENT_REFERENCE) >> CANCEL_PAYMENT_REFERENCE
+        and: 'the cancel of the invoice throws a RemoteAccessException'
+        1 * taxInterface.cancelInvoice(INVOICE_REFERENCE) >> { throw new RemoteAccessException() }
+
+        when: 'a new booking is done'
+        provider.getProcessor().submitBooking(booking2)
+
+        then: 'booking one is completely cancelled'
+        0 * bankInterface.cancelPayment(PAYMENT_REFERENCE)
+        1 * taxInterface.cancelInvoice(INVOICE_REFERENCE)
+        and: 'booking two is completed'
+        1 * bankInterface.processPayment(_)
+        1 * taxInterface.submitInvoice(_)
+    }
 }

@@ -15,6 +15,7 @@ import pt.ulisboa.tecnico.softeng.hotel.exception.HotelException
 import pt.ulisboa.tecnico.softeng.hotel.services.remote.BankInterface
 import pt.ulisboa.tecnico.softeng.hotel.services.remote.TaxInterface
 
+//why does this exist? You should have explained in a comment
 class HotelInterfaceBulkBookingMethodAlternativeSpockTest extends SpockRollbackTestAbstractClass {
 	def INVOICE_REFERENCE = 'InvoiceReference'
 	def PAYMENT_REFERENCE = 'PaymentReference'

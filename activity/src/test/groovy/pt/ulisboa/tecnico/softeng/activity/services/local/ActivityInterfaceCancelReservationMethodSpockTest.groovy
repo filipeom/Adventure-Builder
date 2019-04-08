@@ -8,10 +8,6 @@ import pt.ulisboa.tecnico.softeng.activity.services.remote.BankInterface
 import pt.ulisboa.tecnico.softeng.activity.services.remote.TaxInterface
 import pt.ulisboa.tecnico.softeng.activity.services.local.ActivityInterface
 
-
-
-
-
 class ActivityInterfaceCancelReservationMethodSpockTest extends SpockRollbackTestAbstractClass {
   def CANCEL_PAYMENT_REFERENCE = "CancelPaymentReference"
   def INVOICE_REFERENCE = "InvoiceReference"
@@ -61,6 +57,7 @@ class ActivityInterfaceCancelReservationMethodSpockTest extends SpockRollbackTes
 
   }
 
+  //see next test
   @Unroll('the #failure occurred')
   def "doesNotExist"(){
     when:
@@ -77,6 +74,21 @@ class ActivityInterfaceCancelReservationMethodSpockTest extends SpockRollbackTes
     exception                   | failure
     new ActivityException()     | 'Activity exception'
 
+  }
+
+  def 'booking does not exist'() {
+    given:
+    provider.getProcessor().submitBooking(new Booking(provider, offer, NIF, IBAN))
+
+    when:
+    activityInterface.cancelReservation("XPTO")
+
+    then:
+    thrown(ActivityException)
+    and:
+    and:
+    0 * bankInterface.cancelPayment(_)
+    0 * taxInterface.cancelInvoice(_)
   }
 
 }

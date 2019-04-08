@@ -51,17 +51,13 @@ class ConfirmedStateProcessMethodSpockTest extends SpockRollbackTestAbstractClas
 	adventure.setState(State.CONFIRMED)
 	}
 
+	//careful with the spock flow conventions. idem for other tests
 	def 'success all'() {
 		given:
 		adventure.setPaymentConfirmation(PAYMENT_CONFIRMATION)
 		adventure.setActivityConfirmation(ACTIVITY_CONFIRMATION)
 		adventure.setRentingConfirmation(RENTING_CONFIRMATION)
 		adventure.setRoomConfirmation(ROOM_CONFIRMATION)
-
-		when:
-		adventure.process()
-
-		then:
 		1 * bankInterface.getOperationData(PAYMENT_CONFIRMATION)
 		1 * activityInterface.getActivityReservationData(ACTIVITY_CONFIRMATION) >> activityReservationData
 		1 * carInterface.getRentingData(RENTING_CONFIRMATION)                   >> rentingData
@@ -74,7 +70,10 @@ class ConfirmedStateProcessMethodSpockTest extends SpockRollbackTestAbstractClas
 		roomBookingData.getPaymentReference()         >> REFERENCE
 		roomBookingData.getInvoiceReference()	      >> REFERENCE
 
-		and:
+		when:
+		adventure.process()
+
+		then:
 		adventure.getState().getValue() == State.CONFIRMED
 	}
 

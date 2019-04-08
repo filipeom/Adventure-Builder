@@ -40,6 +40,7 @@ class RentVehicleStateMethodSpockTest extends SpockRollbackTestAbstractClass {
     adventure.setState(State.RENT_VEHICLE)
   }
 
+  //could use data table to join test cases
   def 'success Rent Vehicle'() {
     when:
     adventure.process()

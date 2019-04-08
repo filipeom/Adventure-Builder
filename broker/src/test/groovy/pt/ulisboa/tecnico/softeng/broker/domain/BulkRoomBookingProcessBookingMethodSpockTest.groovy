@@ -18,6 +18,7 @@ class BulkRoomBookingProcessBookingMethodSpockTest extends SpockRollbackTestAbst
   def hotelInterface
   def taxInterface
 
+  //better to use constants such as MAX_HOTEL_EXCEPTIONS. What if the MAX_HOTEL_EXCEPTIONS is changed on the domain? You would have to change most tests.
   @Override
   def populate4Test() {
     activityInterface = Mock(ActivityInterface)
@@ -84,6 +85,7 @@ class BulkRoomBookingProcessBookingMethodSpockTest extends SpockRollbackTestAbst
     bulk.getCancelled() == true
   }
 
+  //see next test
   def 'max Minus One Hotel Exception'() {
     when:
     for (int i = 0; i < 3; i++)
@@ -99,6 +101,21 @@ class BulkRoomBookingProcessBookingMethodSpockTest extends SpockRollbackTestAbst
     bulk.getCancelled() == false
   }
 
+  def 'max minus one hotel exception - RB'() {
+    when: 'processBooking is invoked max number of hotel exceptions'
+    1.upto(BulkRoomBooking.MAX_HOTEL_EXCEPTIONS) { bulk.processBooking() }
+
+    then: 'the first max hotel error -1 invocations return an exception'
+    (BulkRoomBooking.MAX_HOTEL_EXCEPTIONS - 1) * hotelInterface.bulkBooking(NUMBER_OF_BULK, ARRIVAL, DEPARTURE, NIF_AS_BUYER, IBAN_BUYER,
+            bulk.getId()) >> { throw new HotelException() }
+    and: 'the last invocation returns data'
+    1 * hotelInterface.bulkBooking(NUMBER_OF_BULK, ARRIVAL, DEPARTURE, NIF_AS_BUYER, IBAN_BUYER,
+            bulk.getId()) >> { new HashSet<>(Arrays.asList("ref1", "ref2")) }
+    and: 'the bulk booking is not cancelled'
+    !bulk.getCancelled()
+    and: 'the references are stored'
+    bulk.getReferences().size() == 2
+  }
   def 'hotel Exception Value Is Reset By Remote Exception'() {
     when:
     for (int i = 0; i < 6; i++)

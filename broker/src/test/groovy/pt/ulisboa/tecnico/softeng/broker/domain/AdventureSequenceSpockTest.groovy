@@ -44,10 +44,11 @@ class AdventureSequenceSpockTest extends SpockRollbackTestAbstractClass {
     broker = new Broker("BR01", "eXtremeADVENTURE", BROKER_NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN, activityInterface, bankInterface, carInterface, hotelInterface, taxInterface)
     client = new Client(broker, CLIENT_IBAN, CLIENT_NIF, DRIVING_LICENSE, AGE)
 
+    //minor corrections like this should be caught and handled in the PR phase.
     bookingActivityData.setReference(ACTIVITY_CONFIRMATION)
-		bookingActivityData.setPrice(70.0)
-		bookingActivityData.setPaymentReference(PAYMENT_CONFIRMATION)
-		bookingActivityData.setInvoiceReference(INVOICE_REFERENCE)
+    bookingActivityData.setPrice(70.0)
+    bookingActivityData.setPaymentReference(PAYMENT_CONFIRMATION)
+    bookingActivityData.setInvoiceReference(INVOICE_REFERENCE)
 
     bookingRoomData.setReference(ROOM_CONFIRMATION)
     bookingRoomData.setPrice(80.0)
@@ -60,15 +61,13 @@ class AdventureSequenceSpockTest extends SpockRollbackTestAbstractClass {
     rentingData.setInvoiceReference(INVOICE_REFERENCE)
   }
 
+  //idem for other tests (see inside comments)
   def 'success Sequence'() {
     given:
     def adventure = new Adventure(broker, ARRIVAL, DEPARTURE, client, MARGIN, true)
 
-    when:
-    for (int i = 0; i < 6; i++)
-      adventure.process()
+    //we only have one thing in "then", the expected result. Why would we be expecting, for instance activityInterface.reserveActivity(_) >> bookingActivityData as a result?
 
-    then:
     1 * activityInterface.reserveActivity(_) >> bookingActivityData
     and:
     1 * hotelInterface.reserveRoom(_) >> bookingRoomData
@@ -86,7 +85,15 @@ class AdventureSequenceSpockTest extends SpockRollbackTestAbstractClass {
     1 * carInterface.getRentingData(RENTING_CONFIRMATION) >> rentingData
     and:
     1 * hotelInterface.getRoomBookingData(ROOM_CONFIRMATION) >> bookingRoomData
-    and:
+
+    when:
+    for (int i = 0; i < 6; i++)
+      adventure.process()
+    //more spock-ish
+    //        1.upto(6) { adventure.process() }
+
+
+    then:
     adventure.getState().getValue() == State.CONFIRMED
   }
 

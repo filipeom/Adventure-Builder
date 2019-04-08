@@ -54,4 +54,26 @@ class HotelInterfaceCancelBookingMethodSpockTest extends SpockRollbackTestAbstra
 		''        | 'empty reference'
 		'   '     | 'bank reference'
 	}
+
+	//those tests are in the other file, but you should have indicated that
+	def 'success integration'() {
+		when: 'when cancelling an existing booking'
+		def cancel = hotelInterface.cancelBooking(booking.getReference())
+
+		then: 'booking is cancelled and gets a cancellation reference'
+		1 * taxInterface.cancelInvoice(_)
+		with(booking) {
+			isCancelled()
+			getCancellation() == cancel
+		}
+	}
+
+	def 'does not exist integration'() {
+		when: 'when cancelling a non-existing booking'
+		hotelInterface.cancelBooking('XPTO')
+
+		then: 'an exception is thrown'
+		0 * taxInterface.cancelInvoice(_)
+		thrown(HotelException)
+	}
 }

@@ -4,6 +4,7 @@ import org.joda.time.LocalDate
 
 import pt.ulisboa.tecnico.softeng.activity.services.remote.BankInterface
 import pt.ulisboa.tecnico.softeng.activity.services.remote.TaxInterface
+import spock.lang.Unroll
 
 
 class ActivityOfferHasVacancyMethodSpockTest extends SpockRollbackTestAbstractClass {
@@ -34,56 +35,42 @@ class ActivityOfferHasVacancyMethodSpockTest extends SpockRollbackTestAbstractCl
 		offer = new ActivityOffer(activity, begin, end, 30)
 	}
 
-  def "success"(){
-      when:
-      def booking = new Booking(provider, offer, NIF, IBAN)
-
-      then:
-      offer.hasVacancy() == true
-  }
-
-
-  def "bookingIsFull"(){
+  @Unroll('success: #label')
+  def 'success'() {
     when:
-      def booking1 = new Booking(provider, offer, NIF, IBAN)
-      def booking2 = new Booking(provider, offer, NIF, IBAN)
-      def booking3 = new Booking(provider, offer, NIF, IBAN)
+    1.upto(n) {
+      new Booking(provider, offer, NIF, IBAN)
+    }
 
     then:
-      offer.hasVacancy() == false
+    offer.hasVacancy() == res
+
+    where:
+    n | label                     || res
+    1 | 'one booking'             || true
+    2 | 'booking is full minus 1' || true
+    3 | 'booking is full'         || false
   }
 
-  def "bookingIsFullMinusOne"(){
-    when:
-      def booking1 = new Booking(provider, offer, NIF, IBAN)
-      def booking2 = new Booking(provider, offer, NIF, IBAN)
-
-    then:
-      offer.hasVacancy() == true
-  }
 
   def "hasCancelledBookings"(){
+    given:
+    provider.getProcessor().submitBooking(new Booking(provider, offer, NIF, IBAN))
+    provider.getProcessor().submitBooking(new Booking(provider, offer, NIF, IBAN))
+    def booking = new Booking(provider, offer, NIF, IBAN)
+    provider.getProcessor().submitBooking(booking)
+
     when:
-      provider.getProcessor().submitBooking(new Booking(provider, offer, NIF, IBAN))
-      provider.getProcessor().submitBooking(new Booking(provider, offer, NIF, IBAN))
-      def booking = new Booking(provider, offer, NIF, IBAN)
-      provider.getProcessor().submitBooking(booking)
-    then: 'bookings are complete'
-      3 * bankInterface.processPayment(_) >> PAYMENT_REFERENCE
-      3 * taxInterface.submitInvoice(_) >> INVOICE_REFERENCE
+    booking.cancel()
 
-
-    when: 'cancelling a booking'
-        booking.cancel()
-    then: 'payment and invoice are cancelled'
-        1 * bankInterface.cancelPayment(PAYMENT_REFERENCE) >> CANCEL_PAYMENT_REFERENCE
-        1 * taxInterface.cancelInvoice(INVOICE_REFERENCE)
-    and: 'offer has a vacancy'
-        offer.hasVacancy() == true
-
+    then:
+    offer.hasVacancy()
+    1 * taxInterface.cancelInvoice(_)
+    1 * bankInterface.cancelPayment(_)
   }
 
   def "hasCancelledBookingsButFull"(){
+    //most of lines present on "when" should be on "given"
     when:
       provider.getProcessor().submitBooking(new Booking(provider, offer, NIF, IBAN))
       provider.getProcessor().submitBooking(new Booking(provider, offer, NIF, IBAN))

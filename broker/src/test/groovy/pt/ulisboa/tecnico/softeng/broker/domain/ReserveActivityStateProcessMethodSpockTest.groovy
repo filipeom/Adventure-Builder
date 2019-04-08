@@ -47,20 +47,18 @@ class ReserveActivityStateProcessMethodSpockTest extends SpockRollbackTestAbstra
 		adventure.setState(State.RESERVE_ACTIVITY)
 	}
 
-	
+	//idem for other tests
 	def 'successNoBookRoom'() {
 		given:
 		def sameDayAdventure = new Adventure(broker, BEGIN, BEGIN, client, MARGIN)
 		sameDayAdventure.setState(State.RESERVE_ACTIVITY)
-		
+		activityInterface.reserveActivity(_) >> bookingData
+
 
 		when:
 		sameDayAdventure.process()
 
 		then:
-		activityInterface.reserveActivity(_) >> bookingData
-
-		and:
 		sameDayAdventure.getState().getValue() == State.PROCESS_PAYMENT
 	}
 
