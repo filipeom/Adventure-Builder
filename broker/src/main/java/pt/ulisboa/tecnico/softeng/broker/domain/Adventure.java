@@ -44,6 +44,9 @@ public class Adventure extends Adventure_Base {
         if (getRoomType() != null)
           getRoomType().delete();
 
+        if (getVehicle() != null)
+            getVehicle().delete();
+
         deleteDomainObject();
     }
 

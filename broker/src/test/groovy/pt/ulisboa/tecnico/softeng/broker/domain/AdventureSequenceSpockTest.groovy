@@ -56,6 +56,8 @@ class AdventureSequenceSpockTest extends SpockRollbackTestAbstractClass {
     def 'success sequence with car #car, hotel #hotel'() {
         given: 'an adventure with rent vehicle as #car'
         def adventure = new Adventure(broker, ARRIVAL, end, client, MARGIN, car)
+        if (car)
+            new Vehicle(adventure, CarInterface.Type.CAR)
         and: 'an activity reservation'
         activityInterface.reserveActivity(_) >> bookingActivityData
 
@@ -130,6 +132,7 @@ class AdventureSequenceSpockTest extends SpockRollbackTestAbstractClass {
     def 'unsuccess sequence fail car'() {
         given: 'an adventure with rent vehicle'
         def adventure = new Adventure(broker, ARRIVAL, ARRIVAL, client, MARGIN, true)
+        new Vehicle(adventure, CarInterface.Type.CAR)
         and: 'an activity reservation'
         activityInterface.reserveActivity(_) >> bookingActivityData
         and: 'a car exception'
