@@ -12,7 +12,7 @@ public class AccountData {
 
 	public AccountData(Account account) {
 		this.iban = account.getIBAN();
-		this.balance = account.getBalance();
+		this.balance = (double) (Math.round((account.getBalance() / 1000.0) * 1000) / 1000);
 	}
 
 	public String getIban() {
@@ -23,20 +23,20 @@ public class AccountData {
 		this.iban = iban;
 	}
 
-	public Double getBalance() {
-		return this.balance;
+	public long getBalance() {
+		return (long) (this.balance.doubleValue() * 1000);
 	}
 
-	public void setBalance(Double balance) {
-		this.balance = balance;
+	public void setBalance(long balance) {
+		this.balance = (double) (Math.round((balance / 1000.0) * 1000) / 1000);
 	}
 
-	public Double getAmount() {
-		return this.amount;
+	public long getAmount() {
+		return (long) (this.amount.doubleValue() * 1000);
 	}
 
-	public void setAmount(Double amount) {
-		this.amount = amount;
+	public void setAmount(long amount) {
+		this.amount = (double) (Math.round((amount / 1000.0) * 1000) / 1000);
 	}
 
 }

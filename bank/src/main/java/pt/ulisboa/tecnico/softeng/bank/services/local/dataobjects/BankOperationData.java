@@ -20,15 +20,15 @@ public class BankOperationData {
 		this.reference = operation.getReference();
 		this.type = operation.getType().name();
 		this.iban = operation.getAccount().getIBAN();
-		this.value = operation.getValue();
+		this.value = (double) (Math.round((operation.getValue() / 1000.0) * 1000) / 1000);
 		this.time = operation.getTime();
 		this.transactionSource = operation.getTransactionSource();
 		this.transactionReference = operation.getTransactionReference();
 	}
 
-	public BankOperationData(String iban, double value, String transactionSource, String transactionReference) {
+	public BankOperationData(String iban, long value, String transactionSource, String transactionReference) {
 		this.iban = iban;
-		this.value = value;
+		this.value = (double) (Math.round((value / 1000.0) * 1000) / 1000);
 		this.transactionSource = transactionSource;
 		this.transactionReference = transactionReference;
 	}
@@ -57,12 +57,12 @@ public class BankOperationData {
 		this.iban = iban;
 	}
 
-	public Double getValue() {
-		return this.value;
+	public long getValue() {
+		return (long) (this.value.doubleValue() * 1000);
 	}
 
-	public void setValue(Double value) {
-		this.value = value;
+	public void setValue(long value) {
+		this.value = (double) (Math.round((value / 1000.0) * 1000) / 1000);
 	}
 
 	public DateTime getTime() {

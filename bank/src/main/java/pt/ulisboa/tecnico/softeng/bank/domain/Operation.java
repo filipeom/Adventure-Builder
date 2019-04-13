@@ -9,7 +9,7 @@ public class Operation extends Operation_Base {
 		DEPOSIT, WITHDRAW
 	};
 
-	public Operation(Type type, Account account, double value) {
+	public Operation(Type type, Account account, long value) {
 		checkArguments(type, account, value);
 
 		setReference(account.getBank().getCode() + Integer.toString(account.getBank().getCounter()));
@@ -29,7 +29,7 @@ public class Operation extends Operation_Base {
 		deleteDomainObject();
 	}
 
-	private void checkArguments(Type type, Account account, double value) {
+	private void checkArguments(Type type, Account account, long value) {
 		if (type == null || account == null || value <= 0) {
 			throw new BankException();
 		}

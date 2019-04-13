@@ -9,7 +9,7 @@ import pt.ulisboa.tecnico.softeng.bank.exception.BankException
 import spock.lang.Unroll
 
 class BankInterfaceGetOperationDataMethodSpockTest extends SpockRollbackTestAbstractClass {
-	def AMOUNT=100
+	def AMOUNT=100000
 	def bank
 	def account
 	def reference
@@ -31,7 +31,7 @@ class BankInterfaceGetOperationDataMethodSpockTest extends SpockRollbackTestAbst
 			getReference() == reference
 			getIban() == account.getIBAN()
 			getType() == Type.DEPOSIT.name()
-			getValue() == 100.0
+			getValue() == 100000
 			getTime() != null
 		}
 	}

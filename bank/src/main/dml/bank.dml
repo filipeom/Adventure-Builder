@@ -33,7 +33,7 @@ relation BankHasClients {
 
 class Account {
 	String IBAN;
-	double balance;
+	long balance;
 }
 
 relation BankHasAccounts {
@@ -43,7 +43,7 @@ relation BankHasAccounts {
 	Account playsRole account {
 		multiplicity 0..*;
 	}
-} 
+}
 
 relation ClientHasAccounts {
 	Client playsRole client {
@@ -52,13 +52,13 @@ relation ClientHasAccounts {
 	Account playsRole account {
 		multiplicity 0..*;
 	}
-} 
+}
 
 class Operation {
 	String reference;
 	String cancellation;
 	OperationType type;
-	double value;
+	long value;
 	DateTime time;
 	String transactionSource;
 	String transactionReference;
