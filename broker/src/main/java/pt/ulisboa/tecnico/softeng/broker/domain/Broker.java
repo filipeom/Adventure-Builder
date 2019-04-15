@@ -9,11 +9,11 @@ import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.RestRoomBoo
 import java.util.Objects;
 
 public class Broker extends Broker_Base {
-    private final ActivityInterface activityInterface;
-    private final HotelInterface hotelInterface;
-    private final CarInterface carInterface;
-    private final BankInterface bankInterface;
-    private final TaxInterface taxInterface;
+    private ActivityInterface activityInterface;
+    private HotelInterface hotelInterface;
+    private CarInterface carInterface;
+    private BankInterface bankInterface;
+    private TaxInterface taxInterface;
 
     public Broker(String code, String name, String nifAsSeller, String nifAsBuyer, String iban,
                   ActivityInterface activityInterface, HotelInterface hotelInterface, CarInterface carInterface,
@@ -33,6 +33,41 @@ public class Broker extends Broker_Base {
         this.taxInterface = taxInterface;
 
         FenixFramework.getDomainRoot().addBroker(this);
+    }
+
+    public ActivityInterface getActivityInterface() {
+        if (this.activityInterface == null) {
+            this.activityInterface = new ActivityInterface();
+        }
+        return this.activityInterface;
+    }
+
+    public HotelInterface getHotelInterface() {
+        if (this.hotelInterface == null) {
+            this.hotelInterface = new HotelInterface();
+        }
+        return this.hotelInterface;
+    }
+
+    public CarInterface getCarInterface() {
+        if (this.carInterface == null) {
+            this.carInterface = new CarInterface();
+        }
+        return this.carInterface;
+    }
+
+    public BankInterface getBankInterface() {
+        if (this.bankInterface == null) {
+            this.bankInterface = new BankInterface();
+        }
+        return this.bankInterface;
+    }
+
+    public TaxInterface getTaxInterface() {
+        if (this.taxInterface == null) {
+            this.taxInterface = new TaxInterface();
+        }
+        return this.taxInterface;
     }
 
     public void delete() {
@@ -109,26 +144,5 @@ public class Broker extends Broker_Base {
                 filter(Objects::nonNull).findAny().orElse(null);
     }
 
-
-    public ActivityInterface getActivityInterface() {
-        return this.activityInterface;
-    }
-
-    public HotelInterface getHotelInterface() {
-        return this.hotelInterface;
-    }
-
-    public CarInterface getCarInterface() {
-        return this.carInterface;
-    }
-
-    public BankInterface getBankInterface() {
-        return this.bankInterface;
-    }
-
-
-    public TaxInterface getTaxInterface() {
-        return this.taxInterface;
-    }
 
 }
