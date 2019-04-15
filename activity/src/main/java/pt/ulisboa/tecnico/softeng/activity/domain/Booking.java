@@ -31,7 +31,7 @@ public class Booking extends Booking_Base {
 	}
 
 	private void checkArguments(ActivityProvider provider, ActivityOffer offer, int age, String buyerNIF,
-			String buyerIban) {
+								String buyerIban) {
 		if (provider == null || offer == null || age < 0 || buyerNIF == null || buyerNIF.trim().length() == 0
 				|| buyerIban == null || buyerIban.trim().length() == 0) {
 			throw new ActivityException();

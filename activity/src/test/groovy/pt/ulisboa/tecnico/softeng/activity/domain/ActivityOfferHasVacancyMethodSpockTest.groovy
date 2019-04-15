@@ -27,7 +27,7 @@ class ActivityOfferHasVacancyMethodSpockTest extends SpockRollbackTestAbstractCl
 		def begin = new LocalDate(2016, 12, 19)
 		def end = new LocalDate(2016, 12, 21)
 
-		offer = new ActivityOffer(activity, begin, end, 30)
+		offer = new ActivityOffer(activity, begin, end, 30 * 1000)
 	}
 
 

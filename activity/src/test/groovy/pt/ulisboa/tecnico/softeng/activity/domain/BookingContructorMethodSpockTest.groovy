@@ -25,7 +25,7 @@ class BookingContructorMethodSpockTest extends SpockRollbackTestAbstractClass {
 		def begin = new LocalDate(2016,12,19)
 		def end = new LocalDate(2016,12,21)
 
-		offer = new ActivityOffer(activity,begin,end,AMOUNT)
+		offer = new ActivityOffer(activity,begin,end,AMOUNT * 1000)
 	}
 
 	def 'success'() {
@@ -38,7 +38,7 @@ class BookingContructorMethodSpockTest extends SpockRollbackTestAbstractClass {
 			getReference().length() > ActivityProvider.CODE_SIZE
 			getBuyerNif() == NIF
 			getIban() == IBAN
-			getAmount() == 30
+			getAmount() == 30 * 1000
 		}
 		offer.getNumberActiveOfBookings() == 1
 	}

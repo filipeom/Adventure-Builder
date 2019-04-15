@@ -26,7 +26,7 @@ class ActivityPersistenceSpockTest extends SpockPersistenceTestAbstractClass {
 
 		def activity = new Activity(activityProvider,ACTIVITY_NAME,18,65,CAPACITY)
 
-		def offer = new ActivityOffer(activity,this.begin,this.end,AMOUNT)
+		def offer = new ActivityOffer(activity,this.begin,this.end,(long) AMOUNT * 1000)
 		offer.book(activityProvider,offer,54,BUYER_NIF,BUYER_IBAN,ADVENTURE_ID)
 	}
 
@@ -67,7 +67,7 @@ class ActivityPersistenceSpockTest extends SpockPersistenceTestAbstractClass {
 			offer.getEnd() == end
 			offer.getCapacity() == CAPACITY
 			offer.getBookingSet().size() == 1
-			offer.getPrice() == AMOUNT
+			offer.getPrice() == AMOUNT * 1000
 		}
 
 		def bookings = new ArrayList<>(offer.getBookingSet())
@@ -84,7 +84,7 @@ class ActivityPersistenceSpockTest extends SpockPersistenceTestAbstractClass {
 			booking.getBuyerNif() == BUYER_NIF
 			booking.getIban() == BUYER_IBAN
 			booking.getProviderNif() == NIF
-			booking.getAmount() == AMOUNT
+			booking.getAmount() == AMOUNT * 1000
 			booking.getAdventureId() == ADVENTURE_ID
 			booking.getDate() == begin
 			booking.getTime() != null

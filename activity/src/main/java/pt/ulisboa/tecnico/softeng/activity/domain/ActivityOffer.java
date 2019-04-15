@@ -6,7 +6,7 @@ import pt.ulisboa.tecnico.softeng.activity.exception.ActivityException;
 
 public class ActivityOffer extends ActivityOffer_Base {
 
-	public ActivityOffer(Activity activity, LocalDate begin, LocalDate end, double amount) {
+	public ActivityOffer(Activity activity, LocalDate begin, LocalDate end, long amount) {
 		checkArguments(activity, begin, end, amount);
 
 		setBegin(begin);
@@ -27,7 +27,7 @@ public class ActivityOffer extends ActivityOffer_Base {
 		deleteDomainObject();
 	}
 
-	private void checkArguments(Activity activity, LocalDate begin, LocalDate end, double amount) {
+	private void checkArguments(Activity activity, LocalDate begin, LocalDate end, long amount) {
 		if (activity == null || begin == null || end == null) {
 			throw new ActivityException();
 		}
@@ -50,8 +50,7 @@ public class ActivityOffer extends ActivityOffer_Base {
 		}
 		return count;
 	}
-
-	public double getPrice() {
+	public long getPrice() {
 		return getAmount();
 	}
 
@@ -82,7 +81,7 @@ public class ActivityOffer extends ActivityOffer_Base {
 	}
 
 	public Booking book(ActivityProvider provider, ActivityOffer activityOffer, int age, String nif, String iban,
-			String adventureId) {
+						String adventureId) {
 		Booking booking = new Booking(provider, activityOffer, age, nif, iban);
 		booking.setAdventureId(adventureId);
 		provider.getProcessor().submitBooking(booking);

@@ -35,7 +35,7 @@ class ProcessorSubmitBookingMethodSpockTest extends SpockRollbackTestAbstractCla
 
         def begin = new LocalDate(2016, 12, 19)
         def end = new LocalDate(2016, 12, 21)
-        offer = new ActivityOffer(activity, begin, end, AMOUNT)
+        offer = new ActivityOffer(activity, begin, end, AMOUNT * 1000)
         booking = new Booking(provider, offer, NIF, IBAN)
         booking2 = new Booking(provider, offer, NIF, IBAN)
     }

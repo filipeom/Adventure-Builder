@@ -27,13 +27,13 @@ class ActivityOfferConstructorMethodSpockTest extends SpockRollbackTestAbstractC
 	@Unroll('success: #the_beg, #the_end')
 	def 'success'() {
 		when:
-		def offer = new ActivityOffer(activity, the_beg, the_end, amount)
+		def offer = new ActivityOffer(activity, the_beg, the_end, amount * 1000)
 
 		then:
 		offer.getBegin() == the_beg
 		offer.getEnd() == the_end
 		offer.getNumberActiveOfBookings() == 0
-		offer.getPrice() == amount
+		offer.getPrice() == amount * 1000
 		activity.getActivityOfferSet().size() == 1
 
 		where:
@@ -45,7 +45,7 @@ class ActivityOfferConstructorMethodSpockTest extends SpockRollbackTestAbstractC
 	@Unroll('exception: #the_beg, #the_end')
 	def 'exception'() {
 		when:
-		new ActivityOffer(null, the_beg ,the_end ,30)
+		new ActivityOffer(null, the_beg ,the_end ,30 * 1000)
 
 		then:
 		thrown(ActivityException)
