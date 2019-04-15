@@ -31,7 +31,7 @@ class BookRoomStateMethodSpockTest extends SpockRollbackTestAbstractClass {
         bookingData.setArrival(BEGIN)
         bookingData.setDeparture(END)
         bookingData.setReference(ROOM_CONFIRMATION)
-        bookingData.setPrice(80.0)
+        bookingData.setPrice(80000)
 
         adventure.setState(Adventure.State.BOOK_ROOM)
     }
@@ -47,6 +47,8 @@ class BookRoomStateMethodSpockTest extends SpockRollbackTestAbstractClass {
         adventure.getState().getValue() == Adventure.State.PROCESS_PAYMENT
         and: 'the room is confirmed'
         adventure.getRoomConfirmation() == ROOM_CONFIRMATION
+        and: 'the amount is correct'
+        adventure.getAmount() == 104000
     }
 
     def 'success book room move to payment'() {
@@ -60,6 +62,8 @@ class BookRoomStateMethodSpockTest extends SpockRollbackTestAbstractClass {
         adventure.getState().getValue() == Adventure.State.PROCESS_PAYMENT
         and: 'the room is confirmed'
         adventure.getRoomConfirmation() == ROOM_CONFIRMATION
+        and: 'the amount is correct'
+        adventure.getAmount() == 104000
     }
 
     def 'success book room move to renting'() {
@@ -78,6 +82,8 @@ class BookRoomStateMethodSpockTest extends SpockRollbackTestAbstractClass {
         adv.getState().getValue() == Adventure.State.RENT_VEHICLE
         and: 'the room is confirmed'
         adv.getRoomConfirmation() == ROOM_CONFIRMATION
+        and: 'the amount is correct'
+        adv.getAmount() == 104000
     }
 
     @Unroll('#process_iterations #exception is thrown')

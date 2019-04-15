@@ -25,7 +25,7 @@ class RentVehicleStateMethodSpockTest extends SpockRollbackTestAbstractClass {
 
         rentingData = new RestRentingData()
         rentingData.setReference(RENTING_CONFIRMATION)
-        rentingData.setPrice(76.78)
+        rentingData.setPrice(76780)
 
         adventure.setState(Adventure.State.RENT_VEHICLE)
     }
@@ -40,6 +40,8 @@ class RentVehicleStateMethodSpockTest extends SpockRollbackTestAbstractClass {
 
         then: 'state of adventure is as expected'
         adventure.getState().getValue() == Adventure.State.PROCESS_PAYMENT
+        and: 'the adventure amount is correct'
+        adventure.getAmount() == 99814
     }
 
     @Unroll('#label (rentCar): adventure in state #adventure_state ')

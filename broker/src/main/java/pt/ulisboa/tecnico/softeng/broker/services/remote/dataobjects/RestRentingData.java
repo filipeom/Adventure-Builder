@@ -16,7 +16,7 @@ public class RestRentingData {
 	private String paymentReference;
 	private String invoiceReference;
 	private String cancellationReference;
-	private Double price;
+	private Long price;
 	private String buyerNIF;
 	private String buyerIBAN;
 	private String typeValue;
@@ -109,11 +109,11 @@ public class RestRentingData {
 		this.cancellationReference = cancellationReference;
 	}
 
-	public Double getPrice() {
+	public Long getPrice() {
 		return this.price;
 	}
 
-	public void setPrice(Double price) {
+	public void setPrice(Long price) {
 		this.price = price;
 	}
 

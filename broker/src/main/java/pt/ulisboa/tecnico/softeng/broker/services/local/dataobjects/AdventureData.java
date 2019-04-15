@@ -86,12 +86,12 @@ public class AdventureData {
 		this.iban = iban;
 	}
 
-	public Double getAmount() {
-		return this.amount;
+	public Long getAmount() {
+		return Math.round(this.amount * 1000);
 	}
 
-	public void setAmount(Double amount) {
-		this.amount = amount;
+	public void setAmount(Long amount) {
+		this.amount = Math.round((amount/1000.0) * 1000) / 1000.0;
 	}
 
 	public Adventure.State getState() {

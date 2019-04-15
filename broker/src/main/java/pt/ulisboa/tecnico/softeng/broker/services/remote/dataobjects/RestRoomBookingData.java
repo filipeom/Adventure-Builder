@@ -19,7 +19,7 @@ public class RestRoomBookingData {
 	private LocalDate departure;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private LocalDate cancellationDate;
-	private double price;
+	private Long price;
 	private String paymentReference;
 	private String invoiceReference;
 	private String buyerNif;
@@ -111,11 +111,11 @@ public class RestRoomBookingData {
 		this.cancellationDate = cancellationDate;
 	}
 
-	public double getPrice() {
+	public Long getPrice() {
 		return this.price;
 	}
 
-	public void setPrice(double price) {
+	public void setPrice(Long price) {
 		this.price = price;
 	}
 

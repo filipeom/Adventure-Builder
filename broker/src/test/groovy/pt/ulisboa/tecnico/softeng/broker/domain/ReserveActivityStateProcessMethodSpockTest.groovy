@@ -28,7 +28,7 @@ class ReserveActivityStateProcessMethodSpockTest extends SpockRollbackTestAbstra
 
         bookingData = new RestActivityBookingData()
         bookingData.setReference(ACTIVITY_CONFIRMATION)
-        bookingData.setPrice(76.78)
+        bookingData.setPrice(76780)
     }
 
     @Unroll('#label: #rent_a_car #adventure_state')
@@ -44,6 +44,8 @@ class ReserveActivityStateProcessMethodSpockTest extends SpockRollbackTestAbstra
 
         then: 'state of adventure is as expected'
         sameDayAdventure.getState().getValue() == adventure_state
+        and: 'the adventure amount is correct'
+        sameDayAdventure.getAmount() == 99814
 
         where:
         rent_a_car | adventure_state                 | label
@@ -60,6 +62,8 @@ class ReserveActivityStateProcessMethodSpockTest extends SpockRollbackTestAbstra
 
         then: 'state of adventure is as expected'
         adventure.getState().getValue() == Adventure.State.BOOK_ROOM
+        and: 'the adventure amount is correct'
+        adventure.getAmount() == 99814
     }
 
     def 'success with no room reservation'() {
@@ -72,6 +76,8 @@ class ReserveActivityStateProcessMethodSpockTest extends SpockRollbackTestAbstra
 
         then: 'state of adventure is as expected'
         adv.getState().getValue() == Adventure.State.PROCESS_PAYMENT
+        and: 'the adventure amount is correct'
+        adv.getAmount() == 99814
     }
 
     @Unroll('#label: #mock_exception')

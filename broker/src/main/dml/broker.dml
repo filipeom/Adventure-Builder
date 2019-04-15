@@ -37,8 +37,8 @@ class Adventure {
 	boolean invoiceCancelled;
 	boolean rentVehicle;
 	double margin;
-    double currentAmount;
-    DateTime time;
+  long currentAmount;
+  DateTime time;
 }
 
 relation BrokerHasAdventures {
