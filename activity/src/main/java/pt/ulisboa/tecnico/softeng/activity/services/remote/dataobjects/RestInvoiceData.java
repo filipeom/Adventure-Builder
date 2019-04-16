@@ -9,10 +9,10 @@ public class RestInvoiceData {
 	private String sellerNif;
 	private String buyerNif;
 	private String itemType;
-	private long value;
+	private Long value;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private LocalDate date;
-	private Double iva;
+	private Long iva;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	private DateTime time;
 
@@ -53,11 +53,11 @@ public class RestInvoiceData {
 		this.itemType = itemType;
 	}
 
-	public long getValue() {
+	public Long getValue() {
 		return this.value;
 	}
 
-	public void setValue(long value) {
+	public void setValue(Long value) {
 		this.value = value;
 	}
 
@@ -69,11 +69,11 @@ public class RestInvoiceData {
 		this.date = date;
 	}
 
-	public Double getIva() {
+	public Long getIva() {
 		return this.iva;
 	}
 
-	public void setIva(Double iva) {
+	public void setIva(Long iva) {
 		this.iva = iva;
 	}
 
