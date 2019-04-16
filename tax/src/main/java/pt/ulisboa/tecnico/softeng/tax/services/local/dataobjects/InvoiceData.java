@@ -21,7 +21,7 @@ public class InvoiceData {
 	public InvoiceData() {
 	}
 
-	public InvoiceData(String reference, String sellerNif, String buyerNif, String itemType, Double value,
+	public InvoiceData(String reference, String sellerNif, String buyerNif, String itemType, Long value,
 			LocalDate date, DateTime time) {
 		if (reference == null) {
 			throw new TaxException();
@@ -30,7 +30,7 @@ public class InvoiceData {
 		this.sellerNif = sellerNif;
 		this.buyerNif = buyerNif;
 		this.itemType = itemType;
-		this.value = value;
+		this.value = (double) (Math.round((value / 1000.0) * 1000) / 1000);
 		this.date = date;
 		this.time = time;
 	}
@@ -40,9 +40,9 @@ public class InvoiceData {
 		this.sellerNif = invoice.getSeller().getNif();
 		this.buyerNif = invoice.getBuyer().getNif();
 		this.itemType = invoice.getItemType().getName();
-		this.value = invoice.getValue();
+		this.value = (double) (Math.round((invoice.getValue() / 1000.0) * 1000) / 1000);
 		this.date = invoice.getDate();
-		this.iva = invoice.getIva();
+		this.iva = (double) (Math.round((invoice.getIva() / 1000.0) * 1000) / 1000);
 		this.time = invoice.getTime();
 	}
 
@@ -78,12 +78,12 @@ public class InvoiceData {
 		this.itemType = itemType;
 	}
 
-	public Double getValue() {
-		return this.value;
+	public Long getValue() {
+		return Math.round(this.value.doubleValue() * 1000);
 	}
 
-	public void setValue(Double value) {
-		this.value = value;
+	public void setValue(Long value) {
+		this.value = (double) (Math.round((value / 1000.0) * 1000) / 1000);
 	}
 
 	public LocalDate getDate() {
@@ -94,12 +94,12 @@ public class InvoiceData {
 		this.date = date;
 	}
 
-	public Double getIva() {
-		return this.iva;
+	public Long getIva() {
+		return Math.round(this.iva.doubleValue() * 1000);
 	}
 
-	public void setIva(Double iva) {
-		this.iva = iva;
+	public void setIva(long iva) {
+		this.iva = (double) (Math.round((iva / 1000.0) * 1000) / 1000);
 	}
 
 	public DateTime getTime() {

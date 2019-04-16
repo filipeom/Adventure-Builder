@@ -27,12 +27,12 @@ public class Buyer extends Buyer_Base {
 		super.delete();
 	}
 
-	public double taxReturn(int year) {
+	public long taxReturn(int year) {
 		if (year < 1970) {
 			throw new TaxException();
 		}
 
-		double result = 0;
+		long result = 0;
 		for (Invoice invoice : getInvoiceSet()) {
 			if (!invoice.isCancelled() && invoice.getDate().getYear() == year) {
 				result = result + invoice.getIva() * PERCENTAGE / 100;
@@ -55,7 +55,7 @@ public class Buyer extends Buyer_Base {
 		return null;
 	}
 
-	public Map<Integer, Double> getTaxReturnPerYear() {
+	public Map<Integer, Long> getTaxReturnPerYear() {
 		return getInvoiceSet().stream().map(i -> i.getDate().getYear()).distinct()
 				.collect(Collectors.toMap(y -> y, y -> taxReturn(y)));
 	}

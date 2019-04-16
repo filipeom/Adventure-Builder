@@ -7,7 +7,7 @@ import pt.ulisboa.tecnico.softeng.tax.exception.TaxException;
 
 public class Invoice extends Invoice_Base {
 
-	public Invoice(double value, LocalDate date, ItemType itemType, Seller seller, Buyer buyer, DateTime time) {
+	public Invoice(long value, LocalDate date, ItemType itemType, Seller seller, Buyer buyer, DateTime time) {
 		checkArguments(value, date, itemType, seller, buyer, time);
 
 		setReference(Integer.toString(seller.getIrs().getCounter()));
@@ -19,12 +19,12 @@ public class Invoice extends Invoice_Base {
 		setBuyer(buyer);
 		setTime(time);
 
-		setIva(value * itemType.getTax() / 100);
+		setIva(Math.round(value * itemType.getTax() / 100));
 
 		setIrs(getSeller().getIrs());
 	}
 
-	public Invoice(double value, LocalDate date, ItemType itemType, Seller seller, Buyer buyer) {
+	public Invoice(long value, LocalDate date, ItemType itemType, Seller seller, Buyer buyer) {
 		this(value, date, itemType, seller, buyer, DateTime.now());
 	}
 
@@ -36,9 +36,9 @@ public class Invoice extends Invoice_Base {
 		deleteDomainObject();
 	}
 
-	private void checkArguments(double value, LocalDate date, ItemType itemType, Seller seller, Buyer buyer,
+	private void checkArguments(long value, LocalDate date, ItemType itemType, Seller seller, Buyer buyer,
 			DateTime time) {
-		if (value <= 0.0f) {
+		if (value <= 0) {
 			throw new TaxException();
 		}
 

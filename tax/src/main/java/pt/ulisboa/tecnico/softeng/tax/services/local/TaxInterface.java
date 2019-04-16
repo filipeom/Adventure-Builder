@@ -142,7 +142,7 @@ public class TaxInterface {
 				.filter(i -> i.getBuyer().getNif().equals(invoiceData.getBuyerNif())
 						&& i.getSeller().getNif().equals(invoiceData.getSellerNif())
 						&& i.getItemType().getName().equals(invoiceData.getItemType())
-						&& i.getValue() == invoiceData.getValue().doubleValue()
+						&& i.getValue() == invoiceData.getValue()
 						&& i.getTime().getMillis() == invoiceData.getTime().getMillis())
 				.findFirst();
 

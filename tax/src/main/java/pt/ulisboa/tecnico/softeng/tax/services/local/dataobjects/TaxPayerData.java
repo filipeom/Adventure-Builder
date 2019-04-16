@@ -16,7 +16,7 @@ public class TaxPayerData {
 	private String name;
 	private String address;
 	private Type type;
-	private Map<Integer, Double> taxes = new TreeMap<Integer, Double>();
+	private Map<Integer, Long> taxes = new TreeMap<Integer, Long>();
 
 	public TaxPayerData() {
 	}
@@ -69,11 +69,11 @@ public class TaxPayerData {
 		this.type = type;
 	}
 
-	public Map<Integer, Double> getTaxes() {
+	public Map<Integer, Long> getTaxes() {
 		return this.taxes;
 	}
 
-	public void setTaxes(Map<Integer, Double> taxes) {
+	public void setTaxes(Map<Integer, Long> taxes) {
 		this.taxes = taxes;
 	}
 
