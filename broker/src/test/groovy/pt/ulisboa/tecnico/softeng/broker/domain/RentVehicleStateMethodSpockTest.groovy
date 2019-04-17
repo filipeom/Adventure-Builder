@@ -18,7 +18,7 @@ class RentVehicleStateMethodSpockTest extends SpockRollbackTestAbstractClass {
         carInterface = Mock(CarInterface)
         taxInterface = Mock(TaxInterface)
 
-        def broker = new Broker("BR01", "eXtremeADVENTURE", BROKER_NIF_AS_SELLER, NIF_AS_BUYER, BROKER_IBAN, new ActivityInterface(), new HotelInterface(), carInterface, new BankInterface(), taxInterface)
+        def broker = new Broker("BR01", "eXtremeADVENTURE", BROKER_NIF, BROKER_IBAN, new ActivityInterface(), new HotelInterface(), carInterface, new BankInterface(), taxInterface)
         def client = new Client(broker, CLIENT_IBAN, CLIENT_NIF, DRIVING_LICENSE, AGE)
         adventure = new Adventure(broker, BEGIN, END, client, MARGIN, true)
         new Vehicle(adventure, CarInterface.Type.CAR)
@@ -32,7 +32,7 @@ class RentVehicleStateMethodSpockTest extends SpockRollbackTestAbstractClass {
 
     def 'successRentVehicle'() {
         given: 'mocking of renting a car succeeds and returns value rentingData'
-        carInterface.rentCar(CarInterface.Type.CAR, DRIVING_LICENSE, BROKER_NIF_AS_BUYER, BROKER_IBAN,
+        carInterface.rentCar(CarInterface.Type.CAR, DRIVING_LICENSE, BROKER_NIF, BROKER_IBAN,
                         BEGIN, END, _) >> rentingData
 
         when: 'adventure is processed'
@@ -47,7 +47,7 @@ class RentVehicleStateMethodSpockTest extends SpockRollbackTestAbstractClass {
     @Unroll('#label (rentCar): adventure in state #adventure_state ')
     def 'exceptions rentCar'() {
         given: 'rentCar fails #iterations time(s)'
-        iterations * carInterface.rentCar(CarInterface.Type.CAR, DRIVING_LICENSE, BROKER_NIF_AS_BUYER, BROKER_IBAN,
+        iterations * carInterface.rentCar(CarInterface.Type.CAR, DRIVING_LICENSE, BROKER_NIF, BROKER_IBAN,
                 BEGIN, END, _) >> { throw mock_exception }
 
         when: 'adventure is processed'
@@ -68,7 +68,7 @@ class RentVehicleStateMethodSpockTest extends SpockRollbackTestAbstractClass {
 
     def 'twoRemoteAccessExceptionOneSuccess'() {
         given: 'renting a car fails with two remote exceptions and then succeeds'
-        carInterface.rentCar(CarInterface.Type.CAR, DRIVING_LICENSE, BROKER_NIF_AS_BUYER, BROKER_IBAN,
+        carInterface.rentCar(CarInterface.Type.CAR, DRIVING_LICENSE, BROKER_NIF, BROKER_IBAN,
                 BEGIN, END, _) >>
                 { throw new RemoteAccessException() } >>
                 { throw new RemoteAccessException() } >>
@@ -85,7 +85,7 @@ class RentVehicleStateMethodSpockTest extends SpockRollbackTestAbstractClass {
 
     def 'oneRemoteAccessExceptionOneCarException'() {
         given: 'renting a car fails with a remote exception followed by a car exception'
-        carInterface.rentCar(CarInterface.Type.CAR, DRIVING_LICENSE, BROKER_NIF_AS_BUYER, BROKER_IBAN,
+        carInterface.rentCar(CarInterface.Type.CAR, DRIVING_LICENSE, BROKER_NIF, BROKER_IBAN,
                 BEGIN, END, _) >>
                 { throw new RemoteAccessException() } >>
                 { throw new CarException() }

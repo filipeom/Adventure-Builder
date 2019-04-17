@@ -7,6 +7,7 @@ trait SharedDefinitions {
     @Shared def BROKER_CODE = "BR01"
     @Shared def BROKER_NAME = "WeExplore"
     @Shared def BROKER_IBAN = "BROKER_IBAN"
+    @Shared def BROKER_NIF = "brokerNIF"
     @Shared def BROKER_NIF_AS_BUYER = "buyerNIF"
     @Shared def NIF_AS_BUYER = "buyerNIF"
     @Shared def BROKER_NIF_AS_SELLER = "sellerNIF"

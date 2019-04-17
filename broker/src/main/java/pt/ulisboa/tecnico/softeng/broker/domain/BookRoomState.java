@@ -23,9 +23,13 @@ public class BookRoomState extends BookRoomState_Base {
         if (bookingData == null) {
             HotelInterface hotelInterface = getAdventure().getBroker().getHotelInterface();
             try {
-                bookingData = hotelInterface.reserveRoom(new RestRoomBookingData(getAdventure().getRoomType().getType(),
-                        getAdventure().getBegin(), getAdventure().getEnd(), getAdventure().getBroker().getNifAsBuyer(),
-                        getAdventure().getBroker().getIban(), getAdventure().getID()));
+                bookingData = hotelInterface.reserveRoom(new RestRoomBookingData(
+                                                        getAdventure().getRoomType().getType(),
+                                                        getAdventure().getBegin(),
+                                                        getAdventure().getEnd(),
+                                                        getAdventure().getBroker().getNif(),
+                                                        getAdventure().getBroker().getIban(),
+                                                        getAdventure().getID()));
             } catch (HotelException he) {
                 getAdventure().setState(State.UNDO);
                 return;
