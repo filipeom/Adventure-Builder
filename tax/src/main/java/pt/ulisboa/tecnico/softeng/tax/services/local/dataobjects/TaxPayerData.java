@@ -3,38 +3,25 @@ package pt.ulisboa.tecnico.softeng.tax.services.local.dataobjects;
 import java.util.Map;
 import java.util.TreeMap;
 
-import pt.ulisboa.tecnico.softeng.tax.domain.Buyer;
-import pt.ulisboa.tecnico.softeng.tax.domain.Seller;
 import pt.ulisboa.tecnico.softeng.tax.domain.TaxPayer;
 
 public class TaxPayerData {
-	public enum Type {
-		BUYER, SELLER
-	}
 
 	private String nif;
 	private String name;
 	private String address;
-	private Type type;
-	private Map<Integer, Long> taxes = new TreeMap<Integer, Long>();
+	private Map<Integer, Long> sellerTaxes = new TreeMap<Integer, Long>();
+	private Map<Integer, Long> buyerTaxes = new TreeMap<Integer, Long>();
 
 	public TaxPayerData() {
 	}
 
 	public TaxPayerData(TaxPayer taxPayer) {
-		Seller seller;
-		Buyer buyer;
 		this.nif = taxPayer.getNif();
 		this.name = taxPayer.getName();
 		this.address = taxPayer.getAddress();
-		this.type = taxPayer instanceof Buyer ? Type.BUYER : Type.SELLER;
-		if (taxPayer instanceof Seller) {
-			seller = (Seller) taxPayer;
-			this.taxes = seller.getToPayPerYear();
-		} else {
-			buyer = (Buyer) taxPayer;
-			this.taxes = buyer.getTaxReturnPerYear();
-		}
+		this.sellerTaxes = taxPayer.getToPayPerYear();
+		this.buyerTaxes = taxPayer.getTaxReturnPerYear();
 	}
 
 	public String getName() {
@@ -61,20 +48,20 @@ public class TaxPayerData {
 		this.address = address;
 	}
 
-	public Type getType() {
-		return this.type;
+	public Map<Integer, Long> getSellerTaxes() {
+		return this.sellerTaxes;
 	}
 
-	public void setType(Type type) {
-		this.type = type;
+	public void setSellerTaxes(Map<Integer, Long> taxes) {
+		this.sellerTaxes = taxes;
 	}
 
-	public Map<Integer, Long> getTaxes() {
-		return this.taxes;
+	public Map<Integer, Long> getBuyerTaxes() {
+		return this.buyerTaxes;
 	}
 
-	public void setTaxes(Map<Integer, Long> taxes) {
-		this.taxes = taxes;
+	public void setBuyerTaxes(Map<Integer, Long> taxes) {
+		this.buyerTaxes = taxes;
 	}
 
 }

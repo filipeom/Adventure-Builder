@@ -5,7 +5,7 @@ import spock.lang.Unroll
 
 import pt.ulisboa.tecnico.softeng.tax.exception.TaxException
 
-class BuyerConstructorSpockTest extends SpockRollbackTestAbstractClass {
+class TaxPayerConstructorSpockTest extends SpockRollbackTestAbstractClass {
 	@Shared def ADDRESS = 'Somewhere'
 	@Shared def NAME = 'José Vendido'
 	@Shared def NIF = '123456789'
@@ -18,33 +18,33 @@ class BuyerConstructorSpockTest extends SpockRollbackTestAbstractClass {
 
 	def 'success'() {
 		when:
-		def buyer = new Buyer(irs, NIF, NAME, ADDRESS)
+		def taxPayer = new TaxPayer(irs, NIF, NAME, ADDRESS)
 
 		then:
-		with(buyer) {
+		with(taxPayer) {
 			getNif() == NIF
 			getName() == NAME
 			getAddress() == ADDRESS
 		}
-		IRS.getIRSInstance().getTaxPayerByNIF(NIF) == buyer
+		IRS.getIRSInstance().getTaxPayerByNIF(NIF) == taxPayer
 	}
 
 	def 'unique nif'() {
 		given: "a buyer"
-		def seller = new Buyer(irs, NIF, NAME, ADDRESS)
+		def taxPayer = new TaxPayer(irs, NIF, NAME, ADDRESS)
 
 		when: "another buyer with the same info"
-		new Buyer(irs, NIF, NAME, ADDRESS)
+		new TaxPayer(irs, NIF, NAME, ADDRESS)
 
 		then: "an exception is thrown"
 		def error = thrown(TaxException)
-		IRS.getIRSInstance().getTaxPayerByNIF(NIF) == seller
+		IRS.getIRSInstance().getTaxPayerByNIF(NIF) == taxPayer
 	}
 
 	@Unroll('testing exceptions: #nif, #name, #address')
 	def 'testing exceptions'() {
 		when:
-		new Buyer(irs, nif, name, address)
+		new TaxPayer(irs, nif, name, address)
 
 		then:
 		thrown(TaxException)

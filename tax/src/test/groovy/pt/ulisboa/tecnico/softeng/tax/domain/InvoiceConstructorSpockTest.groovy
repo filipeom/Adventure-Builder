@@ -20,8 +20,8 @@ class InvoiceConstructorSpockTest extends SpockRollbackTestAbstractClass {
     def populate4Test() {
         def irs = IRS.getIRSInstance()
 
-        seller = new Seller(irs, SELLER_NIF, 'José Vendido', 'Somewhere')
-        buyer = new Buyer(irs, BUYER_NIF, 'Manuel Comprado', 'Anywhere')
+        seller = new TaxPayer(irs, SELLER_NIF, 'José Vendido', 'Somewhere')
+        buyer = new TaxPayer(irs, BUYER_NIF, 'Manuel Comprado', 'Anywhere')
         itemType = new ItemType(irs, FOOD, TAX)
     }
 
@@ -41,8 +41,8 @@ class InvoiceConstructorSpockTest extends SpockRollbackTestAbstractClass {
             !isCancelled()
         }
 
-        seller.getInvoiceByReference(invoice.getReference()) == invoice
-        buyer.getInvoiceByReference(invoice.getReference()) == invoice
+        seller.getSellerInvoiceByReference(invoice.getReference()) == invoice
+        buyer.getBuyerInvoiceByReference(invoice.getReference()) == invoice
     }
 
     @Unroll('testing exceptions: #value, #dt, #it, #sel, #buy')
