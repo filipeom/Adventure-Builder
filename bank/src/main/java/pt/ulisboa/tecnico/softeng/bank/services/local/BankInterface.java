@@ -10,6 +10,7 @@ import pt.ulisboa.tecnico.softeng.bank.domain.Account;
 import pt.ulisboa.tecnico.softeng.bank.domain.Bank;
 import pt.ulisboa.tecnico.softeng.bank.domain.Client;
 import pt.ulisboa.tecnico.softeng.bank.domain.Operation;
+import pt.ulisboa.tecnico.softeng.bank.domain.Transfer;
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 import pt.ulisboa.tecnico.softeng.bank.services.local.dataobjects.AccountData;
 import pt.ulisboa.tecnico.softeng.bank.services.local.dataobjects.BankData;
@@ -113,22 +114,35 @@ public class BankInterface {
 
 	@Atomic(mode = TxMode.WRITE)
 	public static String processPayment(BankOperationData bankOperationData) {
+    if (bankOperationData.getTransactionSource().equals("REVERT"))
+      throw new BankException();
+    
 		Operation operation = getOperationBySourceAndReference(bankOperationData.getTransactionSource(),
 				bankOperationData.getTransactionReference());
 		if (operation != null) {
 			return operation.getReference();
 		}
+    
+    Account source = FenixFramework.getDomainRoot().getBankSet().stream()
+      .filter(b -> b.getAccount(bankOperationData.getSourceIban()) != null)
+      .map(b -> b.getAccount(bankOperationData.getSourceIban()))
+      .findFirst()
+      .orElse(null);
+	
+    Account target = FenixFramework.getDomainRoot().getBankSet().stream()
+      .filter(b -> b.getAccount(bankOperationData.getTargetIban()) != null)
+      .map(b -> b.getAccount(bankOperationData.getTargetIban()))
+      .findFirst()
+      .orElse(null);
+    
+    // In case some or no accounts were found
+    if (source == null || target == null)
+		  throw new BankException();
 
-		for (Bank bank : FenixFramework.getDomainRoot().getBankSet()) {
-			Account account = bank.getAccount(bankOperationData.getIban());
-			if (account != null) {
-				Operation newOperation = account.withdraw(bankOperationData.getValue());
-				newOperation.setTransactionSource(bankOperationData.getTransactionSource());
-				newOperation.setTransactionReference(bankOperationData.getTransactionReference());
-				return newOperation.getReference();
-			}
-		}
-		throw new BankException();
+    Transfer newTransfer = source.transfer(target, bankOperationData.getValue());
+    newTransfer.setTransactionSource(bankOperationData.getTransactionSource());
+    newTransfer.setTransactionReference(bankOperationData.getTransactionReference());
+    return newTransfer.getReference();
 	}
 
 	@Atomic(mode = TxMode.WRITE)
@@ -137,7 +151,12 @@ public class BankInterface {
 
 		if (operation == null) {
 			throw new BankException();
-		} else if (operation.getCancellation() != null) {
+    } else if (operation.getTransactionSource() != null) {
+      if (operation.getTransactionSource().equals("REVERT"))
+        throw new BankException();
+    } 
+
+    if (operation.getCancellation() != null) {
 			return operation.getCancellation();
 		} else {
 			return operation.revert();

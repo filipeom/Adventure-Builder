@@ -1,7 +1,5 @@
 package pt.ulisboa.tecnico.softeng.bank.domain;
 
-enum pt.ulisboa.tecnico.softeng.bank.domain.Operation.Type as OperationType;
-
 class Bank {
 	String name;
 	String code;
@@ -57,12 +55,15 @@ relation ClientHasAccounts {
 class Operation {
 	String reference;
 	String cancellation;
-	OperationType type;
 	long value;
 	DateTime time;
 	String transactionSource;
 	String transactionReference;
 }
+
+class Deposit extends Operation;
+class Withdraw extends Operation;
+class Transfer extends Operation;
 
 relation BankHasOperation {
 	Bank playsRole bank {
@@ -73,11 +74,42 @@ relation BankHasOperation {
 	}
 }
 
-relation AccountHasOperation {
-	Account playsRole account {
-		multiplicity 1..1;
-	}
-	Operation playsRole operation {
-		multiplicity 0..*;
-	}
+relation AccountHasDeposit {
+  Account playsRole account {
+    multiplicity 1..1;
+  }
+
+  Deposit playsRole deposit {
+    multiplicity 0..*;
+  }
+}
+
+relation AccountHasWithdraw {
+  Account playsRole account {
+    multiplicity 1..1;
+  }
+
+  Withdraw playsRole withdraw {
+    multiplicity 0..*;
+  }
+}
+
+relation SourceAccountHasTransfer {
+  Account playsRole sourceAccount {
+    multiplicity 1..1;
+  }
+
+  Transfer playsRole transfersAsSource {
+    multiplicity 0..*;
+  }
+}
+
+relation TargetAccountHasTransfer {
+  Account playsRole targetAccount {
+    multiplicity 1..1;
+  }
+
+  Transfer playsRole transfersAsTarget {
+    multiplicity 0..*;
+  }
 }

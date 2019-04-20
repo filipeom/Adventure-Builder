@@ -10,6 +10,7 @@ import spock.lang.Unroll
 class BankInterfaceCancelPaymentSpockTest extends SpockRollbackTestAbstractClass {
 	def bank
 	def account
+  def target
 	def reference
 
 	@Override
@@ -17,7 +18,8 @@ class BankInterfaceCancelPaymentSpockTest extends SpockRollbackTestAbstractClass
 		bank = new Bank('Money','BK01')
 		def client = new Client(bank,'António')
 		account = new Account(bank, client)
-		reference = account.deposit(100).getReference()
+    target = new Account(bank, client)
+		reference = account.deposit(100000).getReference()
 	}
 
 	def 'success'() {
@@ -27,6 +29,36 @@ class BankInterfaceCancelPaymentSpockTest extends SpockRollbackTestAbstractClass
 		then:
 		bank.getOperation(newReference) != null
 	}
+
+  def 'sucess with transfer'() {
+    given:
+    def transfer = account.transfer(target, 50000)
+
+    when:
+    BankInterface.cancelPayment(transfer.getReference())
+
+    then:
+    transfer.getTransactionSource() == "REVERT"
+    account.getBalance() == 100000
+  }
+  
+  def 'twice revert'() {
+    given:
+    def transfer = account.transfer(target, 50000)
+
+    when:
+    BankInterface.cancelPayment(transfer.getReference())
+
+    then:
+    transfer.getTransactionSource() == "REVERT"
+
+    when:
+    BankInterface.cancelPayment(transfer.getReference())
+
+    then:
+    thrown(BankException)
+
+  }
 
 	@Unroll('Cancel: #label')
 	def 'problem cancel payment'() {

@@ -18,10 +18,18 @@ public class Account extends Account_Base {
 		setBank(null);
 		setClient(null);
 
-		for (Operation operation : getOperationSet()) {
+		for (Operation operation : getDepositSet())
 			operation.delete();
-		}
 
+    for (Operation operation : getWithdrawSet())
+			operation.delete();
+
+    for (Operation operation : getTransfersAsSourceSet()) 
+			operation.delete();
+
+    for (Operation operation : getTransfersAsTargetSet())
+			operation.delete();
+		
 		deleteDomainObject();
 	}
 
@@ -36,24 +44,34 @@ public class Account extends Account_Base {
 
 	}
 
-	public Operation deposit(long amount) {
+	public Deposit deposit(long amount) {
 		if (amount <= 0) {
 			throw new BankException();
 		}
 
 		setBalance(getBalance() + amount);
 
-		return new Operation(Operation.Type.DEPOSIT, this, amount);
+		return new Deposit(this, amount);
 	}
 
-	public Operation withdraw(long amount) {
+	public Withdraw withdraw(long amount) {
 		if (amount <= 0 || amount > getBalance()) {
 			throw new BankException();
 		}
 
 		setBalance(getBalance() - amount);
 
-		return new Operation(Operation.Type.WITHDRAW, this, amount);
+		return new Withdraw(this, amount);
 	}
 
+  public Transfer transfer(Account target, long amount) {
+    if (target == null || amount <= 0 || amount > getBalance())
+      throw new BankException();
+
+    setBalance(getBalance() - amount);
+    target.setBalance(target.getBalance() + amount);
+
+    return new Transfer(this, target, amount);
+  }
+  
 }
