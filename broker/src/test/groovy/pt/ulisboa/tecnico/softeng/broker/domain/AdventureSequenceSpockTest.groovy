@@ -55,7 +55,7 @@ class AdventureSequenceSpockTest extends SpockRollbackTestAbstractClass {
     @Unroll
     def 'success sequence with car #car, hotel #hotel'() {
         given: 'an adventure with rent vehicle as #car'
-        def adventure = new Adventure(broker, ARRIVAL, end, client, MARGIN, car)
+        def adventure = new Adventure(broker, ARRIVAL, end, client, MARGIN)
         if (car)
             new Vehicle(adventure, CarInterface.Type.CAR)
         and: 'an activity reservation'
@@ -131,7 +131,7 @@ class AdventureSequenceSpockTest extends SpockRollbackTestAbstractClass {
 
     def 'unsuccess sequence fail car'() {
         given: 'an adventure with rent vehicle'
-        def adventure = new Adventure(broker, ARRIVAL, ARRIVAL, client, MARGIN, true)
+        def adventure = new Adventure(broker, ARRIVAL, ARRIVAL, client, MARGIN)
         new Vehicle(adventure, CarInterface.Type.CAR)
         and: 'an activity reservation'
         activityInterface.reserveActivity(_) >> bookingActivityData
@@ -149,7 +149,8 @@ class AdventureSequenceSpockTest extends SpockRollbackTestAbstractClass {
 
     def 'unsuccess sequence fail payment'() {
         given: 'an adventure with rent vehicle'
-        def adventure = new Adventure(broker, ARRIVAL, DEPARTURE, client, MARGIN, true)
+        def adventure = new Adventure(broker, ARRIVAL, DEPARTURE, client, MARGIN)
+        new Vehicle(adventure, CarInterface.Type.CAR)
         and: 'an activity reservation'
         activityInterface.reserveActivity(_) >> bookingActivityData
         and: 'a room booking'
@@ -172,7 +173,8 @@ class AdventureSequenceSpockTest extends SpockRollbackTestAbstractClass {
 
     def 'unsuccess sequence fail tax'() {
         given: 'an adventure with rent vehicle'
-        def adventure = new Adventure(broker, ARRIVAL, DEPARTURE, client, MARGIN, true)
+        def adventure = new Adventure(broker, ARRIVAL, DEPARTURE, client, MARGIN)
+        new Vehicle(adventure, CarInterface.Type.CAR)
         and: 'an activity reservation'
         activityInterface.reserveActivity(_) >> bookingActivityData
         and: 'a room booking'

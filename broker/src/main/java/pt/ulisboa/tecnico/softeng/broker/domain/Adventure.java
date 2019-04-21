@@ -13,17 +13,12 @@ public class Adventure extends Adventure_Base {
     }
 
     public Adventure(Broker broker, LocalDate begin, LocalDate end, Client client, double margin) {
-        this(broker, begin, end, client, margin, false);
-    }
-
-    public Adventure(Broker broker, LocalDate begin, LocalDate end, Client client, double margin, boolean rentVehicle) {
         checkArguments(broker, begin, end, client, margin);
 
         setID(broker.getCode() + Integer.toString(broker.getCounter()));
         setBegin(begin);
         setEnd(end);
         setMargin(margin);
-        setRentVehicle(rentVehicle);
         setClient(client);
 
         broker.addAdventure(this);
@@ -44,8 +39,8 @@ public class Adventure extends Adventure_Base {
         if (getRoomType() != null)
           getRoomType().delete();
 
-        if (getVehicle() != null)
-            getVehicle().delete();
+        if (getVehicleType() != null)
+          getVehicleType().delete();
 
         deleteDomainObject();
     }
@@ -85,7 +80,7 @@ public class Adventure extends Adventure_Base {
     }
 
     public boolean shouldRentVehicle() {
-        return getRentVehicle();
+        return getVehicleType() != null;
     }
 
     public boolean shouldReserveRoom() {

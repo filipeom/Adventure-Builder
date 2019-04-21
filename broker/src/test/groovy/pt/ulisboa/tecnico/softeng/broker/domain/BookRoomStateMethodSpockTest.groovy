@@ -68,7 +68,8 @@ class BookRoomStateMethodSpockTest extends SpockRollbackTestAbstractClass {
 
     def 'success book room move to renting'() {
         given: 'an adventure wich includes renting'
-        def adv = new Adventure(broker, BEGIN, END, client, MARGIN, true)
+        def adv = new Adventure(broker, BEGIN, END, client, MARGIN)
+        new Vehicle(adv, CarInterface.Type.CAR)
         new RoomType(adv, Type.SINGLE)
         and: 'in book room state'
         adv.setState(Adventure.State.BOOK_ROOM)

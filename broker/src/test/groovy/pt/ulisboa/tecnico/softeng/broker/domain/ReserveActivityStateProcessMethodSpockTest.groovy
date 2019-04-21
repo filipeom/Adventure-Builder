@@ -36,7 +36,9 @@ class ReserveActivityStateProcessMethodSpockTest extends SpockRollbackTestAbstra
         given: 'activity reserved'
         activityInterface.reserveActivity(_) >> bookingData
         and: 'an adventure on the same day'
-        def sameDayAdventure = new Adventure(broker, BEGIN, BEGIN, client, MARGIN, rent_a_car)
+        def sameDayAdventure = new Adventure(broker, BEGIN, BEGIN, client, MARGIN)
+        if (rent_a_car)
+            new Vehicle(sameDayAdventure, CarInterface.Type.CAR)
         sameDayAdventure.setState(Adventure.State.RESERVE_ACTIVITY)
 
         when: 'the adventure is processed'

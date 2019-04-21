@@ -154,7 +154,7 @@ relation AdventureHasVehicleType {
     Adventure playsRole adventure {
         multiplicity 1..1;
     }
-    Vehicle playsRole vehicle {
+    Vehicle playsRole vehicleType {
         multiplicity 0..1;
     }
 }
