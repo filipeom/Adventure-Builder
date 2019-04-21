@@ -12,7 +12,7 @@ public class Adventure extends Adventure_Base {
         PROCESS_PAYMENT, RESERVE_ACTIVITY, BOOK_ROOM, RENT_VEHICLE, UNDO, CONFIRMED, CANCELLED, TAX_PAYMENT
     }
 
-    public Adventure(Broker broker, LocalDate begin, LocalDate end, Client client, double margin) {
+    public Adventure(Broker broker, LocalDate begin, LocalDate end, Client client, long margin) {
         checkArguments(broker, begin, end, client, margin);
 
         setID(broker.getCode() + Integer.toString(broker.getCounter()));
@@ -45,7 +45,7 @@ public class Adventure extends Adventure_Base {
         deleteDomainObject();
     }
 
-    private void checkArguments(Broker broker, LocalDate begin, LocalDate end, Client client, double margin) {
+    private void checkArguments(Broker broker, LocalDate begin, LocalDate end, Client client, long margin) {
         if (client == null || broker == null || begin == null || end == null) {
             throw new BrokerException();
         }
@@ -58,7 +58,7 @@ public class Adventure extends Adventure_Base {
             throw new BrokerException();
         }
 
-        if (margin <= 0 || margin > 1) {
+        if (margin <= 0 || margin > 100) {
             throw new BrokerException();
         }
     }
@@ -76,7 +76,7 @@ public class Adventure extends Adventure_Base {
     }
 
     public long getAmount() {
-        return Math.round(getCurrentAmount() * (1 + getMargin()));
+        return Math.round(getCurrentAmount() * (1 + getMargin() / 100.0));
     }
 
     public boolean shouldRentVehicle() {

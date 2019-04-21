@@ -34,7 +34,7 @@ public class AdventureData {
 		this.end = adventure.getEnd();
 		this.age = adventure.getAge();
 		this.iban = adventure.getIban();
-		this.margin = adventure.getMargin();
+		this.margin = Math.round((adventure.getMargin() / 100.0) * 100) / 100.0;
 		this.vehicle = adventure.getRentVehicle();
 		this.state = adventure.getState().getValue();
 
@@ -150,12 +150,12 @@ public class AdventureData {
 		this.activityCancellation = activityCancellation;
 	}
 
-	public Double getMargin() {
-		return this.margin;
+	public Long getMargin() {
+		return Math.round(this.margin * 100);
 	}
 
-	public void setMargin(Double margin) {
-		this.margin = margin;
+	public void setMargin(Long margin) {
+		this.margin = Math.round((margin / 100.0) * 100) / 100.0;
 	}
 
 	public Boolean getVehicle() {
