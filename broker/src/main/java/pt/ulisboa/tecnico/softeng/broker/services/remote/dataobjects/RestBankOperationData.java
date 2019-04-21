@@ -7,7 +7,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class RestBankOperationData {
 	private String reference;
 	private String type;
-	private String iban;
+	private String sourceIban;
+	private String targetIban;
 	private Long value;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	private DateTime time;
@@ -17,8 +18,9 @@ public class RestBankOperationData {
 	public RestBankOperationData() {
 	}
 
-	public RestBankOperationData(String iban, long value, String transactionSource, String transactionReference) {
-		this.iban = iban;
+	public RestBankOperationData(String source, String target, long value, String transactionSource, String transactionReference) {
+		this.sourceIban = source;
+		this.targetIban = target;
 		this.value = value;
 		this.transactionSource = transactionSource;
 		this.transactionReference = transactionReference;
@@ -40,13 +42,21 @@ public class RestBankOperationData {
 		this.type = type;
 	}
 
-	public String getIban() {
-		return this.iban;
+	public String getSourceIban() {
+		return this.sourceIban;
 	}
 
-	public void setIban(String iban) {
-		this.iban = iban;
+	public void setSourceIban(String iban) {
+		this.sourceIban = iban;
 	}
+
+	public String getTargetIban() {
+		return this.targetIban;
+	}
+
+  public void setTargetIban(String iban) {
+    this.targetIban = iban;
+  }
 
 	public Long getValue() {
 		return this.value;

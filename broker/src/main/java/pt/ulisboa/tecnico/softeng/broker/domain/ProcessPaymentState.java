@@ -18,11 +18,15 @@ public class ProcessPaymentState extends ProcessPaymentState_Base {
     @Override
     public void process() {
         BankInterface bankInterface = getAdventure().getBroker().getBankInterface();
-
         try {
             getAdventure()
-                    .setPaymentConfirmation(bankInterface.processPayment(new RestBankOperationData(getAdventure().getIban(),
-                            getAdventure().getAmount(), TRANSACTION_SOURCE, getAdventure().getID())));
+                    .setPaymentConfirmation(bankInterface.processPayment(
+                            new RestBankOperationData(
+                                    getAdventure().getIban(),
+                                    getAdventure().getBroker().getIban(),
+                                    getAdventure().getAmount(),
+                                    TRANSACTION_SOURCE,
+                                    getAdventure().getID())));
         } catch (BankException be) {
             getAdventure().setState(State.UNDO);
             return;
