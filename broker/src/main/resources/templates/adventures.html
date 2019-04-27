@@ -14,7 +14,7 @@
 <div class="container">
     <h2>
         Adventures of Client NIF(<span th:text="${client.nif}">12343545</span>),
-        IBAN(<span th:text="${client.sourceIban}">12343545</span>),
+        IBAN(<span th:text="${client.iban}">12343545</span>),
         Age(<span th:text="${client.age}">45</span>)
         DrivingLicense(<span th:text="${client.drivingLicense}">12343545</span>)
     </h2>
@@ -26,13 +26,27 @@
     <form class="form-inline"
           th:action="@{/brokers/{code}/clients/{nif}/adventures(code=${client.brokerCode},nif=${client.nif})}"
           th:object="${adventure}" method="post">
-        <label>Begin: </label> <input class="form-control input-sm"
-                                      type="date" th:field="*{begin}"/> <label>End: </label> <input
-            class="form-control input-sm" type="date" th:field="*{end}"/> <label>Margin:
-    </label> <input class="form-control input-sm" type="number" step="0.01"
-                    min="0.0" max="1.0" th:field="*{margin}"/> <label>Rent Vehicle:
-    </label> <input class="form-control" type="checkbox" th:field="*{vehicle}"/> <input
-            class="btn btn-primary input-sm" type="submit" value="Submit"/>
+        <label>Begin: </label> <input class="form-control input-sm" type="date" th:field="*{begin}"/>
+        <label>End: </label> <input class="form-control input-sm" type="date" th:field="*{end}"/>
+        <label>Margin: </label> <input class="form-control input-sm" type="number" step="0.01"
+                                       min="0.0" max="1.0" th:field="*{margin}"/>
+        <label>Rent Vehicle: </label>
+        <select th:field="*{rentVehicle}">
+            <option th:each="vehicle : ${T(pt.ulisboa.tecnico.softeng.broker.domain.Adventure.RentVehicle).values()}"
+                    th:value="${vehicle}"
+                    th:text="${vehicle}">
+            </option>
+        </select>
+        <label>Book Room: </label>
+        <select th:field="*{bookRoom}">
+            <option th:each="room : ${T(pt.ulisboa.tecnico.softeng.broker.domain.Adventure.BookRoom).values()}"
+                    th:value="${room}"
+                    th:text="${room}">
+            </option>
+        </select>
+
+
+        <input class="btn btn-primary input-sm" type="submit" value="Submit"/>
     </form>
     <br/>
     <h3>Adventures</h3>
@@ -44,6 +58,7 @@
             <th>End</th>
             <th>Margin</th>
             <th>Vehicle</th>
+            <th>Room</th>
             <th>Amount</th>
             <th>State</th>
             <th>Payment Confirmation</th>
@@ -61,7 +76,8 @@
             <td th:text="${adventure.begin}">begin</td>
             <td th:text="${adventure.end}">end</td>
             <td th:text="${adventure.margin}">0.15</td>
-            <td th:text="${adventure.vehicle}">true</td>
+            <td th:text="${adventure.rentVehicle}">true</td>
+            <td th:text="${adventure.bookRoom}">true</td>
             <td th:text="${adventure.amount}">amount</td>
             <td th:text="${adventure.state}">state</td>
             <td th:text="${adventure.paymentConfirmation}">Payment
