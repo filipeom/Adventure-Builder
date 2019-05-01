@@ -14,17 +14,17 @@ import pt.ulisboa.tecnico.softeng.tax.services.local.TaxInterface;
 import pt.ulisboa.tecnico.softeng.tax.services.local.dataobjects.InvoiceData;
 
 @Controller
-@RequestMapping(value = "/tax/payers/{nif}/invoices")
-public class InvoiceController {
-	private static Logger logger = LoggerFactory.getLogger(InvoiceController.class);
+@RequestMapping(value = "/tax/payers/{nif}/invoicesAsBuyer")
+public class InvoiceAsBuyerController {
+	private static Logger logger = LoggerFactory.getLogger(InvoiceAsBuyerController.class);
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String invoiceForm(Model model, @PathVariable String nif) {
 		logger.info("invoiceForm nif:{}", nif);
 		model.addAttribute("invoice", new InvoiceData());
 		model.addAttribute("payer", TaxInterface.getTaxPayerDataByNif(nif));
-		model.addAttribute("invoices", TaxInterface.getInvoiceDataList(nif));
-		return "invoicesView";
+		model.addAttribute("invoices", TaxInterface.getInvoiceAsBuyerDataList(nif));
+		return "invoicesAsBuyerView";
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
@@ -39,11 +39,11 @@ public class InvoiceController {
 			model.addAttribute("error", "Error: it was not possible to create the invoice");
 			model.addAttribute("invoice", invoiceData);
 			model.addAttribute("payer", TaxInterface.getTaxPayerDataByNif(nif));
-			model.addAttribute("invoices", TaxInterface.getInvoiceDataList(nif));
-			return "invoicesView";
+			model.addAttribute("invoices", TaxInterface.getInvoiceAsBuyerDataList(nif));
+			return "invoicesAsBuyerView";
 		}
 
-		return "redirect:/tax/payers/" + nif + "/invoices";
+		return "redirect:/tax/payers/" + nif + "/invoicesAsBuyer";
 	}
 
 }

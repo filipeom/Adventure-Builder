@@ -66,6 +66,29 @@ public class TaxInterface {
                 .collect(Collectors.toList());
     }
 
+    @Atomic(mode = TxMode.READ)
+    public static List<InvoiceData> getInvoiceAsSellerDataList(String nif) {
+        TaxPayer taxPayer = IRS.getIRSInstance().getTaxPayerByNif(nif);
+        if (taxPayer == null) {
+            throw new TaxException();
+        }
+
+        return taxPayer.getSellerInvoiceSet().stream().map(InvoiceData::new).sorted(Comparator.comparing(InvoiceData::getBuyerNif))
+                .collect(Collectors.toList());
+    }
+
+    @Atomic(mode = TxMode.READ)
+    public static List<InvoiceData> getInvoiceAsBuyerDataList(String nif) {
+        TaxPayer taxPayer = IRS.getIRSInstance().getTaxPayerByNif(nif);
+        if (taxPayer == null) {
+            throw new TaxException();
+        }
+
+        return taxPayer.getBuyerInvoiceSet().stream().map(InvoiceData::new).sorted(Comparator.comparing(InvoiceData::getSellerNif))
+                .collect(Collectors.toList());
+    }
+
+
     @Atomic(mode = TxMode.WRITE)
     public static void createInvoice(String nif, InvoiceData invoiceData) {
         if (invoiceData.getValue() == null || invoiceData.getItemType() == null || invoiceData.getDate() == null
