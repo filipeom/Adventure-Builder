@@ -3,6 +3,10 @@ package pt.ulisboa.tecnico.softeng.tax.domain;
 import pt.ist.fenixframework.Atomic;
 import pt.ist.fenixframework.Atomic.TxMode;
 import pt.ist.fenixframework.FenixFramework;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.Set;
+
 
 public class IRS extends IRS_Base {
     public static final int SCALE = 1000;
@@ -69,6 +73,36 @@ public class IRS extends IRS_Base {
         int counter = super.getCounter() + 1;
         setCounter(counter);
         return counter;
+    }
+
+    public Map<Integer, Long> getTaxesPerYear() {
+      Map<Integer, Long> taxes = new TreeMap<>();
+
+      for (TaxPayer taxPayer : getTaxPayerSet()) {
+        for(Integer year : taxPayer.getToPayPerYear().keySet()) {
+          if(taxes.containsKey(year))
+            taxes.replace(year, taxes.get(year) + taxPayer.getToPayPerYear().get(year));
+          else
+            taxes.put(year, taxPayer.getToPayPerYear().get(year));
+        }
+      }
+
+      return taxes;
+    }
+
+    public Map<Integer, Long> getTaxesReturnPerYear() {
+      Map<Integer, Long> taxes = new TreeMap<>();
+
+      for (TaxPayer taxPayer : getTaxPayerSet()) {
+        for(Integer year : taxPayer.getTaxReturnPerYear().keySet()) {
+          if(taxes.containsKey(year))
+            taxes.replace(year, taxes.get(year) + taxPayer.getTaxReturnPerYear().get(year));
+          else
+            taxes.put(year, taxPayer.getTaxReturnPerYear().get(year));
+        }
+      }
+
+      return taxes;
     }
 
 }

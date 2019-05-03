@@ -84,6 +84,23 @@
 				</tr>
 			</tbody>
 		</table>
+		<h3>List Of Taxes Per Year</h3>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Year</th>
+					<th>TaxesToPay</th>
+					<th>TaxesReturn</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="key: ${taxesToPay.keySet()}">
+					<td th:text="${key}">2018</td>
+					<td th:text="${taxesToPay.get(key)}">567.98</td>
+					<td th:text="${taxesReturn.get(key)}">567.98</td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 </body>
 </html>

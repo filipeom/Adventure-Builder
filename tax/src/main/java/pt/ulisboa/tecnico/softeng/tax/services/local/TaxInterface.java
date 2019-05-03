@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class TaxInterface {
     private static final Logger logger = LoggerFactory.getLogger(TaxInterface.class);
@@ -161,5 +163,23 @@ public class TaxInterface {
                 .findFirst();
 
         return inOptional.orElse(null);
+    }
+
+    @Atomic(mode = TxMode.READ)
+    public static Map<Integer, Double> getTaxesReturnPerYear() {
+      Map<Integer, Long> taxesLong = IRS.getIRSInstance().getTaxesReturnPerYear();
+      Map<Integer, Double> taxesDouble = new TreeMap<>();
+      for(Integer year : taxesLong.keySet())
+        taxesDouble.put(year, new Double(taxesLong.get(year)) / IRS.SCALE );
+      return taxesDouble;
+    }
+
+    @Atomic(mode = TxMode.READ)
+    public static Map<Integer, Double> getTaxesPerYear() {
+      Map<Integer, Long> taxesLong = IRS.getIRSInstance().getTaxesPerYear();
+      Map<Integer, Double> taxesDouble = new TreeMap<>();
+      for(Integer year : taxesLong.keySet())
+        taxesDouble.put(year, new Double(taxesLong.get(year)) / IRS.SCALE );
+      return taxesDouble;
     }
 }

@@ -21,6 +21,8 @@ public class TaxPayerController {
         logger.info("taxPayerForm");
         model.addAttribute("payer", new TaxPayerData());
         model.addAttribute("payers", TaxInterface.getTaxPayerDataList());
+        model.addAttribute("taxesReturn", TaxInterface.getTaxesReturnPerYear());
+        model.addAttribute("taxesToPay", TaxInterface.getTaxesPerYear());
         return "payersView";
     }
 
@@ -35,6 +37,8 @@ public class TaxPayerController {
             model.addAttribute("error", "Error: it was not possible to create the tax payer " + taxPayerData.getName());
             model.addAttribute("payer", taxPayerData);
             model.addAttribute("payers", TaxInterface.getTaxPayerDataList());
+            model.addAttribute("taxesReturn", TaxInterface.getTaxesReturnPerYear());
+            model.addAttribute("taxesToPay", TaxInterface.getTaxesPerYear());
             return "payersView";
         }
 
