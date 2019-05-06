@@ -11,9 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import pt.ulisboa.tecnico.softeng.bank.exception.BankException;
 import pt.ulisboa.tecnico.softeng.bank.services.local.BankInterface;
-import pt.ulisboa.tecnico.softeng.bank.services.local.dataobjects.AccountData;
-import pt.ulisboa.tecnico.softeng.bank.services.local.dataobjects.BankData;
-import pt.ulisboa.tecnico.softeng.bank.services.local.dataobjects.ClientData;
+import pt.ulisboa.tecnico.softeng.bank.services.local.dataobjects.*;
+import pt.ulisboa.tecnico.softeng.bank.services.remote.dataobjects.*;
 
 @Controller
 @RequestMapping(value = "/banks/{code}/clients/{id}/accounts")
@@ -29,7 +28,7 @@ public class AccountController {
 		if (clientData == null) {
 			model.addAttribute("error",
 					"Error: it does not exist a client with id " + id + " in bank with code " + code);
-			model.addAttribute("bank", new BankData());
+			model.addAttribute("bank", BankInterface.getBankDataByCode(code));
 			model.addAttribute("banks", BankInterface.getBanks());
 			return "banks";
 		} else {
@@ -44,6 +43,7 @@ public class AccountController {
 
 		try {
 			BankInterface.createAccount(code, id);
+			model.addAttribute("bank", BankInterface.getBankDataByCode(code));
 		} catch (BankException be) {
 			model.addAttribute("error", "Error: it was not possible to create de account");
 			model.addAttribute("client", BankInterface.getClientDataById(code, id));
@@ -60,13 +60,37 @@ public class AccountController {
 
 		try {
 			AccountData account = BankInterface.getAccountData(iban);
+      model.addAttribute("bank", BankInterface.getBankDataByCode(code));
 			model.addAttribute("client", BankInterface.getClientDataById(code, id));
 			model.addAttribute("account", account);
+      model.addAttribute("data", new BankOperationData());
 			return "account";
 		} catch (BankException be) {
 			model.addAttribute("error", "Error: it was not possible to move to do the operations");
 			model.addAttribute("client", BankInterface.getClientDataById(code, id));
 			return "accounts";
+		}
+
+	}
+
+  @RequestMapping(value = "/{iban}/operations/{ref}/revert", method = RequestMethod.GET)
+	public String operationRevert(Model model, @PathVariable String code, @PathVariable String id,
+			@PathVariable String iban, @PathVariable String ref) {
+		logger.info("operationRevert bankCode:{}, clientId:{}, iban:{}, reference:{}", code, id, iban, ref);
+
+		try {
+			BankInterface.cancelPayment(ref);
+      model.addAttribute("bank", BankInterface.getBankDataByCode(code));
+			model.addAttribute("client", BankInterface.getClientDataById(code, id));
+      model.addAttribute("account", BankInterface.getAccountData(iban));
+			return "redirect:/banks/" + code + "/clients/" + id + "/accounts/" + iban + "/operations";
+		} catch (BankException be) {
+			model.addAttribute("error", "Error: it was not possible to revert the operation");
+			model.addAttribute("client", BankInterface.getClientDataById(code, id));
+      model.addAttribute("account", BankInterface.getAccountData(iban));
+      model.addAttribute("bank", BankInterface.getBankDataByCode(code));
+      model.addAttribute("data", new BankOperationData());
+			return "account";
 		}
 
 	}
@@ -85,6 +109,8 @@ public class AccountController {
 			model.addAttribute("error", "Error: it was not possible to execute the operation");
 			model.addAttribute("client", BankInterface.getClientDataById(code, id));
 			model.addAttribute("account", BankInterface.getAccountData(iban));
+      model.addAttribute("bank", BankInterface.getBankDataByCode(code));
+      model.addAttribute("data", new BankOperationData());
 			return "account";
 		}
 	}
@@ -99,14 +125,43 @@ public class AccountController {
 			BankInterface.withdraw(iban, account.getAmount() != null ? account.getAmountLong() : -1);
 			model.addAttribute("client", BankInterface.getClientDataById(code, id));
 			model.addAttribute("account", BankInterface.getAccountData(iban));
-			return "account";
+			return "redirect:/banks/" + code + "/clients/" + id + "/accounts/" + iban + "/operations";
 		} catch (BankException be) {
 			model.addAttribute("error", "Error: it was not possible to execute the operation");
 			model.addAttribute("client", BankInterface.getClientDataById(code, id));
 			model.addAttribute("account", BankInterface.getAccountData(iban));
+      model.addAttribute("bank", BankInterface.getBankDataByCode(code));
+      model.addAttribute("data", new BankOperationData());
 			return "account";
 		}
 
+	}
+
+	@RequestMapping(value = "/{iban}/transfer", method = RequestMethod.POST)
+	public String accountTransfer(Model model, @PathVariable String code, @PathVariable String id,
+			@PathVariable String iban, @ModelAttribute BankOperationData data) {
+		logger.info("accountTransfer sourceIban:{}, targetIban:{}, value:{}, source:{}, reference:{}",
+        iban, data.getTargetIban(), data.getValue(), data.getTransactionSource(),
+        data.getTransactionReference());
+
+    RestBankOperationData restOperationData = new RestBankOperationData(
+        iban, data.getTargetIban(), data.getValueLong(),
+        data.getTransactionSource(), data.getTransactionReference());
+
+		try {
+      BankInterface.processPayment(restOperationData);
+			model.addAttribute("client", BankInterface.getClientDataById(code, id));
+			model.addAttribute("account", BankInterface.getAccountData(iban));
+      model.addAttribute("data", data);
+			return "redirect:/banks/" + code + "/clients/" + id + "/accounts/" + iban + "/operations";
+		} catch (BankException be) {
+			model.addAttribute("error", "Error: it was not possible to execute the operation");
+			model.addAttribute("client", BankInterface.getClientDataById(code, id));
+			model.addAttribute("account", BankInterface.getAccountData(iban));
+      model.addAttribute("bank", BankInterface.getBankDataByCode(code));
+      model.addAttribute("data", new BankOperationData());
+			return "account";
+		}
 	}
 
 }

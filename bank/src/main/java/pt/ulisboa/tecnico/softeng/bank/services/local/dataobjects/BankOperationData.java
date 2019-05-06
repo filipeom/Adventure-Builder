@@ -73,7 +73,7 @@ public class BankOperationData {
     }
 
     public long getValueLong() {
-        return Math.round(this.value);
+        return Math.round(this.value) * Bank.SCALE;
     }
 
     public void setValue(long value) {

@@ -1,40 +1,138 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-<title>Account</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="stylesheet"
-	th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" />
-<script th:src="@{/webjars/jquery/3.1.1/jquery.min.js}"></script>
-<script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
-</head>
-<body>
-	<div class="container">
-		<h2>
-			Account of Client <span th:text="${client.name}">José</span> of Bank
-			<span th:text="${client.bankName}">Money++</span>
-		</h2>
-		<a class="btn btn-default pull-right"
-			th:href="@{/banks/{code}/clients/{id}/accounts(code=${client.bankCode},id=${client.id})}">Accounts</a>
-		<br />
-		<h3>Balance: <span th:text="${#numbers.formatDecimal(account.balance, 1, 2)}"></span></h3>
-		
-		<p class="text-danger" th:text="${error}">Error</p>
-		<h3>Deposit</h3>
-		<form class="form-inline"
-			th:action="@{/banks/{code}/clients/{id}/accounts/{iban}/deposit(code=${client.bankCode},id=${client.id},iban=${account.iban})}"
-			th:object="${account}" method="post">
-			<label>Amount: </label> <input class="form-control" type="number" step="0.01" min="0.01" th:field="*{amount}" /> 
-			<input class="btn btn-primary" type="submit" value="Submit" />
-		</form>
-		
-		<h3>Withdraw</h3>
-		<form class="form-inline"
-			th:action="@{/banks/{code}/clients/{id}/accounts/{iban}/withdraw(code=${client.bankCode},id=${client.id},iban=${account.iban})}"
-			th:object="${account}" method="post">
-			<label>Amount: </label> <input class="form-control" type="number" step="0.01" min="0.01" th:field="*{amount}" /> 
-			<input class="btn btn-primary" type="submit" value="Submit" />
-		</form>
-	</div>
-</body>
+  <head>
+    <title>Account</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet"
+          th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" />
+    <script th:src="@{/webjars/jquery/3.1.1/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h2>
+        Account of Client <span th:text="${client.name}">José</span> <small>of Bank
+          <span th:text="${client.bankName}">Money++</span></small>
+      </h2>
+      <a class="btn btn-default pull-right"
+         th:href="@{/banks/{code}/clients/{id}/accounts(code=${client.bankCode},id=${client.id})}">Accounts</a>
+      <br />
+      <h3>Balance: <span th:text="${#numbers.formatDecimal(account.balance, 1, 2)}"></span></h3>
+
+      <p class="bg-danger text-danger" th:text="${error}">Error</p>
+
+      <div class="panel panel-default">
+        <div class="panel-heading"><h4>Deposit</h4></div>
+        <div class="panel-body">
+          <form class="form-horizontal"
+                th:action="@{/banks/{code}/clients/{id}/accounts/{iban}/deposit(code=${client.bankCode},id=${client.id},iban=${account.iban})}"
+                th:object="${account}" method="post">
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Amount: </label> 
+              <div class="col-sm-10">
+                <input class="form-control" type="number" step="0.01" min="0.01" placeholder="Amount" th:field="*{amount}" /> 
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button class="btn btn-primary" type="submit" value="Submit">Submit</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading"><h4>Withdraw</h4></div>
+        <div class="panel-body">
+          <form class="form-horizontal"
+                th:action="@{/banks/{code}/clients/{id}/accounts/{iban}/withdraw(code=${client.bankCode},id=${client.id},iban=${account.iban})}"
+                th:object="${account}" method="post">
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Amount: </label> 
+              <div class="col-sm-10">
+                <input class="form-control" type="number" step="0.01" min="0.01" placeholder="Amount" th:field="*{amount}" /> 
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button class="btn btn-primary" type="submit" value="Submit" >Submit</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading"><h4>Transfer<h4></div>
+        <div class="panel-body">
+          <form class="form-horizontal"
+                th:action="@{/banks/{code}/clients/{id}/accounts/{iban}/transfer(code=${client.bankCode},id=${client.id},iban=${account.iban})}"
+                th:object="${data}" method="post">
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Target: </label> 
+              <div class="col-sm-10">
+                <input class="form-control" type="text" placeholder="Iban" th:field="*{targetIban}" /> 
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Value: </label> 
+              <div class="col-sm-10">
+                <input class="form-control" type="number" step="0.01" min="0.01" placeholder="Value" th:field="*{value}" /> 
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Transaction Source: </label> 
+              <div class="col-sm-10">
+                <input class="form-control" type="text" placeholder="Source" th:field="*{transactionSource}" /> 
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Transaction Reference: </label>
+              <div class="col-sm-10">
+                <input class="form-control" type="text" placeholder="Reference" th:field="*{transactionReference}" /> 
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button class="btn btn-primary" type="submit" value="Submit" >Submit</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <h3>Operations</h3>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Reference</th>
+            <th>Type</th>
+            <th>Source Iban</th>
+            <th>Target Iban</th>
+            <th>Value</th>
+            <th>Undo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="operation: ${bank.operations}"
+              th:object="${operation}"
+              th:if="${operation.sourceIban} == ${account.iban}">
+            <td th:text="${operation.time}">2017/04/01</td>
+            <td th:text="${operation.reference}">BK12344567</td>
+            <td th:text="${operation.type}">DEPOSIT</td>
+            <td th:text="${operation.sourceIban}">123456</td>
+            <td th:text="${operation.targetIban}">123456</td>
+            <td th:text="${operation.value}">200</td>
+            <td><a th:href="@{/banks/{code}/clients/{id}/accounts/{iban}/operations/{ref}/revert(code=${client.bankCode},id=${client.id},iban=${account.iban},ref=${operation.reference})}">Cancel</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
 </html>

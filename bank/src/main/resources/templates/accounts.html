@@ -11,8 +11,8 @@
 <body>
 	<div class="container">
 		<h2>
-			Accounts of Client <span th:text="${client.name}">José</span> of Bank
-			<span th:text="${client.bankName}">Money++</span>
+      Accounts of Client <span th:text="${client.name}">José</span> <small>of Bank
+        <span th:text="${client.bankName}">Money++</span></small>
 		</h2>
 		<a class="btn btn-default pull-right"
 			th:href="@{/banks/{code}/clients(code=${client.bankCode})}">Client</a>
