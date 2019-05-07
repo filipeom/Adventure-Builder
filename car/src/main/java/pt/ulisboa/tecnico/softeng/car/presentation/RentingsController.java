@@ -29,14 +29,16 @@ public class RentingsController {
             model.addAttribute("error", "Error: it does not exist a vehicle with plate " + plate);
             model.addAttribute("rentacar", rentACarInterface.getRentACarData(code));
             model.addAttribute("renting", new RentingData());
-            model.addAttribute("rentings", rentACarInterface.getRentings(code, plate));
+            model.addAttribute("processedRentings", rentACarInterface.getProcessedRentings(code, plate));
             model.addAttribute("vehicle", new VehicleData());
+            model.addAttribute("notProcessedRentings", rentACarInterface.getNotProcessedRentings(code, plate));
             return "vehiclesView";
         } else {
             model.addAttribute("rentacar", rentACarInterface.getRentACarData(code));
             model.addAttribute("renting", new RentingData());
-            model.addAttribute("rentings", rentACarInterface.getRentings(code, plate));
+            model.addAttribute("processedRentings", rentACarInterface.getProcessedRentings(code, plate));
             model.addAttribute("vehicle", vehicleData);
+            model.addAttribute("notProcessedRentings", rentACarInterface.getNotProcessedRentings(code, plate));
             return "rentingsView";
         }
     }
@@ -55,8 +57,9 @@ public class RentingsController {
             model.addAttribute("error", "Error: it was not possible to rent the vehicle");
             model.addAttribute("rentacar", rentACarInterface.getRentACarData(code));
             model.addAttribute("renting", renting);
-            model.addAttribute("rentings", rentACarInterface.getRentings(code, plate));
+            model.addAttribute("processedRentings", rentACarInterface.getProcessedRentings(code, plate));
             model.addAttribute("vehicle", rentACarInterface.getVehicleData(code, plate));
+            model.addAttribute("notProcessedRentings", rentACarInterface.getNotProcessedRentings(code, plate));
             return "rentingsView";
         }
 

@@ -14,6 +14,7 @@ import pt.ulisboa.tecnico.softeng.car.services.remote.dataobjects.RestRentingDat
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -229,6 +230,30 @@ public class RentACarInterface {
         return availableVehicles.stream().findFirst()
                 .map(v -> v.rent(drivingLicense, begin, end, buyerNif, buyerIban, adventureId))
                 .orElseThrow(CarException::new);
+    }
+
+    @Atomic(mode = Atomic.TxMode.READ)
+    public List<RentingData> getNotProcessedRentings(final String code, final String plate) {
+        final Vehicle vehicle = getVehicle(code, plate);
+        List<RentingData> rentings = vehicle.getRentingSet().stream().map(RentingData::new).collect(Collectors.toList());
+        List<RentingData> notProcessedRentings = new ArrayList<>();
+        for(RentingData renting : rentings) {
+          if(renting.getPaymentReference() == null)
+            notProcessedRentings.add(renting);
+        }
+        return notProcessedRentings;
+    }
+
+    @Atomic(mode = Atomic.TxMode.READ)
+    public List<RentingData> getProcessedRentings(final String code, final String plate) {
+        final Vehicle vehicle = getVehicle(code, plate);
+        List<RentingData> rentings = vehicle.getRentingSet().stream().map(RentingData::new).collect(Collectors.toList());
+        List<RentingData> notProcessedRentings = new ArrayList<>();
+        for(RentingData renting : rentings) {
+          if(renting.getPaymentReference() != null)
+            notProcessedRentings.add(renting);
+        }
+        return notProcessedRentings;
     }
 
 }
