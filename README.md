@@ -1,3 +1,17 @@
+# Feedback SPRINT 3
+
+## ----- General notes
+Feel free to delete unused branches
+
+## ----- Refatorização (float <--> long) [max=3.0]
+
+## ----- Refatorização (resiliência) [max=0.8]
+
+## ----- Refatorização (modules) [max=4.5]
+
+## ----- Funcionalidade (processPayment) [max=5.2]
+
+
 # Adventure Builder [![Build Status](https://travis-ci.com/tecnico-softeng/es19al_34-project.svg?token=eJvAd6DJajPUmobiJpdP&branch=develop)](https://travis-ci.com/tecnico-softeng/es19al_34-project) [![codecov](https://codecov.io/gh/tecnico-softeng/es19al_34-project/branch/develop/graph/badge.svg?token=0tC2pTXzH8)](https://codecov.io/gh/tecnico-softeng/es19al_34-project)
 
 To run tests execute: mvn clean install
