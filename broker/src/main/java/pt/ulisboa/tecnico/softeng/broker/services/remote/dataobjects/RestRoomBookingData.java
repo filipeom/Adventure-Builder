@@ -11,7 +11,7 @@ public class RestRoomBookingData {
     private String hotelName;
     private String hotelCode;
     private String roomNumber;
-    private String bookRoom;
+    private String roomType;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate arrival;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
@@ -30,7 +30,7 @@ public class RestRoomBookingData {
 
     public RestRoomBookingData(Adventure.BookRoom single, LocalDate arrival, LocalDate departure, String nifAsBuyer, String iban,
                                String adventureId) {
-        this.bookRoom = single.toString();
+        this.roomType = single.toString();
         this.arrival = arrival;
         this.departure = departure;
         this.buyerNif = nifAsBuyer;
@@ -79,11 +79,11 @@ public class RestRoomBookingData {
     }
 
     public String getBookRoom() {
-        return this.bookRoom;
+        return this.roomType;
     }
 
-    public void setBookRoom(String bookRoom) {
-        this.bookRoom = bookRoom;
+    public void setRoomType(String roomType) {
+        this.roomType = roomType;
     }
 
     public LocalDate getArrival() {

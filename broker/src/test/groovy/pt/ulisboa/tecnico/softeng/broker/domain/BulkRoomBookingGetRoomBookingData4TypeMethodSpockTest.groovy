@@ -22,7 +22,7 @@ class BulkRoomBookingGetRoomBookingData4TypeMethodSpockTest extends SpockRollbac
 
     def 'success SINGLE room'() {
         def roomBookingData = new RestRoomBookingData()
-        roomBookingData.setBookRoom(SINGLE)
+        roomBookingData.setRoomType(SINGLE)
         roomBookingData.setArrival(BEGIN)
         roomBookingData.setDeparture(END)
 
@@ -42,7 +42,7 @@ class BulkRoomBookingGetRoomBookingData4TypeMethodSpockTest extends SpockRollbac
 
     def 'success DOUBLE room'() {
         def roomBookingData = new RestRoomBookingData()
-        roomBookingData.setBookRoom(DOUBLE)
+        roomBookingData.setRoomType(DOUBLE)
         roomBookingData.setArrival(BEGIN)
         roomBookingData.setDeparture(END)
 
@@ -107,7 +107,7 @@ class BulkRoomBookingGetRoomBookingData4TypeMethodSpockTest extends SpockRollbac
 
     def 'max minus one remote exception'() {
         def roomBookingData = new RestRoomBookingData()
-        roomBookingData.setBookRoom(DOUBLE)
+        roomBookingData.setRoomType(DOUBLE)
         roomBookingData.setArrival(BEGIN)
         roomBookingData.setDeparture(END)
 
@@ -137,7 +137,7 @@ class BulkRoomBookingGetRoomBookingData4TypeMethodSpockTest extends SpockRollbac
 
     def 'remote exception value is reset by success'() {
         def roomBookingData = new RestRoomBookingData()
-        roomBookingData.setBookRoom(DOUBLE)
+        roomBookingData.setRoomType(DOUBLE)
         roomBookingData.setArrival(BEGIN)
         roomBookingData.setDeparture(END)
 

@@ -22,7 +22,7 @@ class BrokerGetRoomBookingFromBulkBookingsSpockTest extends SpockRollbackTestAbs
         new Reference(bulk, REF_TWO)
 
         bookingData = new RestRoomBookingData()
-        bookingData.setBookRoom(SINGLE)
+        bookingData.setRoomType(SINGLE)
         bookingData.setArrival(BEGIN)
         bookingData.setDeparture(END)
     }

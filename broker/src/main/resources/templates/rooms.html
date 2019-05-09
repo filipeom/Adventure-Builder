@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Room Information</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <link rel="stylesheet"
+          th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}"/>
+
+    <script th:src="@{/webjars/jquery/3.1.1/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div class="container">
+    <h2>
+        Rooms Information
+    </h2>
+    <br/>
+    <a class="btn btn-default pull-right"
+       th:href="@{/brokers/{code}/bulks(code=${brokerCode})}">Bulks
+    </a>
+    <p class="text-danger" th:text="${error}">Error</p>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Reference</th>
+            <th>Arrival</th>
+            <th>Departure</th>
+            <th>HotelName</th>
+            <th>RoomType</th>
+            <th>Price</th>
+            <th>cancellationDate</th>
+            <th>cancellation</th>
+            <th>Cancel</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="room : ${rooms}">
+            <td th:text="${room.reference}">HT1234551</td>
+            <td th:text="${room.arrival}">2017-05-01</td>
+            <td th:text="${room.departure}">2017-05-02</td>
+            <td th:text="${room.hotelName}">Paris Hotel	</td>
+            <td th:text="${room.bookRoom}">single</td>
+            <td th:text="${room.price}">69</td>
+            <td th:text="${room.cancellationDate}">2019-08-02</td>
+            <td th:text="${room.cancellation}">true</td>
+            <td>
+                <form class="form-inline"
+                      th:action="@{/brokers/{code}/bulks/{id}/{ref}/cancel(code=${brokerCode},id=${bulkId},ref=${room.reference})}"
+                      method="post">
+                    <input class="btn btn-primary" type="submit" value="Submit"/>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+</body>
+</html>

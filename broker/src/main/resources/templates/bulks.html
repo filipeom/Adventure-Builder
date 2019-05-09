@@ -54,7 +54,9 @@
                     <input class="btn btn-primary" type="submit" value="Submit"/>
                 </form>
             </td>
-            <td><p th:each="reference: ${bulk.references}"><span th:text="${reference}">reference</span></p></td>
+            <td>
+                <a th:href="@{/brokers/{code}/bulks/{id}/roomInfo(code=${broker.code},id=${bulk.id})}">Rooms Information</a>
+            </td>
         </tr>
         </tbody>
     </table>
