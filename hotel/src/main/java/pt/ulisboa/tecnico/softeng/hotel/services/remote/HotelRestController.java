@@ -69,5 +69,7 @@ public class HotelRestController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	
 
 }
