@@ -14,6 +14,8 @@ import pt.ulisboa.tecnico.softeng.broker.services.local.dataobjects.BrokerData;
 import pt.ulisboa.tecnico.softeng.broker.services.local.dataobjects.BulkData;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.HotelInterface;
 import pt.ulisboa.tecnico.softeng.broker.services.remote.dataobjects.RestRoomBookingData;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.HotelException;
+import pt.ulisboa.tecnico.softeng.broker.services.remote.exception.RemoteAccessException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,7 +94,14 @@ public class RoomController {
 
     HotelInterface hi = new HotelInterface();
 
-    System.out.println(hi.cancelBooking(reference));
+    try {
+      hi.cancelBooking(reference);
+    } catch (Exception e) {
+      model.addAttribute("error", "Error: could not cancel hotel room");
+      model.addAttribute("broker", new BrokerData());
+      model.addAttribute("brokers", BrokerInterface.getBrokers());
+      return "brokers";
+    }
 
     return "redirect:/brokers/" + brokerCode + "/bulks/" + bulkId+ "/roomInfo";
   }
