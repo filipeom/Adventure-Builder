@@ -61,4 +61,22 @@ public class BookingController {
 				+ "/bookings";
 	}
 
+	@RequestMapping(value = "/{reference}/cancel", method = RequestMethod.POST)
+	public String bookingCancellation(Model model, @PathVariable String codeProvider, @PathVariable String codeActivity,
+								@PathVariable String externalId, @PathVariable String reference) {
+		logger.info("cancelBooking codeProvider:{}, codeActivity:{}, externalId:{}, reference:{}", codeProvider, codeActivity,
+				externalId, reference);
+
+		try {
+			activityInterface.cancelReservation(reference);
+		} catch (ActivityException e) {
+			model.addAttribute("error", "Error: it was not possible to cancel the booking or the booking may already be cancelled");
+			model.addAttribute("booking", new RestActivityBookingData());
+			model.addAttribute("offer", activityInterface.getActivityOfferDataByExternalId(externalId));
+			return "redirect:/providers/" + codeProvider + "/activities/" + codeActivity + "/offers/" + externalId + "/bookings";
+		}
+
+		return "redirect:/providers/" + codeProvider + "/activities/" + codeActivity + "/offers/" + externalId + "/bookings";
+	}
+
 }

@@ -22,6 +22,7 @@ public class RestActivityBookingData {
     private long price;
     private String paymentReference;
     private String invoiceReference;
+    private Boolean isCancelled;
 
     public RestActivityBookingData() {
     }
@@ -41,6 +42,7 @@ public class RestActivityBookingData {
         this.price = booking.getAmount();
         this.paymentReference = booking.getPaymentReference();
         this.invoiceReference = booking.getInvoiceReference();
+        this.isCancelled = booking.isCancelled();
     }
 
     public String getReference() {
@@ -155,4 +157,7 @@ public class RestActivityBookingData {
         this.invoiceReference = invoiceReference;
     }
 
+    public Boolean getIsCancelled() { return this.isCancelled; }
+
+    public void setIsCancelled(Boolean isCancelled) { this.isCancelled = isCancelled; }
 }

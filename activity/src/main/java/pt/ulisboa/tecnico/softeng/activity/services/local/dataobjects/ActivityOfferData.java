@@ -22,6 +22,7 @@ public class ActivityOfferData {
 	private Integer capacity;
 	private Double amount;
 	private List<RestActivityBookingData> reservations;
+	private Long remainingVacancies;
 
 	public ActivityOfferData() {
 	}
@@ -37,6 +38,7 @@ public class ActivityOfferData {
 		this.amount = new Double(offer.getAmount()) / Activity.SCALE;
 		this.reservations = offer.getBookingSet().stream().map(b -> new RestActivityBookingData(b))
 				.collect(Collectors.toList());
+		this.remainingVacancies = this.capacity - reservations.stream().filter(r -> !r.getIsCancelled()).count();
 	}
 
 	public String getExternalId() {
@@ -111,6 +113,14 @@ public class ActivityOfferData {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Long getRemainingVacancies() {
+		return this.remainingVacancies;
+	}
+
+	public void setRemainingVacancies(Long remainingVacancies) {
+		this.remainingVacancies = remainingVacancies;
 	}
 
 }
