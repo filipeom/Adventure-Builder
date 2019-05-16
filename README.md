@@ -1,3 +1,21 @@
+# Feedback SPRINT 4
+
+## ----- General notes
+Please delete unused branches
+
+
+## ----- Refatorização Fix UIs [max=2.0]
+
+## ----- Refatorização Extend UIs [max=5.5]
+
+## ----- Refatorização Fix JMeter [max=4.8]
+
+## ----- Funcionalidade New JMeter [max=1.3]
+
+## ----- Penalties
+
+## ----- Final considerations
+
 # Adventure Builder [![Build Status](https://travis-ci.com/tecnico-softeng/es19al_34-project.svg?token=eJvAd6DJajPUmobiJpdP&branch=develop)](https://travis-ci.com/tecnico-softeng/es19al_34-project) [![codecov](https://codecov.io/gh/tecnico-softeng/es19al_34-project/branch/develop/graph/badge.svg?token=0tC2pTXzH8)](https://codecov.io/gh/tecnico-softeng/es19al_34-project)
 
 
